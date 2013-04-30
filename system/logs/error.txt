@@ -1,0 +1,3 @@
+2013-04-26 6:44:08 - PHP Notice:  Error: Table 'uselolli.address' doesn't exist<br />Error No: 1146<br />TRUNCATE TABLE `address` in /home/content/42/10981442/html/system/database/mysql.php on line 50
+2013-04-26 15:01:34 - PHP Warning:  unlink(/home/content/42/10981442/html/system/cache/cache.language.1367012863) [<a href='function.unlink'>function.unlink</a>]: No such file or directory in /home/content/42/10981442/html/system/library/cache.php on line 18
+2013-04-26 15:01:34 - PHP Warning:  unlink(/home/content/42/10981442/html/system/cache/cache.currency.1367012863) [<a href='function.unlink'>function.unlink</a>]: No such file or directory in /home/content/42/10981442/html/system/library/cache.php on line 18

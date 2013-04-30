@@ -1,0 +1,13 @@
+---------- Date: 2013-04-28 07:15:32 ~ IP : 65.55.213.70 ----------
+REQUEST URI : /afiliados
+MOD DETAILS:
+   modFile   : /home/content/42/10981442/html/vqmod/xml/auto-seo-title-vqmod.xml
+   id        : Automatic SEO Title
+   version   : 1.0.4
+   vqmver    : 1.0.0
+   author    : Fabius - http://opencartit.altervista.org
+SEARCH NOT FOUND (SKIPPED): $this->document->setTitle($this->language->get('heading_title'));
+
+----------------------------------------------------------------------
+
+

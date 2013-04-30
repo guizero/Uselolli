@@ -1,0 +1,27 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+product_optionall_image
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Tested on OC v_1.5.2 to v_1.5.4.1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+YOU MUST HAVE vQmod INSTALLED
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Description
+~~~~~~~~~~~
+
+For products with option types "Image" , "Radio", "Checkbox"  and "Select" that have an image, the image will be displayed in shopping cart.
+
+
+Installation
+~~~~~~~~~~~~
+
+1) Unzip the contents to the root directory of your OpenCart installation, preserving directory structure
+-- NO FILES OVERWRITTEN OR ADDED
+
+DEMO
+~~~~~
+ocextensions.co.uk
+
+
+

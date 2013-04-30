@@ -1,0 +1,35 @@
+<modification>
+
+    <id>Display social media icons even if reviews are disabled</id>
+    <version>1.0.0</version>
+    <vqmver>1.0.7</vqmver>
+    <author>Baldrick</author>
+
+    <file name="catalog/view/theme/*/template/product/product.tpl">
+        <operation>
+            <search position="replace" index="1">
+			<![CDATA[<?php if ($review_status) { ?>]]>
+			</search>
+            <add>
+			<![CDATA[<?php if (true) { ?>]]>
+			</add>
+        </operation>
+        <operation>
+            <search position="after">
+			<![CDATA[<div class="review">]]>
+			</search>
+            <add><![CDATA[
+            <?php if ($review_status) { ?>
+            ]]></add>
+        </operation>
+        <operation>
+            <search position="before">
+			<![CDATA[<div class="share">]]>
+			</search>
+            <add><![CDATA[
+            <?php } ?>
+            ]]></add>
+        </operation>
+    </file>
+
+</modification>

@@ -1,0 +1,34 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+product_image_swap
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Tested on OC v_1.5.5.1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+YOU MUST HAVE vQmod INSTALLED
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Description
+~~~~~~~~~~~
+
+The product image on product page is swapped for option image on clicking option.
+
+Works for option types Radio and Select
+
+Files affected
+~~~~~~~~~~~~~~ 
+catalog/controller/product/product.php
+catalog/view/theme/{your theme}/template/product/product.tpl
+
+
+Installation
+~~~~~~~~~~~~
+
+1) Unzip the contents to the root directory of your OpenCart installation, preserving directory structure
+-- NO FILES OVERWRITTEN OR ADDED
+
+DEMO
+~~~~~
+ocextensions.co.uk
+
+
+

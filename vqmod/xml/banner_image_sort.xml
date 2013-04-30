@@ -1,0 +1,122 @@
+<modification>
+	<!-- SQL -->
+	<sql><![CDATA[ 
+		ALTER TABLE `banner_image` ADD `sort_order` int( 3 ) NOT NULL DEFAULT '99';
+	]]></sql>
+	<id>Sort Banner</id>
+	<version>1.0</version>
+	<vqmver>2.1</vqmver>
+	<author>Ajay Kalashikar</author>
+	
+	
+	<!--ADMIN BANNER MODEL FILE-->
+	<file name="admin/model/design/banner.php">	
+		<operation>
+			<search position="after" offset="1"><![CDATA[$banner_image_data[] = array(]]></search>
+			<add><![CDATA[
+               'sort_order'=> $banner_image['sort_order'],
+			]]></add>
+		</operation>
+		
+		<operation>
+			<search position="replace"><![CDATA[.  $this->db->escape($banner_image['image']) . "'"]]></search>
+			<add><![CDATA[
+               .  $this->db->escape($banner_image['image']) . "', sort_order = '". $banner_image['sort_order'] . "'"
+			]]></add>
+		</operation>
+		
+		<operation>
+			<search position="replace"><![CDATA[SELECT * FROM " . DB_PREFIX . "banner_image WHERE banner_id = '" . (int)$banner_id . "']]></search>
+			<add><![CDATA[
+               SELECT * FROM " . DB_PREFIX . "banner_image WHERE banner_id = '" . (int)$banner_id . "' ORDER BY sort_order
+			]]></add>
+		</operation>
+		
+		
+	</file>
+
+	<!--ADMIN MODEL-->
+	
+	<!--FRONT END-->
+	<file name="catalog/model/design/banner.php">	
+		<operation>
+			<search position="replace"><![CDATA[. (int)$this->config->get('config_language_id') . "'"]]></search>
+			<add><![CDATA[
+               . (int)$this->config->get('config_language_id') . "' ORDER BY sort_order"
+			]]></add>
+		</operation>
+		
+		
+	</file>
+		
+	
+	<!--FRONT END-->
+	
+	
+
+<!-- ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA  -->
+<!-- ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA  -->
+<!-- ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA ADMIN AREA  -->
+
+	<file name="admin/language/english/design/banner.php">	
+		<operation>
+			<search position="after"><![CDATA[$_['entry_status']]]></search>
+			<add><![CDATA[
+               $_['entry_sort_image']       = 'Sort Image:';
+			]]></add>
+		</operation>
+		
+		
+	</file>
+
+	<file name="admin/controller/design/banner.php">	
+		<operation>
+			<search position="after" offset="1"><![CDATA[$this->data['banner_images'][] = array(]]></search>
+			<add><![CDATA[
+               'sort_order'=> $banner_image['sort_order'],
+			]]></add>
+		</operation>
+		
+		<operation>
+			<search position="after" ><![CDATA[$this->data['button_remove']]]></search>
+			<add><![CDATA[
+               $this->data['entry_sort_image'] = $this->language->get('entry_sort_image');
+			]]></add>
+		</operation>
+		
+		
+		
+		
+	</file>
+
+	<file name="admin/view/template/design/banner_form.tpl">	
+	<operation>
+			<search position="replace" ><![CDATA[colspan="3"]]></search>
+			<add><![CDATA[
+              colspan="4"
+			]]></add>
+		</operation>
+	<operation> <!-- ADD COLUMN HEADING -->
+			<search position="after"><![CDATA[<?php echo $entry_image; ?>]]></search>
+			<add><![CDATA[
+				<td class="left"><?php echo $entry_sort_image; ?></td>
+			]]></add>
+		</operation>
+		
+		<operation>
+			<search position="before"><![CDATA[<a onclick="$('#image-row<?php echo $image_row; ?>').remove();" class="button">]]></search>
+			<add><![CDATA[
+              <td class="left"><input type="text" name="banner_image[<?php echo $image_row; ?>][sort_order]" value="<?php echo $banner_image['sort_order']; ?>" /></td>
+			]]></add>
+		</operation>
+		
+		<operation> <!-- ADD IMAGE JAVASCRIPT -->
+			<search position="before"><![CDATA[<a onclick="$(\'#image-row' + image_row  + '\').remove();" class="button">]]></search>
+			<add><![CDATA[
+				html += '<td class="left"><input type="text" name="banner_image[' + image_row + '][sort_order]" value="" /></td>';
+			]]></add>
+		</operation>
+	</file>
+	
+	
+</modification>

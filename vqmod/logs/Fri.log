@@ -1,0 +1,13 @@
+---------- Date: 2013-04-26 13:53:39 ~ IP : 177.205.129.11 ----------
+REQUEST URI : /index.php?route=product/category&amp;path=61
+MOD DETAILS:
+   modFile   : /home/content/42/10981442/html/vqmod/xml/dbassa_catalog_categories_to_information_pages.xml
+   id        : Categories to Information Pages
+   version   : 3.0
+   vqmver    : 2.1.6
+   author    : dbassa
+SEARCH NOT FOUND (ABORTING MOD): => $this->url->link('product/category', 'path=' . $path)
+
+----------------------------------------------------------------------
+
+

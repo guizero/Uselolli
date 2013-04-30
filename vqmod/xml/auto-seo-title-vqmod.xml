@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<id>Automatic SEO Title</id>
+	<version>1.0.4</version>
+	<vqmver>1.0.0</vqmver>
+	<author>Fabius - http://opencartit.altervista.org</author>
+	<file name="catalog/controller/product/category.php">
+		<operation>
+			<search position="replace"><![CDATA[$this->document->setTitle($category_info['name']);]]></search>
+			<add><![CDATA[
+			$newTitle = $category_info['name']." - ".$this->config->get('config_title');
+			$this->document->setTitle($newTitle);]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/product/product.php">
+		<operation>
+			<search position="replace"><![CDATA[$this->document->setTitle($product_info['name']);]]></search>
+			<add><![CDATA[
+			$catName = isset($category_info) ? " : ".$category_info['name'] : "";
+			$newTitle = $product_info['name'].$catName." - ".$this->config->get('config_title');
+			$this->document->setTitle($newTitle);]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/information/information.php">
+		<operation>
+			<search position="replace"><![CDATA[$this->document->setTitle($information_info['title']);]]></search>
+			<add><![CDATA[
+			$newTitle = $information_info['title']." - ".$this->config->get('config_title');
+			$this->document->setTitle($newTitle);]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/account.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/address.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/download.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/edit.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/forgotten.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/login.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/logout.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/newsletter.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/order.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/password.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/register.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/return.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/reward.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/success.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/transaction.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/voucher.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/account/wishlist.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/affiliate/account.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/affiliate/account.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/affiliate/edit.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/affiliate/forgotten.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/affiliate/login.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/affiliate/logout.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/affiliate/password.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/affiliate/payment.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/affiliate/register.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file><file name="catalog/controller/affiliate/success.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/affiliate/tracking.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/affiliate/transaction.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/checkout/cart.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/checkout/checkout.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/checkout/success.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/common/maintenance.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/error/not_found.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/information/contact.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/information/sitemap.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/product/compare.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/product/manufacturer.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/product/search.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/product/special.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+			$this->document->setTitle($this->language->get('heading_title')." - ".$this->config->get('config_title'));]]></add>
+		</operation>
+	</file>
+</modification>

@@ -1,0 +1,28 @@
+<modification>
+	<id>Very simple AJAX live search</id>
+	<version>1.0.0</version>
+	<vqmver>1.2.3</vqmver>
+	<author>n[oO]ne</author>
+
+	<file name="catalog/view/theme/*/template/common/footer.tpl">
+		<operation>
+			<search position="before">
+				<![CDATA[</body>]]>
+			</search>
+			<add>
+				<![CDATA[<script type="text/javascript" src="catalog/view/javascript/livesearch.js"></script>]]>
+			</add>
+		</operation>
+	</file>
+	
+	<file name="catalog/view/theme/*/template/common/header.tpl">
+		<operation>
+			<search position="before">
+				<![CDATA[<?php echo $google_analytics; ?>]]>
+			</search>
+			<add>
+				<![CDATA[<link rel="stylesheet" type="text/css" href="catalog/view/theme/elegantcart/stylesheet/livesearch.css" />]]>
+			</add>
+		</operation>
+	</file>	
+</modification>
