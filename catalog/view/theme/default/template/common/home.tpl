@@ -30,7 +30,7 @@ $result .= "\t".'<li> <a href="'.$value->images->standard_resolution->url.'" rel
 echo get_instagram();
 ?>
 
-<div class="fb-like-box" data-header="false" data-height="260" data-href="http://www.facebook.com/facebook" data-show-faces="true" data-stream="false" data-width="665" id="resto" style="float:left;background:#eeeeee;width:665px;height:260px;margin-left:15px;">&nbsp;</div>
+<div class="fb-like-box" data-header="false" data-height="260" data-href="http://www.facebook.com/uselolli" data-show-faces="true" data-stream="false" data-width="665" id="resto" style="float:left;background:#eeeeee;width:665px;height:260px;margin-left:15px;">&nbsp;</div>
 </div>
 
 </div>
