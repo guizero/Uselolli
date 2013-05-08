@@ -14,16 +14,32 @@
 		display: none;
 		font-size: 11px;
 		margin-bottom: 6px;
+		background-color:#e9e9e9;
 	}
 	.mi-block {
-		display: inline-block;
-		margin: 4px;
+			display: inline-block;
+		margin: 20px;
+		color:white;
+
 	}
 	.mi-email, .mi-name {
 		width: 140px;
 	}
 	.mi-loading {
 		display: none;
+	}
+	.msgnews {
+		display: inline-block;
+margin: 19px;
+float: left;
+text-align: left;
+color: white;
+	}
+
+	.mi-boxcontent {
+		background-color:#009874;
+		text-align:right;
+		height: 70px;		
 	}
 </style>
 <?php if ($position == 'home') { ?>
@@ -34,13 +50,16 @@
 	</div>
 <?php } else { ?>
 	<div class="box">
-		<div class="box-heading top">
+		<h1 class="general_heading">
 			<?php if ($v14x) { ?><img src="catalog/view/theme/default/image/contact.png" alt="" /><?php } ?>
 			<?php echo $heading_title; ?>
-		</div>
+		</h1>
 <?php } ?>
-	<div class="box-content middle">
+	<div class="middle mi-boxcontent">
 		<div class="mi-message"></div>
+		
+		<div class="msgnews">Cadastre-se em nossa lista de emails<br>e receba primeiro nossas novidades e promoções
+		</div>
 		<div class="mi-block">
 			<span class="required">*</span> <?php echo $text_email_address; ?>
 			<input type="text" class="mi-email" onkeydown="if (event.keyCode == 13) miSubscribe<?php echo $module_id; ?>($(this))" />
@@ -59,6 +78,7 @@
 			<img class="mi-loading" src="catalog/view/theme/default/image/loading<?php if ($v14x) echo '_1'; ?>.gif" />
 		</div>
 	</div>
+	
 	<div class="bottom"><?php if ($position == 'home') { ?><div class="left"></div><div class="right"></div><div class="center"></div><?php } ?></div>
 </div>
 <script type="text/javascript"><!--
