@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // Heading
 $_['heading_title']    = 'Mapa do site';
  
@@ -10,7 +10,7 @@ $_['text_password']    = 'Senha';
 $_['text_address']     = 'Lista de endereços';
 $_['text_history']     = 'Histórico de pedidos';
 $_['text_download']    = 'Downloads';
-$_['text_cart']        = 'Carrinho de compras';
+$_['text_cart']        = 'Sacola de compras';
 $_['text_checkout']    = 'Finalização';
 $_['text_search']      = 'Busca';
 $_['text_information'] = 'Informação';

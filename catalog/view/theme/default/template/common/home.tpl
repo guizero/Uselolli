@@ -4,7 +4,7 @@
 <?php echo $content_bottom; ?>
 
 <?php
-function get_instagram($user_id=218717891,$count=6,$width=80,$height=80){
+function get_instagram($user_id=327105497,$count=6,$width=80,$height=80){
     $url = 'https://api.instagram.com/v1/users/'.$user_id.'/media/recent/?access_token=315628192.cfab3d1.073b9041db354ed7a76e82a86ef2930e&count='.$count;
     // Creiamo una cache per velocizzare il caricamento e pesare meno sul server
     $cache = './system/cache/'.sha1($url).'.json';

@@ -1,10 +1,10 @@
-<?php
+﻿<?php
 // Heading 
 $_['heading_title']                  = 'Finalizar Compra';
 
 // Text
-$_['text_cart']                      = 'Meu Carrinho';
-$_['text_basket']                    = 'Carrinho';
+$_['text_cart']                      = 'Minha Sacola';
+$_['text_basket']                    = 'Sacola';
 $_['text_checkout_option']           = 'Passo 1: Identificação';
 $_['text_checkout_account']          = 'Passo 2: Conta &amp; Detalhes de cobrança';
 $_['text_checkout_payment_address']  = 'Passo 2: Detalhes de cobrança';

@@ -377,7 +377,7 @@ $('#button-cart').bind('click', function() {
 				
 				$('html, body').animate({ scrollTop: 0 }, 'slow'); 
 
-        window.location.href = '/carrinho';  // redireciona para o carrinho //
+        window.location.href = '/sacola';  // redireciona para o carrinho //
 			}	
 		}
 	});
