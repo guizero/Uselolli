@@ -84,7 +84,7 @@ color: white;
 </div>
 <script type="text/javascript"><!--
 	function miSubscribe<?php echo $module_id; ?>(element) {
-		var message = element.parent().parent().find('.mi-message');
+		var message = element.parent().parent().parent().find('.mi-message');
 		var email = $.trim(element.parent().parent().find('.mi-email').val());
 		var name = $.trim(element.parent().parent().find('.mi-name').val());
 		var loading = element.parent().parent().find('.mi-loading');
