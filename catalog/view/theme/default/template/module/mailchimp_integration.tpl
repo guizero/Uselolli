@@ -37,7 +37,7 @@ color: white;
 	}
 
 	.mi-boxcontent {
-		background-color:#009874;
+		background-color:#8c0a1a;
 		text-align:right;
 		height: 70px;		
 	}
@@ -55,8 +55,9 @@ color: white;
 			<?php echo $heading_title; ?>
 		</h1>
 <?php } ?>
+<div class="mi-message"></div>
 	<div class="middle mi-boxcontent">
-		<div class="mi-message"></div>
+		
 		
 		<div class="msgnews">Cadastre-se em nossa lista de emails<br>e receba primeiro nossas novidades e promoções
 		</div>
