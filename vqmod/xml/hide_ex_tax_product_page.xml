@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<id>Hide Ex Tax from product page</id>
+	<version>1.0</version>
+	<vqmver>1.0</vqmver>
+	<author>koku</author>
+
+<file name="catalog/view/theme/*/template/product/product.tpl" error="log">
+      <operation error="skip">
+         <search position="replace" index="1"><![CDATA[<span class="price-tax"><?php echo $text_tax; ?> <?php echo $tax; ?></span><br />]]></search>
+         <add><![CDATA[]]></add>
+      </operation>
+</file>
+</modification>
