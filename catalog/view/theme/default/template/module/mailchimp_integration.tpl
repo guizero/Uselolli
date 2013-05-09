@@ -1,6 +1,6 @@
 <?php
 //==============================================================================
-// MailChimp Integration v155.3
+// MailChimp Integration v155.3 (atualizado)
 //
 // Author: Clear Thinking, LLC
 // E-mail: johnathan@getclearthinking.com
