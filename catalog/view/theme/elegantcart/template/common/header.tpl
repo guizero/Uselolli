@@ -17,23 +17,23 @@
 <?php foreach ($links as $link) { ?>
 <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
 <?php } ?>
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/elegantcart/stylesheet/stylesheet.css" />
-<link rel="stylesheet" type="text/css" href="catalog/view/javascript/jquery/ui/themes/ui-lightness/jquery-ui-1.8.16.custom.css" />
-<link rel="stylesheet" type="text/css" href="catalog/view/javascript/jquery/colorbox/colorbox.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/elegantcart/lightbox/css/lightbox.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/catalog/view/theme/elegantcart/stylesheet/stylesheet.css" />
+<link rel="stylesheet" type="text/css" href="/catalog/view/javascript/jquery/ui/themes/ui-lightness/jquery-ui-1.8.16.custom.css" />
+<link rel="stylesheet" type="text/css" href="/catalog/view/javascript/jquery/colorbox/colorbox.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/catalog/view/theme/elegantcart/lightbox/css/lightbox.css" media="screen" />
 <?php foreach ($styles as $style) { ?>
 <link rel="<?php echo $style['rel']; ?>" type="text/css" href="<?php echo $style['href']; ?>" media="<?php echo $style['media']; ?>" />
 <?php } ?>
-<script type="text/javascript" src="catalog/view/javascript/jquery/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="catalog/view/javascript/jquery/ui/jquery-ui-1.8.16.custom.min.js"></script>
-<script type="text/javascript" src="catalog/view/javascript/jquery/ui/external/jquery.cookie.js"></script>
-<script type="text/javascript" src="catalog/view/javascript/jquery/colorbox/jquery.colorbox.js"></script>
-<script type="text/javascript" src="catalog/view/javascript/jquery/tabs.js"></script>
-<script type="text/javascript" src="catalog/view/javascript/common.js"></script>
-<script type="text/javascript" src="catalog/view/theme/elegantcart/javascript/elegantcart_custom.js"></script>
-<script type="text/javascript" src="catalog/view/theme/elegantcart/javascript/cloud_zoom.js"></script>
-<script type="text/javascript" src="catalog/view/theme/elegantcart/javascript/conectafacebook.js"></script>
-<script type="text/javascript" src="catalog/view/theme/elegantcart/lightbox/js/lightbox.js"></script>
+<script type="text/javascript" src="/catalog/view/javascript/jquery/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="/catalog/view/javascript/jquery/ui/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="/catalog/view/javascript/jquery/ui/external/jquery.cookie.js"></script>
+<script type="text/javascript" src="/catalog/view/javascript/jquery/colorbox/jquery.colorbox.js"></script>
+<script type="text/javascript" src="/catalog/view/javascript/jquery/tabs.js"></script>
+<script type="text/javascript" src="/catalog/view/javascript/common.js"></script>
+<script type="text/javascript" src="/catalog/view/theme/elegantcart/javascript/elegantcart_custom.js"></script>
+<script type="text/javascript" src="/catalog/view/theme/elegantcart/javascript/cloud_zoom.js"></script>
+<script type="text/javascript" src="/catalog/view/theme/elegantcart/javascript/conectafacebook.js"></script>
+<script type="text/javascript" src="/catalog/view/theme/elegantcart/lightbox/js/lightbox.js"></script>
 
 
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
