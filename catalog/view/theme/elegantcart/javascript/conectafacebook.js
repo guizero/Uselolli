@@ -29,7 +29,7 @@ function init2JQuery() {
 
 init2JQuery();
 
-window.fbAsyncInit = function () {
+$(document).ready(function(){
 
   FB.init({
     appId:    '488143071223582',
@@ -88,7 +88,7 @@ window.fbAsyncInit = function () {
       scope: 'email,user_birthday,user_location,user_hometown'
     });
   });
-};
+});
 
 $(function () {
   var e = document.createElement('script'); e.type = 'text/javascript'; e.async = true;
