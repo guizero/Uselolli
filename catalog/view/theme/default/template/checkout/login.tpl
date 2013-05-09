@@ -1,5 +1,5 @@
 <h2>Conecte-se através do Facebook:</h2>
-  <p><span id="fb-root"></span><span class="box box-fbconnect" id="login-btr"><span class="box-fbconnect-a" id="fb-login"><img src="https://www.uselolli.com/image/data/facebookgrande.png" style="vertical-align:middle"> <span class="cursor"></span></span></span></p>
+  <p><span id="fb-root"></span><span class="box box-fbconnect" id="login-btr"><span class="box-fbconnect-a" id="fb-login2"><img src="https://www.uselolli.com/image/data/facebookgrande.png" style="vertical-align:middle"> <span class="cursor"></span></span></span></p>
 <div class="left">
   <h2><?php echo $text_new_customer; ?></h2>
   <p><?php echo $text_checkout; ?></p>
