@@ -1,6 +1,6 @@
 <?php if (isset($_SERVER['HTTP_USER_AGENT']) && !strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 6')) echo '<?xml version="1.0" encoding="UTF-8"?>'. "\n"; ?>
 <!DOCTYPE html>
-<html> 
+<html>
 <head>
 <title><?php echo $title; ?></title>
 <base href="<?php echo $base; ?>" />
@@ -130,7 +130,7 @@ type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
 <?php } ?>
 
 
-<!-- PHONE::Start -->
+<!-- PHONE::Start nada de phone -->
 
 <?php if ($categories) { ?>
 <div id="menu-phone" class="shown-phone" style="display: none;">
