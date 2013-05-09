@@ -130,7 +130,7 @@ type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
 <?php } ?>
 
 
-<!-- PHONE::Start nada de phone -->
+<!-- PHONE::Start nada de phon -->
 
 <?php if ($categories) { ?>
 <div id="menu-phone" class="shown-phone" style="display: none;">
