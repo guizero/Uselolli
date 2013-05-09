@@ -6,7 +6,7 @@
 <?php
 function get_instagram($user_id=327105497,$count=6,$width=80,$height=80){
     $url = 'https://api.instagram.com/v1/users/'.$user_id.'/media/recent/?access_token=315628192.cfab3d1.073b9041db354ed7a76e82a86ef2930e&count='.$count;
-    // Creiamo una cache per velocizzare il caricamento e pesare meno sul server
+    // Creiamo una cache per velocizzare il caricamento e pesare meno sul server migliore
     $cache = './system/cache/'.sha1($url).'.json';
     if(file_exists($cache) && filemtime($cache) > time() - 1000){
         // Se esiste un file di cache da meno di 1000 secondi, usa quello
