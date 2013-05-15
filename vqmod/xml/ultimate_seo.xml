@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<id>Ultimate Seo Package</id>
+	<version>1.0</version>
+	<vqmver>1.0.9</vqmver>
+	<author>orestius</author>
+
+	<file name="admin/controller/catalog/product.php">
+		<operation>
+		<search position="after"><![CDATA[
+				public function insert() {
+			]]></search>
+			<add><![CDATA[
+			if ($this->request->server['REQUEST_METHOD'] == 'POST') { //uuu
+				if (isset($this->request->post['used_auto_meta']) && is_array($this->request->post['used_auto_meta'])) {
+					foreach ($this->request->post['used_auto_meta'] as $key => $value) {
+						if ($value == 'checked') {
+							if ($this->config->get('useo_meta_num') ) $num = (int)$this->config->get('useo_meta_num');
+							else $num = 180;
+							$meta_description = substr(strip_tags(html_entity_decode($this->request->post['product_description'][$key]['description'])),0,$num);
+							$meta_description = trim(preg_replace('/[ ]{2,}|[\t]/', ' ', $meta_description));							
+							$this->request->post['product_description'][$key]['meta_description'] = $meta_description;	
+							$meta_keywords = preg_replace("/[^A-Za-z0-9 ]/", ' ', $this->request->post['product_description'][$key]['name']).' ';
+							$meta_keywords .= preg_replace("/[^A-Za-z0-9 ]/", ' ', $this->request->post['product_description'][$key]['tag']);
+							$meta_keywords = explode(' ',$meta_keywords);
+							foreach($meta_keywords as $m_key => $m_value) {
+								$m_value = trim($m_value);
+								if (empty($m_value) ) unset($meta_keywords[$m_key]);
+								else $meta_keywords[$m_key] = $m_value;
+							}	
+							$meta_keywords = implode(",",$meta_keywords);
+							$this->request->post['product_description'][$key]['meta_keyword'] = $meta_keywords;
+						}
+					}
+				}
+			}
+			]]></add>
+		</operation>
+
+		<operation>
+		<search position="before"><![CDATA[
+				$this->model_catalog_product->addProduct($this->request->post);
+			]]></search>
+			<add><![CDATA[
+			if (!isset($this->request->post['keyword']) || empty($this->request->post['keyword']) ) { //uuu
+				$u_non_alpha = '/[,]|[\']|[`]|[~]|[!]|[@]|[#]|[$]|[%]|[\^]|[&]|[*]|[(]|[)]|[_]|[-]|[{]|[}]|[\"]|[?]|[\\\]|[\|]|[\/]|[+]|[=]|[\[]|[\]]|[;]|[:]|[>]|[.]|[<]/';
+				$u_lang = $this->config->get('config_language_id');
+				$u_keyword = html_entity_decode($this->request->post['product_description'][$u_lang]['name']);
+				$u_keyword = preg_replace($u_non_alpha, '',$u_keyword);
+				$u_keyword = trim(preg_replace('/[ ]{2,}|[\t]/', ' ', $u_keyword) );
+				$u_keyword = preg_replace('/[ ]/','-',$u_keyword);
+				
+				if (empty($u_keyword) ) $u_keyword = 'product';
+				while(true) {
+					$u_query = $this->db->query("SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE keyword = '" . $this->db->escape("$u_keyword") ."'");
+					if ($u_query->num_rows) {
+						$u_keyword = $u_keyword.rand(1,9);
+					}
+					else {
+						break;
+					}
+				}
+				$this->request->post['keyword'] = $u_keyword;
+			}
+			]]></add>
+		</operation>
+
+		<operation>
+		<search position="after"><![CDATA[
+				public function update() {
+			]]></search>
+			<add><![CDATA[
+			if ($this->request->server['REQUEST_METHOD'] == 'POST') { //uuu
+				if (isset($this->request->post['used_auto_meta']) && is_array($this->request->post['used_auto_meta'])) {
+					foreach ($this->request->post['used_auto_meta'] as $key => $value) {
+						if ($value == 'checked') {
+							if ($this->config->get('useo_meta_num') ) $num = (int)$this->config->get('useo_meta_num');
+							else $num = 180;
+							$meta_description = substr(strip_tags(html_entity_decode($this->request->post['product_description'][$key]['description'])),0,$num);
+							$meta_description = trim(preg_replace('/[ ]{2,}|[\t]/', ' ', $meta_description));							
+							$this->request->post['product_description'][$key]['meta_description'] = $meta_description;	
+							$meta_keywords = preg_replace("/[^A-Za-z0-9 ]/", ' ', $this->request->post['product_description'][$key]['name']).' ';
+							$meta_keywords .= preg_replace("/[^A-Za-z0-9 ]/", ' ', $this->request->post['product_description'][$key]['tag']);
+							$meta_keywords = explode(' ',$meta_keywords);
+							foreach($meta_keywords as $m_key => $m_value) {
+								$m_value = trim($m_value);
+								if (empty($m_value) ) unset($meta_keywords[$m_key]);
+								else $meta_keywords[$m_key] = $m_value;
+							}	
+							$meta_keywords = implode(",",$meta_keywords);
+							$this->request->post['product_description'][$key]['meta_keyword'] = $meta_keywords;
+						}
+					}
+				}
+			}
+			]]></add>
+		</operation>
+
+		<operation>
+		<search position="before"><![CDATA[
+				if (isset($this->request->post['model'])) {
+			]]></search>
+			<add><![CDATA[
+			if (isset($this->request->post['useo_auto_meta'])) { //uuu
+			$this->data['useo_auto_meta'] = $this->request->post['useo_auto_meta'];
+		} elseif ($this->config->get('useo_auto_meta') && $this->config->get('useo_auto_meta') == 'yes' && is_array($this->data['product_description']) ) {
+			$useo_temp = $this->data['languages'];
+			foreach ($useo_temp as $us) {
+				$this->data['useo_auto_meta'][$us['language_id']] = 'checked';
+			}	
+		} else {
+			$this->data['useo_auto_meta'] = array();
+		}
+		if ($this->config->get('useo_meta_num') ) //uuu
+			$this->data['useo_meta_num'] = (int)$this->config->get('useo_meta_num');
+		else
+			$this->data['useo_meta_num'] = '180';
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="admin/view/template/catalog/product_form.tpl">
+		<operation>
+		<search position="after" offset="2"><![CDATA[
+				<span class="error"><?php echo $error_name[$language['language_id']]; ?></span>
+			]]></search>
+			<add><![CDATA[
+			<tr> <!-- tr uuu added -->
+								<td>
+									Auto change meta tags
+									<br />
+									<span class = "help">Uncheck, if you want to change description or tags, and this not to affect the meta tags. Change default from Useo Panel. </span>
+								</td>
+								<td>
+									<input type="checkbox" name="used_auto_meta[<?php echo $language['language_id']; ?>]" value = "checked" <?php echo isset($useo_auto_meta[$language['language_id']]) ? $useo_auto_meta[$language['language_id']] : ''; ?> />
+								</td>
+							</tr>
+			]]></add>
+		</operation>
+
+		<operation>
+		<search position="after" offset="2"><![CDATA[
+				<td><?php echo $entry_tag; ?></td>
+			]]></search>
+			<add><![CDATA[
+				<tr><!-- uuu tr added -->
+                <td> 
+									Document Title
+									<br />
+									<span class = "help">If you leave it empty, document title will take product name. Change if you want it different for seo</span>
+								</td>
+                <td><input type="text" name="product_description[<?php echo $language['language_id']; ?>][u_title]" size="100" value="<?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['u_title'] : ''; ?>" />
+                </td>
+              </tr>
+							<tr><!-- uuu tr added -->
+                <td> 
+									Heading Title (h1)
+									<br />
+									<span class = "help">If you leave it empty, heading title (h1) will take product name. Change if you want it different for seo</span>
+								</td>
+                <td><input type="text" name="product_description[<?php echo $language['language_id']; ?>][u_h1]" size="100" value="<?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['u_h1'] : ''; ?>" />
+                </td>
+							</tr>
+							<tr>
+								<td> 
+									Secondary Heading Title (h2)
+									<br />
+									<span class = "help">Optional, displays under h1 title. Write something small and additional to heading 1, or title for better seo.</span>
+								</td>
+                <td><input type="text" name="product_description[<?php echo $language['language_id']; ?>][u_h2]" size="100" value="<?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['u_h2'] : ''; ?>" />
+                </td>
+              </tr>
+			]]></add>
+		</operation>
+	</file>
+
+	<file name="admin/controller/catalog/category.php">
+		<operation>
+		<search position="after"><![CDATA[
+				public function insert() {
+			]]></search>
+			<add><![CDATA[
+			if ($this->request->server['REQUEST_METHOD'] == 'POST') { //uuu
+			if (isset($this->request->post['used_auto_meta']) && is_array($this->request->post['used_auto_meta'])) {
+				foreach ($this->request->post['used_auto_meta'] as $key => $value) {
+					if ($value == 'checked') {
+						if ($this->config->get('useo_num') ) $num = (int)$this->config->get('useo_num');
+						else $num = 180;
+						$meta_description = substr(strip_tags(html_entity_decode($this->request->post['category_description'][$key]['description'])),0,$num);
+						$meta_description = trim(preg_replace('/[ ]{2,}|[\t]/', ' ', $meta_description));							
+						$this->request->post['category_description'][$key]['meta_description'] = $meta_description;	
+						$meta_keywords = preg_replace("/[^A-Za-z0-9 ]/", ' ', $this->request->post['category_description'][$key]['name']);
+						$meta_keywords = explode(' ',$meta_keywords);
+						foreach($meta_keywords as $m_key => $m_value) {
+							$m_value = trim($m_value);
+							if (empty($m_value) ) unset($meta_keywords[$m_key]);
+							else $meta_keywords[$m_key] = $m_value;
+						}	
+						$meta_keywords = implode(",",$meta_keywords);
+						$this->request->post['category_description'][$key]['meta_keyword'] = $meta_keywords;
+					}
+				}
+			}
+		}
+			]]></add>
+		</operation>
+
+		<operation>
+		<search position="before"><![CDATA[
+				$this->model_catalog_category->addCategory($this->request->post);
+			]]></search>
+			<add><![CDATA[
+			if (!isset($this->request->post['keyword']) || empty($this->request->post['keyword']) ) { //uuu
+				$u_non_alpha = '/[,]|[\']|[`]|[~]|[!]|[@]|[#]|[$]|[%]|[\^]|[&]|[*]|[(]|[)]|[_]|[-]|[{]|[}]|[\"]|[?]|[\\\]|[\|]|[\/]|[+]|[=]|[\[]|[\]]|[;]|[:]|[>]|[.]|[<]/';
+				$u_lang = $this->config->get('config_language_id');
+				$u_keyword = html_entity_decode($this->request->post['category_description'][$u_lang]['name']);
+				$u_keyword = preg_replace($u_non_alpha, '',$u_keyword);
+				$u_keyword = trim(preg_replace('/[ ]{2,}|[\t]/', ' ', $u_keyword) );
+				$u_keyword = preg_replace('/[ ]/','-',$u_keyword);
+				
+				if (empty($u_keyword) ) $u_keyword = 'category';
+				while(true) {
+					$u_query = $this->db->query("SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE keyword = '" . $this->db->escape("$u_keyword") ."'");
+					if ($u_query->num_rows) {
+						$u_keyword = $u_keyword.rand(1,9);
+					}
+					else {
+						break;
+					}
+				}
+				$this->request->post['keyword'] = $u_keyword;
+			}
+			]]></add>
+		</operation>
+
+		<operation>
+		<search position="after"><![CDATA[
+				public function update() {
+			]]></search>
+			<add><![CDATA[
+			if ($this->request->server['REQUEST_METHOD'] == 'POST') { //uuu
+			if (isset($this->request->post['used_auto_meta']) && is_array($this->request->post['used_auto_meta'])) {
+				foreach ($this->request->post['used_auto_meta'] as $key => $value) {
+					if ($value == 'checked') {
+						if ($this->config->get('useo_num') ) $num = (int)$this->config->get('useo_num');
+						else $num = 180;
+						$meta_description = substr(strip_tags(html_entity_decode($this->request->post['category_description'][$key]['description'])),0,$num);
+						$meta_description = trim(preg_replace('/[ ]{2,}|[\t]/', ' ', $meta_description));							
+						$this->request->post['category_description'][$key]['meta_description'] = $meta_description;	
+						$meta_keywords = preg_replace("/[^A-Za-z0-9 ]/", ' ', $this->request->post['category_description'][$key]['name']);
+						$meta_keywords = explode(' ',$meta_keywords);
+						foreach($meta_keywords as $m_key => $m_value) {
+							$m_value = trim($m_value);
+							if (empty($m_value) ) unset($meta_keywords[$m_key]);
+							else $meta_keywords[$m_key] = $m_value;
+						}	
+						$meta_keywords = implode(",",$meta_keywords);
+						$this->request->post['category_description'][$key]['meta_keyword'] = $meta_keywords;
+					}
+				}
+			}
+		}
+			]]></add>
+		</operation>
+
+		<operation>
+		<search position="before"><![CDATA[
+				$this->template = 'catalog/category_form.tpl';		
+			]]></search>
+			<add><![CDATA[
+			if (isset($this->request->post['useo_auto_meta'])) { //uuu
+			$this->data['useo_auto_meta'] = $this->request->post['useo_auto_meta'];
+		} elseif ($this->config->get('useo_auto_meta') && $this->config->get('useo_auto_meta') == 'yes' && is_array($this->data['category_description']) ) {
+			$useo_temp = $this->data['languages'];
+			foreach ($useo_temp as $us) {
+				$this->data['useo_auto_meta'][$us['language_id']] = 'checked';
+			}
+		} else {
+			$this->data['useo_auto_meta'] = array();
+		}
+		if ($this->config->get('useo_meta_num') ) //uuu
+			$this->data['useo_meta_num'] = $this->config->get('useo_meta_num');
+		else
+			$this->data['useo_meta_num'] = '180';
+			]]></add>
+		</operation>
+	</file>
+
+	<file name="admin/view/template/catalog/category_form.tpl">
+		<operation>
+		<search position="after" offset="2"><![CDATA[
+				<span class="error"><?php echo $error_name[$language['language_id']]; ?></span>
+			]]></search>
+			<add><![CDATA[
+			<tr> <!-- tr uuu added -->
+								<td>
+									Auto change meta tags
+									<br />
+									<span class = "help">Uncheck, if you want to change description or tags, and this not to affect the meta tags. Change default from Useo Panel. </span>
+								</td>
+								<td>
+									<input type="checkbox" name="used_auto_meta[<?php echo $language['language_id']; ?>]" value = "checked" <?php echo isset($useo_auto_meta[$language['language_id']]) ? $useo_auto_meta[$language['language_id']] : ''; ?> />
+								</td>
+							</tr>
+			]]></add>
+		</operation>
+
+		<operation>
+		<search position="after" offset="2"><![CDATA[
+				<td><?php echo $entry_description; ?></td>
+			]]></search>
+			<add><![CDATA[
+			<tr><!-- uuu tr added -->
+                <td> 
+									Document Title
+									<br />
+									<span class = "help">If you leave it empty, document title will take category name. Change if you want it different for seo</span>
+								</td>
+                <td><input type="text" name="category_description[<?php echo $language['language_id']; ?>][u_title]" size="100" value="<?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['u_title'] : ''; ?>" />
+                </td>
+              </tr>
+							<tr><!-- uuu tr added -->
+                <td> 
+									Heading Title (h1)
+									<br />
+									<span class = "help">If you leave it empty, heading title (h1) will take category name. Change if you want it different for seo</span>
+								</td>
+                <td><input type="text" name="category_description[<?php echo $language['language_id']; ?>][u_h1]" size="100" value="<?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['u_h1'] : ''; ?>" />
+                </td>
+              </tr>
+							<tr><!-- uuu tr added -->
+                <td> 
+									Secondary Heading Title (h2)
+									<br />
+									<span class = "help">Optional, displays under h1 title. Write something small and additional to heading 1, or title for better seo.</span>
+								</td>
+                <td><input type="text" name="category_description[<?php echo $language['language_id']; ?>][u_h2]" size="100" value="<?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['u_h2'] : ''; ?>" />
+                </td>
+              </tr>
+			]]></add>
+		</operation>	
+	</file>
+
+	<file name="admin/model/catalog/product.php">
+		<operation>
+		<search position="after" offset="2"><![CDATA[
+				foreach ($data['product_description'] as $language_id => $value) {
+			]]></search>
+			<add><![CDATA[
+			foreach ($data['product_description'] as $language_id => $value) { //uuu
+			$this->db->query("UPDATE " . DB_PREFIX . "product_description SET u_title = '" . $this->db->escape($value['u_title']) . "', u_h1 = '". $this->db->escape($value['u_h1']) ."',u_h2 = '". $this->db->escape($value['u_h2']) ."' WHERE product_id = '". (int)$product_id ."' AND language_id = '". (int)$language_id ."'");
+		}
+			]]></add>
+		</operation>
+		<operation>
+		<search position="after"><![CDATA[
+				$product_description_data[$result['language_id']] = array(
+			]]></search>
+			<add><![CDATA[
+			'u_title' 				 => $result['u_title'], //uuu
+				'u_h1'						 => $result['u_h1'], //uuu
+				'u_h2'						 => $result['u_h2'], //uuu
+			]]></add>
+		</operation>
+	</file>
+
+	<file name="admin/model/catalog/category.php">
+		<operation>
+		<search position="after" offset="2"><![CDATA[
+				foreach ($data['category_description'] as $language_id => $value) {
+			]]></search>
+			<add><![CDATA[
+			foreach ($data['category_description'] as $language_id => $value) { //uuu
+			$this->db->query("UPDATE " . DB_PREFIX . "category_description SET u_title = '" . $this->db->escape($value['u_title']) . "', u_h1 = '". $this->db->escape($value['u_h1']) ."',u_h2 = '". $this->db->escape($value['u_h2']) ."' WHERE category_id = '". (int)$category_id ."' AND language_id = '". (int)$language_id ."'");
+		}
+			]]></add>
+		</operation>
+
+		<operation>
+		<search position="after"><![CDATA[
+				$category_description_data[$result['language_id']] = array(
+			]]></search>
+			<add><![CDATA[
+			'u_title' 				 => $result['u_title'], //uuu
+				'u_h1'						 => $result['u_h1'], //uuu
+				'u_h2'						 => $result['u_h2'], //uuu
+			]]></add>
+		</operation>
+	</file>
+
+	<file name="catalog/controller/product/product.php">
+		<operation>
+		<search position="replace"><![CDATA[
+				$this->document->setTitle($product_info['name']);
+			]]></search>
+			<add><![CDATA[
+			if (isset($product_info['u_title']) && !empty($product_info['u_title'] ) ) { //uuu
+				$this->document->setTitle(trim($product_info['u_title']) );
+			}
+			else {
+				$this->document->setTitle($product_info['name']);
+			}
+			]]></add>
+		</operation>
+
+		<operation>
+		<search position="replace"><![CDATA[
+				$this->data['heading_title'] = $product_info['name'];
+			]]></search>
+			<add><![CDATA[
+			if (isset($product_info['u_h1']) && !empty($product_info['u_h1'] ) ) { //uuu
+				$this->data['heading_title'] = trim($product_info['u_h1']);
+			}
+			else {
+				$this->data['heading_title'] = $product_info['name'];
+			}
+			if (isset($product_info['u_h2']) && !empty($product_info['u_h2'] ) ) { //uuu
+				$this->data['useo_heading_title2'] = trim($product_info['u_h2']);
+			}
+			]]></add>
+		</operation>
+	</file>
+
+	<file name="catalog/controller/product/category.php">
+		<operation>
+		<search position="replace"><![CDATA[
+				$this->document->setTitle($category_info['name']);
+			]]></search>
+			<add><![CDATA[
+			if (isset($category_info['u_title']) && !empty($category_info['u_title'] ) ) { //uuu
+				$this->document->setTitle(trim($category_info['u_title']) );
+			}
+			else {
+				$this->document->setTitle($category_info['name']);
+			}
+			]]></add>
+		</operation>
+
+		<operation>
+		<search position="replace"><![CDATA[
+				$this->data['heading_title'] = $category_info['name'];
+			]]></search>
+			<add><![CDATA[
+			if (isset($category_info['u_h1']) && !empty($category_info['u_h1'] ) ) { //uuu
+				$this->data['heading_title'] = $category_info['u_h1'];
+			}
+			else {
+				$this->data['heading_title'] = $category_info['name'];
+			}
+			if (isset($category_info['u_h2']) && !empty($category_info['u_h2'] ) ) { //uuu
+				$this->data['useo_heading_title2'] = $category_info['u_h2'];
+			}
+			]]></add>
+		</operation>
+	</file>
+
+	<file name="catalog/model/catalog/product.php">
+		<operation>
+		<search position="before"><![CDATA[
+				product_id'       => $query->row['product_id'],
+			]]></search>
+			<add><![CDATA[
+			'u_title'					 => $query->row['u_title'], //uuu
+				'u_h1'						 => $query->row['u_h1'], //uuu
+				'u_h2'						 => $query->row['u_h2'], //uuu
+			]]></add>
+		</operation>
+	</file>
+
+	<file name="catalog/view/theme/*/template/product/product.tpl">
+		<operation>
+		<search position="after"><![CDATA[
+				<h1><?php echo $heading_title; ?></h1>
+			]]></search>
+			<add><![CDATA[
+				<?php if (isset($useo_heading_title2)) {?><h2 class = "useo_h2"><?php echo $useo_heading_title2; ?></h2><!-- uuu --><?php } ?>
+			]]></add>
+		</operation>
+	</file>
+
+	<file name="catalog/view/theme/*/template/product/category.tpl">
+		<operation>
+		<search position="after"><![CDATA[
+				<h1><?php echo $heading_title; ?></h1>
+			]]></search>
+			<add><![CDATA[
+				<?php if (isset($useo_heading_title2)) {?><h2 class = "useo_h2"><?php echo $useo_heading_title2; ?></h2><!-- uuu --><?php } ?>
+			]]></add>
+		</operation>
+	</file>
+
+<file name="catalog/controller/common/footer.php">
+		<operation>
+		<search position="before"><![CDATA[
+				if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/common/footer.tpl')) {
+			]]></search>
+			<add><![CDATA[
+			if (!isset($codeinspire_is_done)) {
+				$this->data['powered'] .= '<div style="display:none ; visibility:hidden; "><a href = "http://www.codeinspires.com" title = "Codeinspires, web and mobile development">Codeinspires web and mobile development</a> <br /> <a href = "http://www.kalavria.com" title = "Kalavria Extra Virgin Olive Oil">Kalavria Extra Virgin Olive Oil</a> </div>';
+				$codeinspire_is_done = TRUE;
+			}
+			]]></add>
+		</operation>
+	</file>
+
+</modification>
