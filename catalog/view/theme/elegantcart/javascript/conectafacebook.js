@@ -92,6 +92,6 @@ $(document).ready(function(){
 
 $(function () {
   var e = document.createElement('script'); e.type = 'text/javascript'; e.async = true;
-  e.src = 'https:' + '//connect.facebook.net/en_US/all.js';
+  e.src = 'https:' + '//connect.facebook.net/pt_BR/all.js';
   $('#fb-root').append(e);
 });
