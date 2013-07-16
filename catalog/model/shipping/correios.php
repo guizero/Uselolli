@@ -174,7 +174,7 @@ class ModelShippingCorreios extends Model {
 			
 			// 'empacotando' o carrinho em caixas
 			$caixas = $this->organizarEmCaixas($produtos);
-		
+			// file_put_contents('filename.txt', print_r($caixas, true));
 			// obtém o frete de cada caixa
 			foreach ($caixas as $caixa) {
 				$this->setQuoteData($caixa);
@@ -267,6 +267,7 @@ class ModelShippingCorreios extends Model {
 	private function setUrl($peso, $valor, $comp, $larg, $alt){
 		
 		$url = "http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?";
+		//$url = "http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?"; // url alternativa disponibilizada pelos Correios.
 		$url .=	"nCdEmpresa=".$this->contrato_codigo;
 		$url .=	"&sDsSenha=".$this->contrato_senha;
 		$url .=	"&sCepOrigem=%s";
@@ -294,7 +295,24 @@ class ModelShippingCorreios extends Model {
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 30);			
+		
 		$result = curl_exec($ch);
+		
+		if(!$result){
+			$this->log->write(curl_error($ch));
+			$this->log->write('Não foi possível estabelecer conexão com os Correios. Tentando reconectar...');
+			$result = curl_exec($ch);
+			
+			if($result){
+				$this->log->write("Reconexão realizada com sucesso!");
+			}
+			else{
+				$this->log->write(curl_error($ch));
+				$this->log->write('Falha na tentativa de reconectar com os Correios. O WebService dos Correios apresenta instabilidade ou está fora do ar.');				
+			}
+		}
 		
 		curl_close($ch);
 		
@@ -324,10 +342,10 @@ class ModelShippingCorreios extends Model {
 		
 		// ajusta a url de chamada
 		$this->setUrl($peso, $valor, $comp, $larg, $alt);
-		
+
 		// faz a chamada e retorna o xml com os dados
 		$xml = $this->getXML($this->url);
-	
+
 		// lendo o xml
 		if ($xml) {
 			$dom = new DOMDocument('1.0', 'ISO-8859-1');
@@ -476,14 +494,14 @@ class ModelShippingCorreios extends Model {
   					$new_length = $caixas[$cx_num]['length'] + $prod_copy['length'];
   					$new_weight = $caixas[$cx_num]['weight'] + $prod_copy['weight'];
   					
-  					$cabe_do_lado = ($new_width < $this->largura_max) && ($new_width + $caixas[$cx_num]['height'] + $caixas[$cx_num]['length'] < $this->soma_dim_max);
+  					$cabe_do_lado = ($new_width <= $this->largura_max) && $this->somaDimDentroLimite($caixas, $prod_copy, $cx_num, 'lado');
   	
-  					$cabe_no_fundo = ($new_length < $this->comprimento_max) && ($new_length + $caixas[$cx_num]['width'] + $caixas[$cx_num]['height'] < $this->soma_dim_max);
+  					$cabe_no_fundo = ($new_length <= $this->comprimento_max) && $this->somaDimDentroLimite($caixas, $prod_copy, $cx_num, 'fundo');
   	
-  					$cabe_em_cima = ($new_height < $this->altura_max) && ($new_height + $caixas[$cx_num]['width'] + $caixas[$cx_num]['length'] < $this->soma_dim_max);
+  					$cabe_em_cima = ($new_height <= $this->altura_max) && $this->somaDimDentroLimite($caixas, $prod_copy, $cx_num, 'cima');
   					
- 					$peso_dentro_limite = ($new_weight <= $this->peso_max) ? true : false;
-
+ 					$peso_dentro_limite = ($new_weight <= $this->peso_max);
+					
   					// o produto cabe na caixa
   					if (($cabe_do_lado || $cabe_no_fundo || $cabe_em_cima) && $peso_dentro_limite) {
   	
@@ -583,5 +601,31 @@ class ModelShippingCorreios extends Model {
   		
   		return array($weight, $height, $width, $length);  	
   	}
+	private function somaDimDentroLimite($caixas, $prod_copy, $cx_num, $orientacao){
+			
+		if($orientacao == 'lado') {
+			$width = $caixas[$cx_num]['width'] + $prod_copy['width'];
+			$height = max($caixas[$cx_num]['height'], $prod_copy['height']);
+			$length = max($caixas[$cx_num]['length'], $prod_copy['length']);
+		}
+		elseif($orientacao == 'fundo') {
+			$length = $caixas[$cx_num]['length'] + $prod_copy['length'];
+			$height = max($caixas[$cx_num]['height'], $prod_copy['height']);
+			$width = max($caixas[$cx_num]['width'], $prod_copy['width']);
+		}
+		elseif($orientacao == 'cima') {
+			$height = $caixas[$cx_num]['height'] + $prod_copy['height'];
+			$width = max($caixas[$cx_num]['width'], $prod_copy['width']);
+			$length = max($caixas[$cx_num]['length'], $prod_copy['length']);
+		}
+		else{
+			$width = $caixas[$cx_num]['width'];
+			$height = $caixas[$cx_num]['height'];
+			$length = $caixas[$cx_num]['length'];
+		}
+		$dentroLimite = ($width + $height + $length) <= $this->soma_dim_max;
+		
+		return $dentroLimite;
+	}
 }
 ?>
