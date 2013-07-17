@@ -34,10 +34,10 @@
     </ul>
   </div>
   <div class="big_column">
-  	<a href='http://www.instagram.com/lojafarfeloo' class='icon_pinterest' title='Facebook' target="_blank">Instagram</a>
-  	<a href='http://www.twitter.com/lojafarfeloo' class='icon_tweet' title='Tweeter'>Tweeter</a>
+  	<a href='http://www.instagram.com/uselolli' class='icon_pinterest' title='Facebook' target="_blank">Instagram</a>
+  	<a href='http://www.twitter.com/uselolli' class='icon_tweet' title='Tweeter'>Tweeter</a>
   	<a href='https://plus.google.com/117934764053104701842/posts' class='icon_google' title='Google+'>Google+</a>
-  	<a href='http://www.facebook.com/farfeloo' class='icon_facebook' title='Facebook'>Facebook</a>
+  	<a href='http://www.facebook.com/uselolli' class='icon_facebook' title='Facebook'>Facebook</a>
   	<div class='clear'></div>
   	<div class='h20'></div>
   	<div class='h20'></div>
@@ -47,7 +47,7 @@
   </div>  
   <div class="clear"></div>
   <div class="footer_btm">
-      <div id="powered">Farfeloo</a> © <?php echo date("Y");?>  &nbsp; |  &nbsp;  Todos os direitos reservados.</div>
+      <div id="powered">Uselolli</a> © <?php echo date("Y");?>  &nbsp; |  &nbsp;  Todos os direitos reservados.</div>
   </div>
 </div>
 
