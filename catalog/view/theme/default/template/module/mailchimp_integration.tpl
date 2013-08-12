@@ -36,7 +36,7 @@ text-align: left;
 color: white;
 	}
 
-	.mi-boxcontent {
+	.box-content {
 		background-color:#8c0a1a;
 		text-align:right;
 		height: 70px;		
@@ -77,9 +77,7 @@ color: white;
 		</div>
 <?php } ?>
 <div class="mi-message"></div>
-	<div class="middle mi-boxcontent">
-		
-		
+	<div class="middle box-content">
 		<div class="msgnews">Cadastre-se em nossa lista de emails<br>e receba primeiro nossas novidades e promoções
 		</div>
 		<div class="mi-block">
@@ -97,7 +95,7 @@ color: white;
 		<?php } ?>
 		<div class="mi-block">
 			<a class="button" onclick="miSubscribe<?php echo $module_id; ?>($(this))"><span><?php echo $button_subscribe; ?></span></a>
-			<img class="mi-loading" src="catalog/view/theme/default/image/loading<?php if ($v14x) echo '_1'; ?>.gif" />
+			<img class="mi-loading" src="catalog/view/theme/default/image/loading<?php if ($version < 150) echo '_1'; ?>.gif" />
 		</div>
 	</div>
 	
