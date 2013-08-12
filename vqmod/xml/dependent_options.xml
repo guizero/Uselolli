@@ -750,13 +750,7 @@ $_['error_missing_option_value']        = 'You have set a parent option value wh
                     <?php } ?>
                     <?php if ($product_option_value['option_value_id'] === false) { ?>
                     <span class="error"><?php echo $error_option_value_load_failure; ?></span>
-                    <?php } ?></td>
-
-          <div class="image">
-          <img src="<?php echo $product_option_value['thumb_for_this_option']; ?>" alt="" id="thumb_product_option_<?php echo $option_row; ?>_product_option_value_<?php echo $option_value_row; ?>" /><br />
-          <input type="hidden" name="product_option[<?php echo $option_row; ?>][product_option_value][<?php echo $option_value_row; ?>][opt_image]" value="<?php echo $product_option_value['image_for_this_option']; ?>" id="image_product_option_<?php echo $option_row; ?>_product_option_value_<?php echo $option_value_row; ?>" />
-          <a onclick="image_upload('image_product_option_<?php echo $option_row; ?>_product_option_value_<?php echo $option_value_row; ?>', 'thumb_product_option_<?php echo $option_row; ?>_product_option_value_<?php echo $option_value_row; ?>');">
-          <?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#thumb_product_option_<?php echo $option_row; ?>_product_option_value_<?php echo $option_value_row; ?>').attr('src', '<?php echo $no_image; ?>'); $('#image_product_option_<?php echo $option_row; ?>_product_option_value_<?php echo $option_value_row; ?>').attr('value', '');"><?php echo $text_clear; ?></a></div></td><td>]]></add>
+                    <?php } ?></td>]]></add>
 		</operation>
 		<operation error="abort">
 			<search position="before"><![CDATA[<select name="product_option[<?php echo $option_row; ?>][product_option_value][<?php echo $option_value_row; ?>][price_prefix]">]]></search>
@@ -962,7 +956,16 @@ $_['error_missing_option_value']        = 'You have set a parent option value wh
 		</operation>
 	</file>
 	<file name="catalog/view/theme/*/template/product/product.tpl">
-		
+		<operation error="abort">
+			<search position="before"><![CDATA[<?php echo $footer; ?>]]></search>
+			<add><![CDATA[<?php if ($chained_options) { ?>
+<script type="text/javascript"><!--
+<?php foreach ($chained_options as $chained_option) { ?>
+$('#option-<?php echo $chained_option['child']; ?>').chained('#option-<?php echo $chained_option['parent']; ?>');
+<?php } ?>
+//--></script>
+<?php } ?>]]></add>
+		</operation>
 		<!-- If using Shoppica/Shoppica2 theme change:   error="log"   to:   error="skip"   below -->
 		<operation error="log">
 			<search position="replace"><![CDATA[option value="<?php echo $option_value['product_option_value_id']; ?>"]]></search>
