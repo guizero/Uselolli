@@ -177,71 +177,7 @@
  </file>
     <!-- STORE FRONT PART  product template -->
  <file name="catalog/view/theme/default/template/product/product.tpl">
-    <operation>
-      <search position="before">
-        <![CDATA[<?php echo $footer; ?>]]>
-      </search>
-      <add>
-        <![CDATA[
-		<?php if ($options) { ?>
-<?php foreach ($options as $option) { ?>
-<?php if (($option['type'] == 'select') || ($option['type'] == 'image')  ||  ($option['type'] == 'radio') ){ ?>
-<?php foreach ($option['option_value'] as $option_value) { ?>
-<div id="<?php echo $option_value['product_option_value_id']; ?>" rel="<?php echo $option_value['opt_image_product']; ?>@@<?php echo $option_value['opt_image_popup']; ?>" style="display:none" /></div>
-<?php } ?><?php } ?>
-<?php if (($option['type'] == 'select')){ ?>
-<script type="text/javascript">
-$("#option-<?php echo $option['product_option_id']; ?>").change(function() {
-	var jThis = $("option:selected", this).val();
-	var scr= $("div#"+jThis).attr('rel');
-	var src_http=scr.split('@@');
-	
-	if (src_http[0] !=""){
-	
-	html	 ='<div class="image_option"> <a rel="colorbox" title="<?php echo $heading_title; ?>" class="colorbox cboxElement" href="'+src_http[1]+'">';
-	html 	+='<img id="image_option" alt="<?php echo $heading_title; ?>" title="<?php echo $heading_title; ?>" src="'+src_http[0]+'"></a></div>';
-	
-		$('.image_option:eq(0)').fadeOut('slow', function(){
-		$('.image_option:eq(0)').fadeOut('slow');
-		$(".image_option:eq(0)").replaceWith(html).fadeIn(1000);
-		});
-		
-	}
-	
-	});
- 		
-	</script>
-    <?php } ?>
-    
- <?php if (($option['type'] == 'image')  ||  ($option['type'] == 'radio') ){ ?>
-<script type="text/javascript">
-$("#option-<?php echo $option['product_option_id']; ?>").change(function() {
-	var jThis = $(":radio:checked", this).val();
-	var scr= $("div#"+jThis).attr('rel');
-	var src_http=scr.split('@@');
-	
-	if (src_http[0] !=""){
-	
-	html	 ='<div class="image_option"> <a rel="colorbox" title="<?php echo $heading_title; ?>" class="colorbox cboxElement" href="'+src_http[1]+'">';
-	html 	+='<img id="image_option" alt="<?php echo $heading_title; ?>" title="<?php echo $heading_title; ?>" src="'+src_http[0]+'"></a></div>';
-	
-		$('.image_option:eq(0)').fadeOut('slow', function(){
-		$('.image_option:eq(0)').fadeOut('slow');
-		$(".image_option:eq(0)").replaceWith(html).fadeIn(1000);
-		});
-		
-	}
-	
-	});
- 		
-	</script> carregou options images
-    <?php } ?>
-    <?php  } } ?>
-]]>
-      </add> 
-    </operation>
-	
-	
+
 	<operation>
       <search position="replace" index="1">
         <![CDATA[<div class="image">]]>

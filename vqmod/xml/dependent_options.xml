@@ -962,16 +962,7 @@ $_['error_missing_option_value']        = 'You have set a parent option value wh
 		</operation>
 	</file>
 	<file name="catalog/view/theme/*/template/product/product.tpl">
-		<operation error="abort">
-			<search position="before"><![CDATA[<!--dependent-->]]></search>
-			<add><![CDATA[<?php if ($chained_options) { ?>
-<script type="text/javascript"><!--
-<?php foreach ($chained_options as $chained_option) { ?>
-$('#option-<?php echo $chained_option['child']; ?>').chained('#option-<?php echo $chained_option['parent']; ?>');
-<?php } ?>
-//--></script> carregou dependent
-<?php } ?>]]></add>
-		</operation>
+		
 		<!-- If using Shoppica/Shoppica2 theme change:   error="log"   to:   error="skip"   below -->
 		<operation error="log">
 			<search position="replace"><![CDATA[option value="<?php echo $option_value['product_option_value_id']; ?>"]]></search>
