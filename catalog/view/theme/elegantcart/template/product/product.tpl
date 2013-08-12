@@ -478,11 +478,13 @@ $('.datetime').datetimepicker({
 $('.time').timepicker({timeFormat: 'h:m'});
 //--></script>
 
+<?php if ($chained_options) { ?>
 <script type="text/javascript"><!--
 <?php foreach ($chained_options as $chained_option) { ?>
 $('#option-<?php echo $chained_option['child']; ?>').chained('#option-<?php echo $chained_option['parent']; ?>');
 <?php } ?>
 //--></script>
+<?php } ?>
 
 <?php if ($options) { ?>
 <?php foreach ($options as $option) { ?>
