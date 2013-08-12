@@ -538,13 +538,13 @@ $_['error_missing_option_value']        = 'You have set a parent option value wh
 			<add><![CDATA[		$this->db->query("DELETE FROM " . DB_PREFIX . "dependent_option WHERE product_id = '" . (int)$product_id . "'"); // Dependent Options
 		$this->db->query("DELETE FROM " . DB_PREFIX . "dependent_option_value WHERE product_id = '" . (int)$product_id . "'"); // Dependent Options]]></add>
 		</operation>
-		<operation error="abort">
+		<!--<operation error="abort">
 			<search position="after"><![CDATA[$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_value SET product_option_value_id]]></search>
 			<add><![CDATA[
 							// Dependent Options
 							$product_option_value_id = $this->db->getLastId();
 							$dependent_option_value[$product_option_value['option_value_id']] = $product_option_value_id;]]></add>
-		</operation>
+		</operation>-->
 		<operation error="abort">
 			<search position="after" offset="2"><![CDATA[$this->db->query("INSERT INTO " . DB_PREFIX . "product_option SET product_option_id = '" . (int)$product_option['product_option_id'] . "', product_id = '" . (int)$product_id . "', option_id = '" . (int)$product_option['option_id'] . "', option_value = '" . $this->db->escape($product_option['option_value']) . "', required = '" . (int)$product_option['required'] . "'");]]></search>
 			<add><![CDATA[
@@ -751,7 +751,7 @@ $_['error_missing_option_value']        = 'You have set a parent option value wh
                     <?php if ($product_option_value['option_value_id'] === false) { ?>
                     <span class="error"><?php echo $error_option_value_load_failure; ?></span>
                     <?php } ?></td>
-                    
+
           <div class="image">
           <img src="<?php echo $product_option_value['thumb_for_this_option']; ?>" alt="" id="thumb_product_option_<?php echo $option_row; ?>_product_option_value_<?php echo $option_value_row; ?>" /><br />
           <input type="hidden" name="product_option[<?php echo $option_row; ?>][product_option_value][<?php echo $option_value_row; ?>][opt_image]" value="<?php echo $product_option_value['image_for_this_option']; ?>" id="image_product_option_<?php echo $option_row; ?>_product_option_value_<?php echo $option_value_row; ?>" />
@@ -882,11 +882,11 @@ $_['error_missing_option_value']        = 'You have set a parent option value wh
 			<search position="after"><![CDATA[public function index() {]]></search>
 			<add><![CDATA[		$this->document->addScript('catalog/view/javascript/jquery/jquery.chained.mini.js');]]></add>
 		</operation>
-		<operation error="abort">
+		<!--<operation error="abort">
 			<search position="before"><![CDATA[$option_value_data[] = array(]]></search>
 			<add><![CDATA[
 							$dependent_option_value_data = $this->model_catalog_product->getDependentOptionValues($this->request->get['product_id'], $option_value['product_option_value_id']);
-		]]></add>
+		]]></add>-->
 		</operation>
 		<operation error="abort">
 			<search position="after"><![CDATA[=> $option_value['option_value_id'],]]></search>
@@ -963,14 +963,14 @@ $_['error_missing_option_value']        = 'You have set a parent option value wh
 	</file>
 	<file name="catalog/view/theme/*/template/product/product.tpl">
 		<operation error="abort">
-			<search position="before"><![CDATA[<?php echo $footer; ?>]]></search>
+			<search position="before"><![CDATA[<!--dependent-->]]></search>
 			<add><![CDATA[<?php if ($chained_options) { ?>
 <script type="text/javascript"><!--
 <?php foreach ($chained_options as $chained_option) { ?>
 $('#option-<?php echo $chained_option['child']; ?>').chained('#option-<?php echo $chained_option['parent']; ?>');
 <?php } ?>
 //--></script>
-<?php } ?>]]></add>
+<?php } ?>]]> dependent carregou</add>
 		</operation>
 		<!-- If using Shoppica/Shoppica2 theme change:   error="log"   to:   error="skip"   below -->
 		<operation error="log">

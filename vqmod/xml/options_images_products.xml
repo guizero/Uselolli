@@ -57,6 +57,8 @@
       </search>
       <add>
         <![CDATA[$product_option_id_value = $this->db->getLastId();
+         $product_option_value_id = $this->db->getLastId();
+         $dependent_option_value[$product_option_value['option_value_id']] = $product_option_value_id;
          $this->db->query("UPDATE " . DB_PREFIX . "product_option_value SET opt_image =  '" . $this->db->escape($product_option_value['opt_image']) . "' WHERE product_option_value_id='".(int)$product_option_id_value."'");]]>
       </add>
     </operation>
@@ -146,6 +148,7 @@
 				$popup_option = false;
 				$image_product = false;
           }
+          $dependent_option_value_data = $this->model_catalog_product->getDependentOptionValues($this->request->get['product_id'], $option_value['product_option_value_id']);
 		
 		]]>
       </add>
@@ -224,7 +227,7 @@ $("#option-<?php echo $option['product_option_id']; ?>").change(function() {
  		
 	</script>
     <?php } ?>
-    <?php  } } ?>
+    <?php  } } ?>options images carregou
 ]]>
       </add> 
     </operation>

@@ -470,5 +470,8 @@ $(document).ready(function() {
 	});
 	$('.time').timepicker({timeFormat: 'h:m'});
 });
-//--></script> 
+//--></script>
+
+<!--dependent-->
+
 <?php echo $footer; ?>
