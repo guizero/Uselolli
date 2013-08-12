@@ -1,6 +1,6 @@
 <?php
 //==============================================================================
-// MailChimp Integration v155.3
+// MailChimp Integration v155.7
 // 
 // Author: Clear Thinking, LLC
 // E-mail: johnathan@getclearthinking.com
@@ -11,7 +11,7 @@ class Mailchimp_Integration {
 	private $type = 'module';
 	private $name = 'mailchimp_integration';
 	
-  	public function __construct($config, $db, $log) {
+	public function __construct($config, $db, $log) {
 		$this->config = $config;
 		$this->db = $db;
 		$this->log = $log;
@@ -42,7 +42,7 @@ class Mailchimp_Integration {
 			$customer = $customer_query->row;
 		} else {
 			$customer = array(
-				'customer_group_id'	=> '',
+				'customer_group_id'	=> (isset($data['customer_group_id'])) ? $data['customer_group_id'] : '',
 				'email'				=> (isset($data['email'])) ? $data['email'] : '',
 				'firstname'			=> '',
 				'lastname'			=> '',
@@ -52,10 +52,27 @@ class Mailchimp_Integration {
 		}
 		
 		// Determine which list to use
-		if (!empty($settings['lists'][(int)$this->config->get('config_store_id')][(int)$customer['customer_group_id']])) {
-			$listid = $settings['lists'][(int)$this->config->get('config_store_id')][(int)$customer['customer_group_id']];
-		} else {
-			$listid = $settings['listid'];
+		$customer_group_id = (isset($data['customer_group_id'])) ? (int)$data['customer_group_id'] : (int)$customer['customer_group_id'];
+		$store_id = (int)$this->config->get('config_store_id');
+		
+		$old_listid = (!empty($settings['lists'][$store_id][(int)$customer['customer_group_id']])) ? $settings['lists'][$store_id][(int)$customer['customer_group_id']] : $settings['listid'];
+		$listid = (!empty($settings['lists'][$store_id][$customer_group_id])) ? $settings['lists'][$store_id][$customer_group_id] : $settings['listid'];
+		
+		// Unsubscribe if switching lists
+		if ($old_listid != $listid) {
+			$curl_data = array(
+				'method'			=> 'listUnsubscribe',
+				'apikey'			=> $settings['apikey'],
+				'id'				=> $old_listid,
+				'email_address'		=> $customer['email'],
+				'delete_member'		=> false,
+				'send_goodbye'		=> false,
+				'send_notify'		=> false
+			);
+			$response = $this->curlRequest($curl_data);
+			if (!empty($response['error']) && $settings['logerrors']) {
+				$this->log->write(strtoupper($this->name) . ' ' . $response['code'] . ' ERROR: ' . $response['error']);
+			}
 		}
 		
 		// Get address information
@@ -81,10 +98,22 @@ class Mailchimp_Integration {
 		
 		// Subscribe or Unsubscribe
 		if (!empty($data['newsletter'])) {
+			$merge_array = array();
+			
 			// E-mail merge
-			$merge_array = array(
-				'EMAIL'	=> (isset($data['email'])) ? $data['email'] : $customer['email']
-			);
+			$merge_array['EMAIL'] = (isset($data['email'])) ? $data['email'] : $customer['email'];
+			
+			// Language merge
+			if (!empty($this->request->server['HTTP_ACCEPT_LANGUAGE'])) {
+				$language_region = strtolower(substr($this->request->server['HTTP_ACCEPT_LANGUAGE'], 0, 5));
+				if ($language_region == 'fr-ca' || $language_region == 'pt-pt' || $language_region == 'es-es') {
+					$merge_array['MC_LANGUAGE']	= substr($language_region, 0, 2) . '_' . strtoupper(substr($language_region, -2));
+				} else {
+					$merge_array['MC_LANGUAGE']	= substr($language_region, 0, 2);
+				}
+			} else {
+				$merge_array['MC_LANGUAGE']	= $settings['default_language'];
+			}
 			
 			// First Name merge
 			if ($settings['fname']) {
@@ -164,7 +193,7 @@ class Mailchimp_Integration {
 				'merge_vars'		=> $merge_array,
 				'email_type'		=> 'html',
 				'double_optin'		=> (isset($data['double_optin']) ? $data['double_optin'] : $settings['double_optin']),
-				'update_existing'	=> true,
+				'update_existing'	=> (isset($data['update_existing']) ? $data['update_existing'] : true),
 				'send_welcome'		=> false
 			);
 		} else {
@@ -184,7 +213,16 @@ class Mailchimp_Integration {
 		if (!empty($response['error']) && $settings['logerrors']) {
 			$this->log->write(strtoupper($this->name) . ' ' . $response['code'] . ' ERROR: ' . $response['error']);
 		}
-		return empty($response['error']);
+		
+		if (!empty($data['customer_id']) && empty($response['error'])) {
+			if ($curl_data['method'] == 'listSubscribe' && !empty($settings['subscribed_group'])) {
+				$this->db->query("UPDATE " . DB_PREFIX . "customer SET customer_group_id = " . (int)$settings['subscribed_group'] . " WHERE customer_id = " . (int)$data['customer_id']);
+			} elseif ($curl_data['method'] == 'listUnsubscribe' && !empty($settings['unsubscribed_group'])) {
+				$this->db->query("UPDATE " . DB_PREFIX . "customer SET customer_group_id = " . (int)$settings['unsubscribed_group'] . " WHERE customer_id = " . (int)$data['customer_id']);
+			}
+		}
+		
+		return (empty($response['error'])) ? array('code' => 0) : $response;
 	}
 	
 	public function sync($settings) {
@@ -275,6 +313,7 @@ class Mailchimp_Integration {
 		$add_count = 0;
 		$update_count = 0;
 		$error_count = 0;
+		$errors = '';
 		
 		foreach (array_merge($customers->rows, array(array('newsletter' => true, 'customer_group_id' => 0, 'stop' => true))) as $customer) {
 			if (!$customer['newsletter']) continue;
@@ -305,6 +344,11 @@ class Mailchimp_Integration {
 						$add_count += $response['add_count'];
 						$update_count += $response['update_count'];
 						$error_count += $response['error_count'];
+						if (!empty($response['errors'])) {
+							foreach ($response['errors'] as $error) {
+								$errors .= $error['message'] . "\n";
+							}
+						}
 					}
 				}
 				
@@ -316,13 +360,13 @@ class Mailchimp_Integration {
 			
 			$data = $merge_array;
 			$data['EMAIL'] = $customer['email'];
-			if ($settings['fname']) {
+			if ($settings['fname'] && !empty($customer['firstname'])) {
 				$data[$settings['fname']] = $customer['firstname'];
 			}
-			if ($settings['lname']) {
+			if ($settings['lname'] && !empty($customer['lastname'])) {
 				$data[$settings['lname']] = $customer['lastname'];
 			}
-			if ($settings['address']) {
+			if ($settings['address'] && !empty($customer['address_id'])) {
 				$address_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "address WHERE address_id = " . (int)$customer['address_id']);
 				if ($address_query->num_rows) {
 					$address = $address_query->row;
@@ -344,7 +388,7 @@ class Mailchimp_Integration {
 					);
 				}
 			}
-			if ($settings['phone']) {
+			if ($settings['phone'] && !empty($customer['telephone'])) {
 				$phone = preg_replace('/[^0-9]/', '', $customer['telephone']);
 				$data[$settings['phone']] = substr($phone,0,3) . '-' . substr($phone,3,3) . '-' . substr($phone,6);
 			}
@@ -354,12 +398,14 @@ class Mailchimp_Integration {
 		$output .= $add_count . " customer(s) added to MailChimp\n";
 		$output .= $update_count . " customer(s) updated in MailChimp\n";
 		$output .= $error_count . " customer(s) failed sending to MailChimp\n\n";
-		if (!empty($response['errors'])) {
-			$output .= "Error(s):\n";
-			foreach ($response['errors'] as $error) {
-				$output .= $error['message'] . "\n";
-			}
+		if (!empty($errors)) {
+			if ($settings['logerrors']) $this->log->write(strtoupper($this->name) . ' SYNC ERRORS: ' . $errors);
+			$output .= "Error(s):\n" . $errors;
 		}
+		
+		if (!empty($settings['subscribed_group'])) $this->db->query("UPDATE " . DB_PREFIX . "customer SET customer_group_id = " . (int)$settings['subscribed_group'] . " WHERE newsletter = 1");
+		if (!empty($settings['unsubscribed_group'])) $this->db->query("UPDATE " . DB_PREFIX . "customer SET customer_group_id = " . (int)$settings['unsubscribed_group'] . " WHERE newsletter = 0");
+		
 		return $output;
 	}
 	
@@ -423,6 +469,7 @@ class Mailchimp_Integration {
 				break;
 			}
 		}
+		$data['customer_group_id'] = $customer_group_id;
 		
 		if ($data['list_id'] != $listid) {
 			if ($settings['logerrors']) {
@@ -432,7 +479,6 @@ class Mailchimp_Integration {
 		}
 		
 		$success = false;
-		$data['customer_group_id'] = $customer_group_id;
 		
 		if ($type == 'subscribe' && $webhooks['subscribe']) {
 			if ($settings['autocreate']) {
@@ -442,9 +488,11 @@ class Mailchimp_Integration {
 				}
 			}
 			$this->db->query("UPDATE " . DB_PREFIX . "customer SET newsletter = 1 WHERE email = '" . $this->db->escape($data['email']) . "'");
+			if (!empty($settings['subscribed_group'])) $this->db->query("UPDATE " . DB_PREFIX . "customer SET customer_group_id = " . (int)$settings['subscribed_group'] . " WHERE email = '" . $this->db->escape($data['email']) . "'");
 			$success = true;
 		} elseif (($type == 'unsubscribe' && $webhooks['unsubscribe']) || ($type == 'cleaned' && $webhooks['cleaned'])) {
 			$this->db->query("UPDATE " . DB_PREFIX . "customer SET newsletter = 0 WHERE email = '" . $this->db->escape($data['email']) . "'");
+			if (!empty($settings['unsubscribed_group'])) $this->db->query("UPDATE " . DB_PREFIX . "customer SET customer_group_id = " . (int)$settings['unsubscribed_group'] . " WHERE email = '" . $this->db->escape($data['email']) . "'");
 			$success = true;
 		} elseif ($type == 'profile' && $webhooks['profile']) {
 			$customer_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE email = '" . $this->db->escape($data['email']) . "'");
@@ -452,35 +500,36 @@ class Mailchimp_Integration {
 				$this->log->write('not updating address_id ' . $customer_query->row['address_id']);
 				return;
 			}
-			if ($customer['firstname']) {
-				$this->db->query("UPDATE " . DB_PREFIX . "customer SET firstname = '" . $this->db->escape($customer['firstname']) . "' WHERE email = '" . $this->db->escape($data['email']) . "'");
-				$this->db->query("UPDATE " . DB_PREFIX . "address SET firstname = '" . $this->db->escape($customer['firstname']) . "' WHERE address_id = " . (int)$customer_query->row['address_id']);
+			if (!empty($data['merges'][$settings['fname']])) {
+				$this->db->query("UPDATE " . DB_PREFIX . "customer SET firstname = '" . $this->db->escape($data['merges'][$settings['fname']]) . "' WHERE email = '" . $this->db->escape($data['email']) . "'");
+				$this->db->query("UPDATE " . DB_PREFIX . "address SET firstname = '" . $this->db->escape($data['merges'][$settings['fname']]) . "' WHERE address_id = " . (int)$customer_query->row['address_id']);
 			}
-			if ($customer['lastname']) {
-				$this->db->query("UPDATE " . DB_PREFIX . "customer SET lastname = '" . $this->db->escape($customer['lastname']) . "' WHERE email = '" . $this->db->escape($data['email']) . "'");
-				$this->db->query("UPDATE " . DB_PREFIX . "address SET lastname = '" . $this->db->escape($customer['lastname']) . "' WHERE address_id = " . (int)$customer_query->row['address_id']);
+			if (!empty($data['merges'][$settings['lname']])) {
+				$this->db->query("UPDATE " . DB_PREFIX . "customer SET lastname = '" . $this->db->escape($data['merges'][$settings['lname']]) . "' WHERE email = '" . $this->db->escape($data['email']) . "'");
+				$this->db->query("UPDATE " . DB_PREFIX . "address SET lastname = '" . $this->db->escape($data['merges'][$settings['lname']]) . "' WHERE address_id = " . (int)$customer_query->row['address_id']);
 			}
-			if ($customer['address']) {
-				$country_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "country WHERE iso_code_2 = '" . $this->db->escape($customer['address']['country']) . "'");
-				$zone_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone WHERE (`name` = '" . $this->db->escape($customer['address']['state']) . "' OR `code` = '" . $this->db->escape($customer['address']['state']) . "') AND country_id = '" . $this->db->escape($country->row['country_id']) . "'");
+			if (!empty($data['merges'][$settings['address']])) {
+				$country_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "country WHERE iso_code_2 = '" . $this->db->escape($data['merges'][$settings['address']]['country']) . "'");
+				$zone_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone WHERE (`name` = '" . $this->db->escape($data['merges'][$settings['address']]['state']) . "' OR `code` = '" . $this->db->escape($data['merges'][$settings['address']]['state']) . "') AND country_id = '" . $this->db->escape($country->row['country_id']) . "'");
 				
 				$this->db->query("
 					UPDATE " . DB_PREFIX . "address SET
-					address_1 = '" . $this->db->escape($customer['address']['addr1']) . "',
-					address_2 = '" . $this->db->escape($customer['address']['addr2']) . "',
-					city = '" . $this->db->escape($customer['address']['city']) . "',
+					address_1 = '" . $this->db->escape($data['merges'][$settings['address']]['addr1']) . "',
+					address_2 = '" . $this->db->escape($data['merges'][$settings['address']]['addr2']) . "',
+					city = '" . $this->db->escape($data['merges'][$settings['address']]['city']) . "',
 					zone_id = " . ($zone_query->num_rows ? (int)$zone->row['zone_id'] : 0) . ",
-					postcode = '" . $this->db->escape($data_address['zip']) . "',
+					postcode = '" . $this->db->escape($data['merges'][$settings['address']]['zip']) . "',
 					country_id = " . ($country_query->num_rows ? (int)$country->row['country_id'] : 0) . "
 					WHERE address_id = " . (int)$customer_query->row['address_id'] . "
 				");
 			}
-			if ($data_phone) {
-				$this->db->query("UPDATE " . DB_PREFIX . "customer SET telephone = '" . $this->db->escape($customer['telephone']) . "' WHERE email = '" . $this->db->escape($data['email']) . "'");
+			if (!empty($data['merges'][$settings['phone']])) {
+				$this->db->query("UPDATE " . DB_PREFIX . "customer SET telephone = '" . $this->db->escape($data['merges'][$settings['phone']]) . "' WHERE email = '" . $this->db->escape($data['email']) . "'");
 			}
 			$success = true;
 		} elseif ($type == 'upemail' && $webhooks['profile']) {
 			$this->db->query("UPDATE " . DB_PREFIX . "customer SET email = '" . $this->db->escape($data['new_email']) . "' WHERE email = '" . $this->db->escape($data['old_email']) . "'");
+			$success = true;
 		}
 		
 		if ($settings['logerrors'] && $success) {
@@ -526,7 +575,7 @@ class Mailchimp_Integration {
 		$country_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "country WHERE iso_code_2 = '" . $this->db->escape($customer['address']['country']) . "'");
 		$country_id = ($country_query->num_rows) ? $country_query->row['country_id'] : 0;
 		$zone_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone WHERE (`name` = '" . $this->db->escape($customer['address']['state']) . "' OR `code` = '" . $this->db->escape($customer['address']['state']) . "') AND country_id = " . (int)$country_id);
-		$zone_id =  ($zone_query->num_rows) ? $zone_query->row['zone_id'] : 0;
+		$zone_id = ($zone_query->num_rows) ? $zone_query->row['zone_id'] : 0;
 		
 		$this->db->query("
 			INSERT INTO " . DB_PREFIX . "address SET
@@ -562,7 +611,7 @@ class Mailchimp_Integration {
 		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data, '', '&'));
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+		curl_setopt($curl, CURLOPT_TIMEOUT, 90);
 		$response = json_decode(curl_exec($curl), true);
 		
 		if (curl_error($curl)) {

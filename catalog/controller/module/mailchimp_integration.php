@@ -1,6 +1,6 @@
 <?php
 //==============================================================================
-// MailChimp Integration v155.3
+// MailChimp Integration v155.7
 // 
 // Author: Clear Thinking, LLC
 // E-mail: johnathan@getclearthinking.com
@@ -13,9 +13,8 @@ class ControllerModuleMailchimpIntegration extends Controller {
 	private $module;
 	
 	protected function index($module = '') {
-		$v14x = $this->data['v14x'] = (!defined('VERSION') || VERSION < 1.5);
-		$v150 = $this->data['v150'] = (defined('VERSION') && strpos(VERSION, '1.5.0') === 0);
-		$settings = $this->data['settings'] = ($v14x || $v150) ? unserialize($this->config->get($this->name . '_data')) : $this->config->get($this->name . '_data');
+		$version = $this->data['version'] = (!defined('VERSION')) ? 140 : (int)substr(str_replace('.', '', VERSION), 0, 3);
+		$settings = $this->data['settings'] = ($version < 151) ? unserialize($this->config->get($this->name . '_data')) : $this->config->get($this->name . '_data');
 		
 		if (empty($settings['status']) || empty($settings['apikey']) || empty($settings['listid'])) return;
 		
@@ -25,8 +24,10 @@ class ControllerModuleMailchimpIntegration extends Controller {
 		$this->module = $module;
 		$this->data = array_merge($this->data, $this->load->language($this->type . '/' . $this->name));
 		
-		$this->data['position'] = $this->getModuleSetting('position');
 		$this->data['name_field'] = $this->getModuleSetting('name_field');
+		$this->data['popup'] = $this->getModuleSetting('popup');
+		$this->data['position'] = $this->getModuleSetting('position');
+		$this->data['redirect'] = $this->getModuleSetting('redirect');
 		
 		$template = (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/' . $this->type . '/' . $this->name . '.tpl')) ? $this->config->get('config_template') : 'default';
 		$this->template = $template . '/template/' . $this->type . '/' . $this->name . '.tpl';
@@ -61,16 +62,18 @@ class ControllerModuleMailchimpIntegration extends Controller {
 	}
 	
 	public function subscribe() {
+		if (empty($this->request->post)) return;
 		$firstlast = explode(' ', $this->request->post['name'], 2);
 		$data = array(
-			'newsletter'	=> 1,
-			'email'			=> $this->request->post['email'],
-			'firstname'		=> $firstlast[0],
-			'lastname'		=> isset($firstlast[1]) ? $firstlast[1] : ''
+			'newsletter'		=> 1,
+			'email'				=> $this->request->post['email'],
+			'firstname'			=> $firstlast[0],
+			'lastname'			=> isset($firstlast[1]) ? $firstlast[1] : '',
+			'update_existing'	=> false
 		);
 		$this->load->library($this->name);
 		$mailchimp_integration = new MailChimp_Integration($this->config, $this->db, $this->log);
-		echo $mailchimp_integration->send($data);
+		echo json_encode($mailchimp_integration->send($data));
 	}
 	
 	public function webhook() {

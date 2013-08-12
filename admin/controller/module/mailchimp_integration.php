@@ -1,6 +1,6 @@
 <?php
 //==============================================================================
-// MailChimp Integration v155.3
+// MailChimp Integration v155.7
 // 
 // Author: Clear Thinking, LLC
 // E-mail: johnathan@getclearthinking.com
@@ -29,7 +29,7 @@ class ControllerModuleMailchimpIntegration extends Controller {
 		// end
 		
 		if ($this->request->server['REQUEST_METHOD'] == 'POST' && $this->validate()) {
-			if (($version < 151) && isset($this->request->post[$this->name . '_module'])) {
+			if ($version < 151 && isset($this->request->post[$this->name . '_module'])) {
 				$postdata = array($this->name . '_data' => serialize($this->request->post[$this->name . '_data']));
 				foreach ($this->request->post[$this->name . '_module'] as $row => $module) {
 					foreach ($module as $key => $value) {
@@ -74,12 +74,12 @@ class ControllerModuleMailchimpIntegration extends Controller {
 		$this->data[$this->name . '_module'] = array();
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "setting WHERE `group` = '" . $this->db->escape($this->name) . "' ORDER BY `key` ASC");
 		foreach ($query->rows as $setting) {
-			if (($version < 151) && $setting['key'] == $this->name . '_module') continue;
+			if ($version < 151 && $setting['key'] == $this->name . '_module') continue;
 			$value = isset($this->request->post[$setting['key']]) ? $this->request->post[$setting['key']] : $setting['value'];
 			$this->data[$setting['key']] = (is_string($value) && strpos($value, 'a:') === 0) ? unserialize($value) : $value;
-			if (($version < 151) && empty($this->request->post) && $setting['key'] != $this->name . '_data') {
+			if ($version < 151 && empty($this->request->post) && $setting['key'] != $this->name . '_data') {
 				$remove_name = explode($this->name . '_', $setting['key']);
-				$key_parts = ($version < 150) ? array('', 1, $remove_name[1]) : explode('_', $remove_name[1], 2);
+				$key_parts = ($version < 150) ? array(1, $remove_name[1]) : explode('_', $remove_name[1], 2);
 				$value = (is_string($setting['value']) && strpos($setting['value'], 'a:') === 0) ? unserialize($setting['value']) : $setting['value'];
 				$this->data[$this->name . '_module'][$key_parts[0]][$key_parts[1]] = $value;
 			}
@@ -93,6 +93,60 @@ class ControllerModuleMailchimpIntegration extends Controller {
 				$this->data['lists'] = $lists['data'];
 			}
 		}
+		
+		$this->data['mc_language'] = array(
+			'English'				=> 'en',
+			'Arabic'				=> 'ar',
+			'Afrikaans'				=> 'af',
+			'Belarusian'			=> 'be',
+			'Bulgarian'				=> 'bg',
+			'Catalan'				=> 'ca',
+			'Chinese'				=> 'zh',
+			'Croatian'				=> 'hr',
+			'Czech'					=> 'cs',
+			'Danish'				=> 'da',
+			'Dutch'					=> 'nl',
+			'Estonian'				=> 'et',
+			'Farsi'					=> 'fa',
+			'Finnish'				=> 'fi',
+			'French (France)'		=> 'fr',
+			'French (Canada)'		=> 'fr_CA',
+			'German'				=> 'de',
+			'Greek'					=> 'el',
+			'Hebrew'				=> 'he',
+			'Hindi'					=> 'hi',
+			'Hungarian'				=> 'hu',
+			'Icelandic'				=> 'is',
+			'Indonesian'			=> 'id',
+			'Irish'					=> 'ga',
+			'Italian'				=> 'it',
+			'Japanese'				=> 'ja',
+			'Khmer'					=> 'km',
+			'Korean'				=> 'ko',
+			'Latvian'				=> 'lv',
+			'Lithuanian'			=> 'lt',
+			'Maltese'				=> 'mt',
+			'Malay'					=> 'ms',
+			'Macedonian'			=> 'mk',
+			'Norwegian'				=> 'no',
+			'Polish'				=> 'pl',
+			'Portuguese (Brazil)'	=> 'pt',
+			'Portuguese (Portugal)'	=> 'pt_PT',
+			'Romanian'				=> 'ro',
+			'Russian'				=> 'ru',
+			'Serbian'				=> 'sr',
+			'Slovak'				=> 'sk',
+			'Slovenian'				=> 'sl',
+			'Spanish (Mexico)'		=> 'es',
+			'Spanish (Spain)'		=> 'es_ES',
+			'Swahili'				=> 'sw',
+			'Swedish'				=> 'sv',
+			'Tamil'					=> 'ta',
+			'Thai'					=> 'th',
+			'Turkish'				=> 'tr',
+			'Ukrainian'				=> 'uk',
+			'Vietnamese'			=> 'vi'
+		);
 		// end
 		
 		$stores = $this->db->query("SELECT * FROM " . DB_PREFIX . "store ORDER BY name");

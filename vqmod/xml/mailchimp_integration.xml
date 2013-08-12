@@ -1,8 +1,8 @@
 <modification>
 	
 	<id>MailChimp Integration</id>
-	<version>155.3</version>
-	<vqmver>2.3.0</vqmver>
+	<version>155.7</version>
+	<vqmver>2.3.2</vqmver>
 	<author>Clear Thinking, LLC</author>
 	<email>johnathan@getclearthinking.com</email>
 	<website>http://www.getclearthinking.com</website>
@@ -103,6 +103,24 @@
 					$this->load->library('mailchimp_integration');
 					$mailchimp_integration = new MailChimp_Integration($this->config, $this->db, $this->log);
 					$mailchimp_integration->send(array_merge($data, array('newsletter' => 1, 'customer_id' => $this->customer->getId())));
+				}
+				// end MailChimp Integration
+			]]></add>
+		</operation>
+	</file>
+	
+	<!-- Guest Checkout is that modification is installed -->
+	<file name="catalog/controller/checkout/guest.php" error="skip">
+		<operation error="skip">
+			<search position="after"><![CDATA[
+				$this->session->data['account'] = 'guest';
+			]]></search>
+			<add trim="true"><![CDATA[
+				// Clear Thinking: MailChimp Integration
+				if (!empty($this->request->post['newsletter'])) {
+					$this->load->library('mailchimp_integration');
+					$mailchimp_integration = new MailChimp_Integration($this->config, $this->db, $this->log);
+					$mailchimp_integration->send(array_merge($this->request->post, array('customer_id' => 0)));
 				}
 				// end MailChimp Integration
 			]]></add>
