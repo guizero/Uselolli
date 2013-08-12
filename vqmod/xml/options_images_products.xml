@@ -1,0 +1,325 @@
+<modification>
+  <id>Product options images for 1.5.4.x</id>
+  <version>1.4.0</version>
+  <vqmver>2.1.5</vqmver>
+  <author>yop289 www.ocmodules.com - yop289@gmail.com</author>
+  <file name="admin/controller/catalog/product.php">
+    <operation>
+      <search position="before">
+        <![CDATA[$product_option_value_data[] = array(]]>
+      </search>
+      <add>
+        <![CDATA[if (!empty($product_option_value['opt_image']) && file_exists(DIR_IMAGE . $product_option_value['opt_image'])) {
+          $thumb_option = $this->model_tool_image->resize($product_option_value['opt_image'], 100, 100);
+          } else {
+          $thumb_option = $this->model_tool_image->resize('no_image.jpg', 100, 100);
+          }]]>
+      </add>
+    </operation>
+    <operation>
+      <search position="before">
+        <![CDATA['weight'                  => $product_option_value['weight'],]]>
+      </search>
+      <add>
+        <![CDATA[
+		  'thumb_for_this_option'  		   => $thumb_option,
+          'image_for_this_option'          => $product_option_value['opt_image'],
+		  
+		  ]]>
+      </add>
+    </operation>
+  </file>
+  <file name="admin/model/catalog/product.php">
+    <operation>
+      <search position="after">
+        <![CDATA['points_prefix'           => $product_option_value['points_prefix'],]]>
+      </search>
+      <add>
+        <![CDATA['opt_image'			   => $product_option_value['opt_image'],]]>
+      </add>
+    </operation>
+    
+    <!-- INSERT PRODUCT -->
+    <operation>
+      <search position="after">
+        <![CDATA[$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_value SET product_option_id = '" . (int)$product_option_id . "', product_id = '" . (int)$product_id . "', option_id = '" . (int)$product_option['option_id'] . "', option_value_id = '" . (int)$product_option_value['option_value_id'] . "', quantity = '" . (int)$product_option_value['quantity'] . "', subtract = '" . (int)$product_option_value['subtract'] . "', price = '" . (float)$product_option_value['price'] . "', price_prefix = '" . $this->db->escape($product_option_value['price_prefix']) . "', points = '" . (int)$product_option_value['points'] . "', points_prefix = '" . $this->db->escape($product_option_value['points_prefix']) . "', weight = '" . (float)$product_option_value['weight'] . "', weight_prefix = '" . $this->db->escape($product_option_value['weight_prefix']) . "'");]]>
+      </search>
+      <add>
+        <![CDATA[$product_option_id_value = $this->db->getLastId();
+          $this->db->query("UPDATE " . DB_PREFIX . "product_option_value SET opt_image =  '" . $this->db->escape($product_option_value['opt_image']) . "' WHERE product_option_value_id='".(int)$product_option_id_value."'");]]>
+      </add>
+    </operation>
+    
+    <!-- UPDATE PRODUCT -->
+    <operation>
+      <search position="after">
+        <![CDATA[$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_value SET product_option_value_id = '" . (int)$product_option_value['product_option_value_id'] . "', product_option_id = '" . (int)$product_option_id . "', product_id = '" . (int)$product_id . "', option_id = '" . (int)$product_option['option_id'] . "', option_value_id = '" . (int)$product_option_value['option_value_id'] . "', quantity = '" . (int)$product_option_value['quantity'] . "', subtract = '" . (int)$product_option_value['subtract'] . "', price = '" . (float)$product_option_value['price'] . "', price_prefix = '" . $this->db->escape($product_option_value['price_prefix']) . "', points = '" . (int)$product_option_value['points'] . "', points_prefix = '" . $this->db->escape($product_option_value['points_prefix']) . "', weight = '" . (float)$product_option_value['weight'] . "', weight_prefix = '" . $this->db->escape($product_option_value['weight_prefix']) . "'");]]>
+      </search>
+      <add>
+        <![CDATA[$product_option_id_value = $this->db->getLastId();
+         $this->db->query("UPDATE " . DB_PREFIX . "product_option_value SET opt_image =  '" . $this->db->escape($product_option_value['opt_image']) . "' WHERE product_option_value_id='".(int)$product_option_id_value."'");]]>
+      </add>
+    </operation>
+  </file>
+   <!-- ADMIN TPL-->
+  <file name="admin/view/template/catalog/product_form.tpl">
+    <operation>
+      <search position="after">
+        <![CDATA[html += '        <td class="left"><?php echo $entry_option_value; ?></td>';]]>
+      </search>
+      <add>
+        <![CDATA[html += '        <td class="left"><?php echo $entry_image; ?></td>';]]>
+      </add>
+    </operation>
+    <operation>
+      <search position="replace">
+        <![CDATA[html += '        <td colspan="6"></td>';]]>
+      </search>
+      <add>
+        <![CDATA[html += '        <td colspan="7"></td>';]]>
+      </add>
+    </operation>
+    <operation>
+      <search position="after" index="1">
+        <![CDATA[html += '    </select><input type="hidden" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][product_option_value_id]" value="" /></td>';]]>
+      </search>
+      <add>
+        <![CDATA[html += '<td><div class="image">';
+          html += '<img src="" alt="" id="thumb_product_option_' + option_row + '_product_option_value_' + option_value_row + '" /><br />';
+          html += '<input type="hidden" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][opt_image]" value="" id="image_product_option_' + option_row + '_product_option_value_' + option_value_row + '" />';
+          html += '<a onclick="image_upload(\'image_product_option_' + option_row + '_product_option_value_' + option_value_row + '\', \'thumb_product_option_' + option_row + '_product_option_value_' + option_value_row + '\');">';
+          html += '<?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$(\'#thumb_product_option_' + option_row + '_product_option_value_' + option_value_row + '\').attr(\'src\', \'<?php echo $no_image; ?>\'); $(\'#image_product_option_' + option_row + '_product_option_value_' + option_value_row + '\').attr(\'value\', \'\');"><?php echo $text_clear; ?></a>';
+          html += '</div></td>';]]>
+      </add>
+    </operation>
+    <operation>
+      <search position="after" index="1">
+        <![CDATA[<td class="left"><?php echo $entry_option_value; ?></td>]]>
+      </search>
+      <add>
+        <![CDATA[<td class="left"><?php echo $entry_image; ?></td>]]>
+      </add>
+    </operation>
+    <operation>
+      <search position="replace" index="1">
+        <![CDATA[<td colspan="6"></td>]]>
+      </search>
+      <add>
+        <![CDATA[<td colspan="7"></td>]]>
+      </add>
+    </operation>
+    <operation>
+      <search position="after">
+        <![CDATA[<input type="hidden" name="product_option[<?php echo $option_row; ?>][product_option_value][<?php echo $option_value_row; ?>][product_option_value_id]" value="<?php echo $product_option_value['product_option_value_id']; ?>" /></td>]]>
+      </search>
+      <add>
+        <![CDATA[<td>
+          <div class="image">
+          <img src="<?php echo $product_option_value['thumb_for_this_option']; ?>" alt="" id="thumb_product_option_<?php echo $option_row; ?>_product_option_value_<?php echo $option_value_row; ?>" /><br />
+          <input type="hidden" name="product_option[<?php echo $option_row; ?>][product_option_value][<?php echo $option_value_row; ?>][opt_image]" value="<?php echo $product_option_value['image_for_this_option']; ?>" id="image_product_option_<?php echo $option_row; ?>_product_option_value_<?php echo $option_value_row; ?>" />
+          <a onclick="image_upload('image_product_option_<?php echo $option_row; ?>_product_option_value_<?php echo $option_value_row; ?>', 'thumb_product_option_<?php echo $option_row; ?>_product_option_value_<?php echo $option_value_row; ?>');">
+          <?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#thumb_product_option_<?php echo $option_row; ?>_product_option_value_<?php echo $option_value_row; ?>').attr('src', '<?php echo $no_image; ?>'); $('#image_product_option_<?php echo $option_row; ?>_product_option_value_<?php echo $option_value_row; ?>').attr('value', '');"><?php echo $text_clear; ?></a></div></td>]]>
+      </add>
+    </operation>
+  </file>
+   <!-- STORE FRONT PART -->
+  
+   <file name="catalog/model/catalog/product.php">
+    <operation>
+      <search position="after">
+        <![CDATA['product_option_value_id' => $product_option_value['product_option_value_id'],]]>
+      </search>
+      <add>
+        <![CDATA['opt_image'				=>$product_option_value['opt_image'],]]>
+      </add>
+    </operation>
+ 	</file>
+	<file name="catalog/controller/product/product.php">
+   <operation>
+   
+   <search position="before">
+      <![CDATA[$option_value_data[] = array(]]>
+      </search>
+      <add>
+        <![CDATA[
+		  if (!empty($option_value['opt_image']) && file_exists(DIR_IMAGE . $option_value['opt_image'])) {
+         	    $popup_option= $this->model_tool_image->resize($option_value['opt_image'], $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height'));
+			    $thumb_option= $this->model_tool_image->resize($option_value['opt_image'], $this->config->get('config_image_additional_width'), $this->config->get('config_image_additional_height'));
+		        $image_product = $this->model_tool_image->resize($option_value['opt_image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
+			
+			$settings_ocoptionimage=$this->config->get('oc_option_image_settings');
+			if($settings_ocoptionimage['additional_images']){
+				$this->data['images'][]=array('popup' => $popup_option,'thumb' => $thumb_option );
+			
+			}
+				
+		  } else {
+          		$thumb_option = false;
+				$popup_option = false;
+				$image_product = false;
+          }
+		
+		]]>
+      </add>
+    </operation>
+    <operation>
+      <search position="after">
+        <![CDATA['product_option_value_id' => $option_value['product_option_value_id'],]]>
+      </search>
+      <add>
+        <![CDATA[
+	    'opt_image_thumb'                    => $thumb_option,
+		'opt_image_popup'                    => $popup_option,
+		'opt_image_product'					 => $image_product,
+		]]>
+      </add>
+    </operation>
+ </file>
+    <!-- STORE FRONT PART  product template -->
+ <file name="catalog/view/theme/default/template/product/product.tpl">
+    <operation>
+      <search position="before">
+        <![CDATA[<?php echo $footer; ?>]]>
+      </search>
+      <add>
+        <![CDATA[
+		<?php if ($options) { ?>
+<?php foreach ($options as $option) { ?>
+<?php if (($option['type'] == 'select') || ($option['type'] == 'image')  ||  ($option['type'] == 'radio') ){ ?>
+<?php foreach ($option['option_value'] as $option_value) { ?>
+<div id="<?php echo $option_value['product_option_value_id']; ?>" rel="<?php echo $option_value['opt_image_product']; ?>@@<?php echo $option_value['opt_image_popup']; ?>" style="display:none" /></div>
+<?php } ?><?php } ?>
+<?php if (($option['type'] == 'select')){ ?>
+<script type="text/javascript">
+$("#option-<?php echo $option['product_option_id']; ?>").change(function() {
+	var jThis = $("option:selected", this).val();
+	var scr= $("div#"+jThis).attr('rel');
+	var src_http=scr.split('@@');
+	
+	if (src_http[0] !=""){
+	
+	html	 ='<div class="image_option"> <a rel="colorbox" title="<?php echo $heading_title; ?>" class="colorbox cboxElement" href="'+src_http[1]+'">';
+	html 	+='<img id="image_option" alt="<?php echo $heading_title; ?>" title="<?php echo $heading_title; ?>" src="'+src_http[0]+'"></a></div>';
+	
+		$('.image_option:eq(0)').fadeOut('slow', function(){
+		$('.image_option:eq(0)').fadeOut('slow');
+		$(".image_option:eq(0)").replaceWith(html).fadeIn(1000);
+		});
+		
+	}
+	
+	});
+ 		
+	</script>
+    <?php } ?>
+    
+ <?php if (($option['type'] == 'image')  ||  ($option['type'] == 'radio') ){ ?>
+<script type="text/javascript">
+$("#option-<?php echo $option['product_option_id']; ?>").change(function() {
+	var jThis = $(":radio:checked", this).val();
+	var scr= $("div#"+jThis).attr('rel');
+	var src_http=scr.split('@@');
+	
+	if (src_http[0] !=""){
+	
+	html	 ='<div class="image_option"> <a rel="colorbox" title="<?php echo $heading_title; ?>" class="colorbox cboxElement" href="'+src_http[1]+'">';
+	html 	+='<img id="image_option" alt="<?php echo $heading_title; ?>" title="<?php echo $heading_title; ?>" src="'+src_http[0]+'"></a></div>';
+	
+		$('.image_option:eq(0)').fadeOut('slow', function(){
+		$('.image_option:eq(0)').fadeOut('slow');
+		$(".image_option:eq(0)").replaceWith(html).fadeIn(1000);
+		});
+		
+	}
+	
+	});
+ 		
+	</script>
+    <?php } ?>
+    <?php  } } ?>
+]]>
+      </add> 
+    </operation>
+	
+	
+	<operation>
+      <search position="replace" index="1">
+        <![CDATA[<div class="image">]]>
+      </search>
+      <add>
+        <![CDATA[<div class="image_option">]]>
+      </add>
+    </operation>
+	</file>
+  <!-- IMAGE ON CART -->
+	
+	
+	  <file name="system/library/cart.php">
+    <operation>
+      <search position="replace">
+        <![CDATA[$option_value_query = $this->db->query("SELECT pov.option_value_id, ovd.name, pov.quantity, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix, pov.weight, pov.weight_prefix FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.product_option_value_id = '" . (int)$option_value . "' AND pov.product_option_id = '" . (int)$product_option_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");]]>
+      </search>
+      <add>
+        <![CDATA[
+		$option_value_query = $this->db->query("SELECT pov.option_value_id, ovd.name, pov.quantity, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix, pov.weight, pov.weight_prefix,pov.opt_image FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.product_option_value_id = '" . (int)$option_value . "' AND pov.product_option_id = '" . (int)$product_option_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");]]>
+      </add>
+    </operation>
+    <operation>
+      <search position="after">
+        <![CDATA['product_option_value_id' => $option_value,]]>
+      </search>
+      <add>
+        <![CDATA['opt_image'			  => $option_value_query->row['opt_image'],]]>
+      </add>
+    </operation>
+  </file> 
+	
+<file name="catalog/controller/checkout/cart.php">
+    <operation>
+      <search position="before">
+        <![CDATA[$option_data[] = array(]]>
+      </search>
+      <add>
+        <![CDATA[
+		
+		if (isset($option['opt_image']) and !empty($option['opt_image'])){
+			$image = $this->model_tool_image->resize($option['opt_image'], $this->config->get('config_image_cart_width'), $this->config->get('config_image_cart_height'));
+		}
+		
+		
+		]]>
+      </add>
+    </operation>
+  
+  </file>
+  
+   <file name="catalog/controller/module/cart.php">
+    <operation>
+      <search position="before">
+        <![CDATA[$option_data[] = array(]]>
+      </search>
+      <add>
+        <![CDATA[
+		
+		if (isset($option['opt_image']) and !empty($option['opt_image'])){
+			$image = $this->model_tool_image->resize($option['opt_image'], $this->config->get('config_image_cart_width'), $this->config->get('config_image_cart_height'));
+		}
+		
+		
+		]]>
+      </add>
+    </operation>
+  
+  </file> 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</modification>
+
