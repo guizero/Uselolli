@@ -77,7 +77,7 @@ color: white;
 		</div>
 <?php } ?>
 <div class="mi-message"></div>
-	<div class="middle box-content nui">
+	<div class="middle nui">
 		<div class="msgnews">Cadastre-se em nossa lista de emails<br>e receba primeiro nossas novidades e promoções
 		</div>
 		<div class="mi-block">

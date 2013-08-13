@@ -1,6 +1,6 @@
 <?php
 //==============================================================================
-// MailChimp Integration v155.7
+// MailChimp Integration v155.3
 // 
 // Author: Clear Thinking, LLC
 // E-mail: johnathan@getclearthinking.com
@@ -17,11 +17,6 @@
 		background: #E4EEF7;
 		font-weight: bold;
 	}
-	.help {
-		font-style: italic;
-		margin-top: 5px;
-		white-space: normal;
-	}
 	.scrollbox {
 		height: 200px;
 	}
@@ -30,6 +25,9 @@
 	}
 	.scrollbox .customer-group {
 		text-align: right;
+	}
+	.help {
+		white-space: normal;
 	}
 	.green {
 		background: #080 !important;
@@ -79,10 +77,10 @@
 		<form action="" method="post" enctype="multipart/form-data" id="form">
 			<table class="form">
 				<tr class="heading">
-					<td colspan="2"><?php echo $entry_general_settings; ?></td>
+					<td colspan="2"><strong><?php echo $entry_general_settings; ?></strong></td>
 				</tr>
 				<tr>
-					<td colspan="2"><?php echo $help_general_settings; ?></td>
+					<td colspan="2"><?php echo $text_general_settings; ?></td>
 				</tr>
 				<tr>
 					<td style="min-width: 300px"><?php echo $entry_status; ?>:</td>
@@ -95,27 +93,6 @@
 				<tr>
 					<td><?php echo $entry_api_key; ?></td>
 					<td><input type="text" size="50" name="<?php echo $name; ?>_data[apikey]" value="<?php echo (!empty(${$name.'_data'}['apikey'])) ? ${$name.'_data'}['apikey'] : ''; ?>" /></td>
-				</tr>
-				<tr>
-					<td><?php echo $entry_newsletter_status; ?></td>
-					<td><?php echo $text_subscribed_customers; ?>
-						<select name="<?php echo $name; ?>_data[subscribed_group]">
-							<?php foreach ($customer_groups as $customer_group) { ?>
-								<option value="<?php echo $customer_group['customer_group_id']; ?>" <?php if (!empty(${$name.'_data'}['subscribed_group']) && $customer_group['customer_group_id'] == ${$name.'_data'}['subscribed_group']) echo 'selected="selected"'; ?>>
-									<?php echo ($customer_group['customer_group_id']) ? $customer_group['name'] : $text_no_change; ?>
-								</option>
-							<?php } ?>
-						</select>
-						<br />
-						<?php echo $text_unsubscribed_customers; ?>
-						<select name="<?php echo $name; ?>_data[unsubscribed_group]">
-							<?php foreach ($customer_groups as $customer_group) { ?>
-								<option value="<?php echo $customer_group['customer_group_id']; ?>" <?php if (!empty(${$name.'_data'}['unsubscribed_group']) && $customer_group['customer_group_id'] == ${$name.'_data'}['unsubscribed_group']) echo 'selected="selected"'; ?>>
-									<?php echo ($customer_group['customer_group_id']) ? $customer_group['name'] : $text_no_change; ?>
-								</option>
-							<?php } ?>
-						</select>
-					</td>
 				</tr>
 				<tr>
 					<td><?php echo $entry_default_list; ?></td>
@@ -186,10 +163,10 @@
 					</td>
 				</tr>
 				<tr class="heading">
-					<td colspan="2"><?php echo $entry_merge_tags; ?></td>
+					<td colspan="2"><strong><?php echo $entry_merge_tags; ?></strong></td>
 				</tr>
 				<tr>
-					<td colspan="2"><?php echo $help_merge_tags; ?></td>
+					<td colspan="2"><?php echo $text_merge_tags; ?></td>
 				</tr>
 				<tr>
 					<td><?php echo $entry_fname_merge_tag; ?></td>
@@ -207,18 +184,8 @@
 					<td><?php echo $entry_phone_merge_tag; ?></td>
 					<td><input type="text" name="<?php echo $name; ?>_data[phone]" value="<?php echo (isset(${$name.'_data'}['phone'])) ? ${$name.'_data'}['phone'] : 'PHONE'; ?>" /></td>
 				</tr>
-				<tr>
-					<td><?php echo $entry_default_language; ?></td>
-					<td><select name="<?php echo $name; ?>_data[default_language]">
-							<?php $default_language = (isset(${$name.'_data'}['default_language'])) ? ${$name.'_data'}['default_language'] : ''; ?>
-							<?php foreach ($mc_language as $text => $code) { ?>
-								<option value="<?php echo $code; ?>" <?php if ($code == $default_language) echo 'selected="selected"'; ?>><?php echo $text; ?></option>
-							<?php } ?>
-						</select>
-					</td>
-				</tr>
 				<tr class="heading">
-					<td colspan="2"><?php echo $entry_webhook_settings; ?></td>
+					<td colspan="2"><strong><?php echo $entry_webhook_settings; ?></strong></td>
 				</tr>
 				<tr>
 					<td><?php echo $entry_webhooks; ?></td>
@@ -240,10 +207,10 @@
 					<td><input type="text" name="<?php echo $name; ?>_data[urlcode]" value="<?php echo (!empty(${$name.'_data'}['urlcode'])) ? ${$name.'_data'}['urlcode'] : ''; ?>" onkeyup="$(this).val($(this).val().replace(/[^\w]/g, '')); $('#webhook-url-code').html($(this).val())" /></td>
 				</tr>
 				<tr class="heading">
-					<td colspan="2"><?php echo $entry_manual_sync; ?></td>
+					<td colspan="2"><strong><?php echo $entry_manual_sync; ?></strong></td>
 				</tr>
 				<tr>
-					<td colspan="2"><?php echo $help_manual_sync; ?></td>
+					<td colspan="2"><?php echo $text_manual_sync; ?></td>
 				</tr>
 				<tr>
 					<td><?php echo $entry_sync_opencart; ?></td>
@@ -252,15 +219,12 @@
 				<tr class="heading">
 					<td colspan="2"><strong><?php echo $entry_modules; ?></strong></td>
 				</tr>
-				<tr>
-					<td colspan="2" style="border-bottom: none; padding-bottom: 0"><?php echo $help_modules; ?></td>
-				</tr>
 			</table>
 			<table class="list">
 			<thead>
 				<tr style="height: 40px">
 					<td class="center" style="width: 1px"><?php echo $entry_status; ?></td>
-					<td class="center"><?php echo $entry_options; ?></td>
+					<td class="center"><?php echo $entry_name_field; ?></td>
 					<?php if ($version > 149) { ?><td class="center"><?php echo $entry_layout; ?></td><?php } ?>
 					<td class="center"><?php echo $entry_position; ?></td>
 					<td class="center"><?php echo $entry_sort_order; ?></td>
@@ -276,24 +240,12 @@
 						<input type="hidden" name="<?php echo $name; ?>_module[<?php echo $row; ?>][status]" value="<?php echo (!empty($module['status'])) ? 1 : 0; ?>" />
 					</td>
 					<td class="center">
-						<div <?php if ($version < 152) echo 'style="display: none"'; ?>>
-							<?php echo $text_display_as_popup; ?>
-							<select name="<?php echo $name; ?>_module[<?php echo $row; ?>][popup]">
-								<option value="0" <?php if (empty($module['popup'])) echo 'selected="selected"'; ?>><?php echo $text_no; ?></option>
-								<option value="1" <?php if (!empty($module['popup'])) echo 'selected="selected"'; ?>><?php echo $text_yes; ?></option>
-							</select>
-						</div>
-						<div><?php echo $text_name_field; ?>
-							<select name="<?php echo $name; ?>_module[<?php echo $row; ?>][name_field]">
-								<?php $name_field = (!empty($module['name_field'])) ? $module['name_field'] : 'none'; ?>
-								<option value="none" <?php if ($name_field == 'none') echo 'selected="selected"'; ?>><?php echo $text_none; ?></option>
-								<option value="optional" <?php if ($name_field == 'optional') echo 'selected="selected"'; ?>><?php echo $text_optional; ?></option>
-								<option value="required" <?php if ($name_field == 'required') echo 'selected="selected"'; ?>><?php echo $text_required; ?></option>
-							</select>
-						</div>
-						<div><?php echo $text_redirect_url; ?>
-							<input type="text" name="<?php echo $name; ?>_module[<?php echo $row; ?>][redirect]" value="<?php echo (!empty($module['redirect'])) ? $module['redirect'] : ''; ?>" />
-						</div>
+						<select name="<?php echo $name; ?>_module[<?php echo $row; ?>][name_field]">
+							<?php $name_field = (!empty($module['name_field'])) ? $module['name_field'] : 'none'; ?>
+							<option value="none" <?php if ($name_field == 'none') echo 'selected="selected"'; ?>><?php echo $text_none; ?></option>
+							<option value="optional" <?php if ($name_field == 'optional') echo 'selected="selected"'; ?>><?php echo $text_optional; ?></option>
+							<option value="required" <?php if ($name_field == 'required') echo 'selected="selected"'; ?>><?php echo $text_required; ?></option>
+						</select>
 					</td>
 				<?php if ($version > 149) { ?>
 					<td class="center">
