@@ -298,12 +298,7 @@
     </div>
   </div>
   <?php } ?>
-  <div id="tab-description2" class="tab-content">Tamanhos Cintos</div>
-   <div id="tab-attribute" class="tab-content">
-    <table class="attribute">
-      opaaaa
-  </div>
-  
+
 
 <?php echo $content_bottom; ?>
 
