@@ -1,0 +1,65 @@
+<modification>
+        <id>Template for product in category OR category (you can google it like this: "TFPIC OpenCart")</id>
+        <version>0.4</version>
+        <vqmver>2.1.6</vqmver>
+        <author>cmd</author>
+        <file name="catalog/controller/product/product.php">
+                <operation>
+                        <search position="before"><![CDATA[ 
+if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/product/product.tpl')) {							
+						]]></search>
+                        <add><![CDATA[
+						
+$categories = $this->model_catalog_product->getCategories($product_id);
+
+if (count($categories) > 0 and file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/product/product-category-'.$categories[0]['category_id'].'.tpl')) 
+{
+	
+	$this->template = $this->config->get('config_template') . '/template/product/product-category-'.$categories[0]['category_id'].'.tpl';
+	
+} else {
+
+						]]></add>
+                </operation>
+        </file>
+		<file name="catalog/controller/product/product.php">
+                <operation>
+                        <search position="after"><![CDATA[ 
+$this->template = 'default/template/product/product.tpl';						
+						]]></search>
+                        <add><![CDATA[
+	}
+						]]></add>
+                </operation>
+        </file>	   
+		 <file name="catalog/controller/product/category.php">
+                <operation>
+                        <search position="before"><![CDATA[ 
+if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/product/category.tpl')) {						
+						]]></search>
+                        <add><![CDATA[
+if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/product/category-'.$category_info['category_id'].'.tpl')) 
+{
+	
+	$this->template = $this->config->get('config_template') . '/template/product/category-'.$category_info['category_id'].'.tpl';
+	
+} elseif(file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/product/category-'.$category_info['parent_id'].'.tpl')) { 
+
+	$this->template = $this->config->get('config_template') . '/template/product/category-'.$category_info['parent_id'].'.tpl';
+
+} else {
+
+						]]></add>
+                </operation>
+        </file>
+		<file name="catalog/controller/product/category.php">
+                <operation>
+                        <search position="after"><![CDATA[ 
+$this->template = 'default/template/product/category.tpl';
+						]]></search>
+                        <add><![CDATA[
+	}
+						]]></add>
+                </operation>
+        </file>	   
+</modification>
