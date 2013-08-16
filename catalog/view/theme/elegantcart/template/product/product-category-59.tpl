@@ -298,7 +298,7 @@
     </div>
   </div>
   <?php } ?>
-
+  
 
 <?php echo $content_bottom; ?>
 
