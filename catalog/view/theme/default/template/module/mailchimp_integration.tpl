@@ -56,7 +56,7 @@ color: white;
 		</h1>
 <?php } ?>
 <div class="mi-message"></div>
-	<div class="middle mi-boxcontent">
+	<div class="middle mi-boxcontent" id="novidades">
 		
 		
 		<div class="msgnews">Cadastre-se em nossa lista de emails<br>e receba primeiro nossas novidades e promoções
