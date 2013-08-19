@@ -74,18 +74,18 @@
 
     </file>
 
-    <file name="catalog/language/english/checkout/checkout.php">
+    <file name="catalog/language/portuguese/checkout/checkout.php">
         <operation>
             <search position="before"><![CDATA[
         ?>
       ]]></search>
             <add><![CDATA[
-        $_['entry_payment_coupon']           = 'Enter your coupon code here:';
-        $_['text_payment_coupon']            = 'Use coupon Code';
-        $_['text_payment_coupon_success']    = 'Success:Your discount coupon has been successfuly applied to your order!. You will see it in the next checkout step';
-        $_['button_coupon']                  = 'Apply coupon';
-        $_['error_empty_coupon']             = 'Warning: Please enter the code of discount coupon to use!';
-        $_['text_next_choice']               = 'Choose if you have a discount code.';
+        $_['entry_payment_coupon']           = 'Coloque seu cupom aqui:';
+        $_['text_payment_coupon']            = 'Usar Cupom de Desconto';
+        $_['text_payment_coupon_success']    = 'Sucesso:Seu cupom de desconto foi inserido com sucesso ao seu pedido! Ele aparecerá no próximo passo.';
+        $_['button_coupon']                  = 'Registrar cupom';
+        $_['error_empty_coupon']             = 'Atenção: Por favor insira o código do cupom a ser usado!';
+        $_['text_next_choice']               = 'Inserir cupom de desconto?';
       ]]></add>
         </operation>
     </file>  

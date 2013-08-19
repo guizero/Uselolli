@@ -79,8 +79,8 @@
       </table>
     </div>
   </form>
-  <div style="text-align:left;color:#009874;font-weight:bold">Calcular valor do frete</div>
-  <div style="text-align:left;" class="form">CEP: <input type="text" name="postcode" id="cep" onkeypress="return MM_formtCep(event,this,'#####-###');" value="<?php echo $postcode; ?>" maxlength="9" style="width:80px"> <input type="button" value="Calcular Frete" id="button-quote" class="button">
+  <div style="text-align:left;color:#8c0a1a;font-weight:bold">Calcular valor do frete</div>
+  <div style="text-align:left;" class="">CEP: <input type="text" name="postcode" id="cep" onkeypress="return MM_formtCep(event,this,'#####-###');" value="<?php echo $postcode; ?>" maxlength="9" style="width:80px"> <input type="button" value="Calcular Frete" id="button-quote" class="button">
   <input type="hidden" id="country_id" name="country_id" value="30" >
   <input type="hidden" id="zone_id" name="zone_id" value="464" >
   </div>
