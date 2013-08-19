@@ -243,6 +243,8 @@
     <?php if ($review_status) { ?>
     <a href="#tab-review"><?php echo $tab_review; ?></a>
     <?php } ?>
+
+    <a href="#tab-tamanhos">Tamanhos dos produtos</a>
   </div>
   <div id="tab-description" class="tab-content"><?php echo $description; ?></div>
   <?php if ($attribute_groups) { ?>
@@ -298,7 +300,50 @@
     </div>
   </div>
   <?php } ?>
-  
+
+<div id="tab-tamanhos" class="tab-content">
+    <div id="tamanhos"></div>
+    <h2 id="tamanhos-title">Guia de tamanhos</h2>
+    <h2>Guia de Medidas</h2>
+<p>Este guia de medidas vai ajudar você a encontrar o produto no tamanho correto.</p>
+<p><b>Cintos</b></p>
+É importante que você tenha em mente que o tamanho do seu cinto não corresponde exatamente ao tamanho da calça que você usa, ou de sua cintura; isso acontece, pois o cinto passa em volta de você e de sua calça, ou de uma blusa que você use para dentro. Por este motivo, o seu cinto deve ser medido considerando um número de 4 centímetros maior do que a sua cintura.</p>
+<p>Os nossos cintos seguem o seguinte padrão:
+
+<div class="CSSTableGenerator">
+<table border="0" class="tabela-medidas" cellspacing="0" cellpadding="0">
+    <tbody><tr class="head">
+<td>Tamanho</td>
+      <td width="93" valign="top"><br>
+        Medida da Cintura </td>
+      <td>Medida do quadril</td>
+      <td>Manequim (calça)</td>
+
+      
+    </tr>
+    <tr>
+<td>P</td>
+      <td>85 cm</td>
+      <td>90 cm</td>
+      <td>34-36</td>
+      
+    </tr>
+    <tr>
+<td>M</td>
+      <td>90 cm</td>
+      <td>92 cm</td>
+      <td>38-40</td>
+      
+    </tr>
+    <tr>
+<td>G</td>
+      <td>95 cm</td>
+      <td>95 cm</td>
+      <td>40-42</td>
+      
+    </tr>
+  </tbody></table></div>
+  </div>
 
 <?php echo $content_bottom; ?>
 
