@@ -347,7 +347,7 @@
       
     </tr>
   </tbody></table></div>
-<p>Obs: Os cintos em tamanho único seguem o padrão de 85cm de tira, mas, por serem feitos geralmente com elástico, são ajustáveis a todos os tamanhos.
+<p>.</p><p>Obs: Os cintos em tamanho único seguem o padrão de 85cm de tira, mas, por serem feitos geralmente com elástico, são ajustáveis a todos os tamanhos.
   </div>
 
 <?php echo $content_bottom; ?>
