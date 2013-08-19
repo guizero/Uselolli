@@ -244,7 +244,7 @@
     <a href="#tab-review"><?php echo $tab_review; ?></a>
     <?php } ?>
 
-    <a href="#tab-tamanhos">Tamanhos dos produtos</a>
+    <a href="#tab-tamanhos">Guia de Medidas</a>
   </div>
   <div id="tab-description" class="tab-content"><?php echo $description; ?></div>
   <?php if ($attribute_groups) { ?>
@@ -318,6 +318,7 @@
         Medida da Cintura </td>
       <td>Medida do quadril</td>
       <td>Manequim (calça)</td>
+<td>Tamanho da Tira</td>
 
       
     </tr>
@@ -326,6 +327,7 @@
       <td>85 cm</td>
       <td>90 cm</td>
       <td>34-36</td>
+<td>95 cm</td>
       
     </tr>
     <tr>
@@ -333,6 +335,7 @@
       <td>90 cm</td>
       <td>92 cm</td>
       <td>38-40</td>
+<td>100 cm</td>
       
     </tr>
     <tr>
@@ -340,9 +343,11 @@
       <td>95 cm</td>
       <td>95 cm</td>
       <td>40-42</td>
+<td>105 cm</td>
       
     </tr>
   </tbody></table></div>
+<p>Obs: Os cintos em tamanho único seguem o padrão de 85cm de tira, mas, por serem feitos geralmente com elástico, são ajustáveis a todos os tamanhos.
   </div>
 
 <?php echo $content_bottom; ?>
