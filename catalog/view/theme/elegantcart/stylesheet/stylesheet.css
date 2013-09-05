@@ -6932,7 +6932,7 @@ padding: 0px 0px 40px 0px;
 }
 
 .paragrafopreco {
-
+text-align:center;
 }
 
 .preco {
@@ -6960,11 +6960,10 @@ padding-right: 4px;
 }
 
 .precolista {
-font-size: 1em;
+font-size: 1.4em;
 color: #8c0a1a;
 letter-spacing: -0.035em;
 display: inline;
-float: left;
 font-weight: normal;
 position: relative;
 font-weight: bold;
