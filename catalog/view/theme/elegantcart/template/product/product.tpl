@@ -72,9 +72,9 @@
                 */
 
                 $maximo_parcelas = 18;
-                $parcela_minima = 15;
+                $parcela_minima = 5;
                 $parcelas_sem_juros = 3;
-                $juros = 1.95;
+                $juros = 1.99;
                 $moeda_da_loja = 'R$ ';
                 $tipo_de_calculo = 1;
 
@@ -85,60 +85,22 @@
                 }
 
                 if ($preco_numero >= $parcela_minima*2) {
+                $valor_parcela = $preco_numero / 3;
 
                 // Titulo
-                echo '<b>Parcelamento no cart&atilde;o de cr&eacute;dito</b><br />';
-                echo '<table width="100%">';
+                echo '<div class="precodividido">
+                        <p class="paragrafopreco">
+                          <strong class="preco">
+                          <span class="precotexto">3x</span>
+                          <span class="precocifrao">R$</span>'. $moeda_da_loja . $valor_parcela .'<span class="cond"></span>
+                          <span class="precotexto">sem juros</span>
+                          </strong>
+                        </p>
+                      </div>';
 
-                // Inicia a primeira coluna
-                echo '<div style="width: 50%; float:left;">';
-
-                // Exibicao das parcelas
-                for ($p = 2; $p <= $maximo_parcelas; $p++) {
-
-                  // Se a parcela nao tiver juros
-                  if ($p <= $parcelas_sem_juros) {
-                    $valor_parcela = $preco_numero / $p;
-                  }
-
-                  // Se a parcela tiver juros
-                  if ($p > $parcelas_sem_juros) {
-                    if ($tipo_de_calculo == 0) {
-                      $valor_parcela = ($preco_numero * pow(1+($juros/100), $p))/$p;
-                    }
-                    if ($tipo_de_calculo == 1) {
-                      $valor_parcela = ($preco_numero * ($juros/100))/(1-(1/(pow(1+($juros/100), $p))));
-                    }
-                  }
-
-                  // Escreve a parcela se ela for maior do que a parcela minima
-                  if ($valor_parcela >= $parcela_minima) {
-                    $valor_parcela = number_format($valor_parcela, 2, ',', '.');
-                    if ($p <= $parcelas_sem_juros) {
-                      echo '<span style="color: darkgreen;">' . $p . 'x de ' . $moeda_da_loja . $valor_parcela . ' sem juros</span><br />';
-                    } else {
-                      echo $p . 'x de ' . $moeda_da_loja . $valor_parcela . ' com juros<br />';
-                    }
-                  }
-
-                  // Fecha a primeira coluna e inicia a segunda
-                  if ($p == intval($maximo_parcelas/2)+1) { echo '</div><div style="width: 50%; float:right;">'; }
-                }
-
-                // Exibe os juros utilizados e o valor minimo da parcela se esta for maior que zero
-                if ($parcelas_sem_juros < $maximo_parcelas) {
-                  $juros = number_format($juros, 2, ',', '.');
-                  echo '<span style="font-size: smaller;">Juros de ' . $juros . '% ao m&ecirc;s</span>';
-                }
-                if ($parcela_minima > 0) {
-                  $parcela_minima = number_format($parcela_minima, 2, ',', '.');
-                  echo '<br /><span style="font-size: smaller;">Parcela m&iacute;nima de ' . $moeda_da_loja . $parcela_minima . '</span>';
-                }
-
-                // Fecha a segunda coluna e finaliza
-                echo '</div>';
-                echo '</table><br />';
-                }
+               }
+                
+        
               ?>
             <!-- Exibicao de parcelas -->
     
