@@ -1,4 +1,4 @@
-<?php
+
   <!-- Exibicao de parcelas -->
               <?php
                 /*
