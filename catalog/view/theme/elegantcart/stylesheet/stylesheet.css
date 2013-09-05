@@ -6970,14 +6970,6 @@ font-weight: bold;
 line-height: 1em;
 }
 
-#column-left .precolista {
-font-size: 0.5em;
-color: #8c0a1a;
-letter-spacing: -0.035em;
-display: inline;
-font-weight: normal;
-position: relative;
-font-weight: bold;
-line-height: 1em;
-}
+#column-left .parceladolista {
+display:none;
 }
