@@ -13,7 +13,7 @@
           <?php if (!$product['special']) { ?>
           <?php echo $product['price']; ?>
           <?php } else { ?>
-          <? include $_SERVER['DOCUMENT_ROOT'] . '/catalog/view/theme/elegantcart/parcelamento.php'; ?>
+          <?php include $_SERVER['DOCUMENT_ROOT'] . '/catalog/view/theme/elegantcart/parcelamento.php'; ?>
           <span class="price-old"><?php echo $product['price']; ?></span> <span class="price-new"><?php echo $product['special']; ?></span>
           <?php } ?>
         </div>
