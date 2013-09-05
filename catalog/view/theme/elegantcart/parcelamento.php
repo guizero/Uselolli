@@ -1,5 +1,4 @@
 
-  <!-- Exibicao de parcelas -->
               <?php
                 /*
                   Configuracoes do sistema de parcelamento

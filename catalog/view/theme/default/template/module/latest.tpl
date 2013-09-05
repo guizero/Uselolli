@@ -52,6 +52,7 @@
                       </div>';
 
                }
+               echo $valor_parcela;
 
 ?>
         <?php if ($product['price']) { ?>
