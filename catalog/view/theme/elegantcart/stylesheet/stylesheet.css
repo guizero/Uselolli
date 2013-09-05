@@ -6934,3 +6934,36 @@ box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
 .CSSTableGenerator tr:first-child td:last-child{
 	border-width:0px 0px 1px 1px;
 }
+
+/* Preço dividido */
+
+.precodividido {
+
+}
+
+.paragrafopreco {
+
+}
+
+.preco {
+font-size: 3em;
+color: #8c0a1a;
+letter-spacing: -0.035em;
+display: inline;
+float: left;
+font-weight: normal;
+position: relative;
+font-weight: bold;
+line-height: 1em;
+}
+
+.precotexto {
+display: inline;
+color: #4C4D4D;
+margin-right: 4px;
+}
+
+.precocifrao {
+font-size: 0.5em;
+padding-right: 4px;
+}

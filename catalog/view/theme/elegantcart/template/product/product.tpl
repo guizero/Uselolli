@@ -86,6 +86,7 @@
 
                 if ($preco_numero >= $parcela_minima*2) {
                 $valor_parcela = $preco_numero / 3;
+                $valor_parcela = number_format($valor_parcela, 2, ',', '.');
 
                 // Titulo
                 echo '<div class="precodividido">
