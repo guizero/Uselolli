@@ -13,6 +13,7 @@
 	        <?php } ?>
 	        <div class="pr_info">
 		        <div class="name"><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></div>
+		        <?php include $_SERVER['DOCUMENT_ROOT'] . '/catalog/view/theme/elegantcart/parcelamento.php'; ?>
 		        <?php if ($product['price']) { ?>
 		        <div class="price">
 		          <?php if (!$product['special']) { ?>

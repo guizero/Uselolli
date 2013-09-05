@@ -139,6 +139,7 @@ if(isset($limits)){
       <div class="image"><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" title="<?php echo $product['name']; ?>" alt="<?php echo $product['name']; ?>" /></a></div>
       <?php } ?>
       <div class="name"><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></div>
+       <?php include $_SERVER['DOCUMENT_ROOT'] . '/catalog/view/theme/elegantcart/parcelamento.php'; ?>
       <div class="description"><?php echo $product['description']; ?></div>
       <?php if ($product['price']) { ?>
       <div class="price">
