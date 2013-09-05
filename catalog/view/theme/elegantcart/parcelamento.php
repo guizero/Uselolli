@@ -22,9 +22,9 @@
                 $tipo_de_calculo = 1;
 
                 if (!$special) {
-                  $preco_numero = str_replace(',','.',str_replace('.','', str_replace($moeda_da_loja,"",strip_tags($price))));
+                  $preco_numero = str_replace(',','.',str_replace('.','', str_replace($moeda_da_loja,"",strip_tags($product['price']))));
                 } else {
-                  $preco_numero = str_replace(',','.',str_replace('.','', str_replace($moeda_da_loja,"",strip_tags($special))));
+                  $preco_numero = str_replace(',','.',str_replace('.','', str_replace($moeda_da_loja,"",strip_tags($product['special']))));
                 }
 
                 if ($preco_numero >= $parcela_minima*2) {
