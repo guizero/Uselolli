@@ -92,8 +92,8 @@
                 echo '<div class="precodividido">
                         <p class="paragrafopreco">
                           <strong class="preco">
-                          <span class="precotexto">3x</span>
-                          <span class="precocifrao">R$</span>'. $moeda_da_loja . $valor_parcela .'<span class="cond"></span>
+                          <span class="precotexto">3x </span>
+                          <span class="precocifrao">'. $moeda_da_loja . $valor_parcela .'</span><span class="cond"></span>
                           <span class="precotexto">sem juros</span>
                           </strong>
                         </p>
