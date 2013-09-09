@@ -171,7 +171,7 @@ DD_belatedPNG.fix('#logo img');
       
       <input type="text" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Digite seu email">
         </div>
-        <div class="clear" ><input type="submit" value="Enviar" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+       <input type="submit" value="Enviar" name="subscribe" id="mc-embedded-subscribe" class="button">
       </div>
       
     </form>
