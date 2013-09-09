@@ -4,7 +4,7 @@ $(document).ready(function() {
 	    var expires = new Date();
 	    expires.setDate(expires.getDate()+30);
 	    document.cookie = "visited=true; expires="+expires.toUTCString();
-	    $.colorbox({inline:true,  href:"#modal-conteudo", opacity:"0.5", transition:"fade"});
+	    $.colorbox({inline:true,  href:"#modal-conteudo", opacity:"0.7", transition:"fade"});
 	}
 
 
@@ -298,7 +298,7 @@ function register($form) {
 			            else 
 			            	alert(data.msg);
 			            } else {
-			               $.colorbox({inline:true,  href:"#modal-sucesso", opacity:"0.5", transition:"fade"});
+			               $.colorbox({inline:true,  href:"#modal-sucesso", opacity:"0.7", transition:"fade"});
 			            }
 			        }
 			    });
