@@ -151,3 +151,43 @@ DD_belatedPNG.fix('#logo img');
         <img src="/catalog/view/theme/default/image/fb_loader.gif" style="margin-right: 10px; vertical-align: middle;"> <span id="login-fb-waiting-text"></span>
     </div>
 </form>
+
+<div style="display:none">
+<div id="modal-conteudo">
+  <div id="modal-titulo">
+    <h1>Ganhe 10% OFF</h1>
+  </div>
+  <div id="modal-descricao">
+    <b>Cadastre-se</b> e ganhe <b>10%</b> de desconto em sua primeira compra!*
+  </div>
+  
+    <form action="http://uselolli.us7.list-manage.com/subscribe/post-json?u=24c9d739ac3ca2fbf8dcdd59b&id=ce4cdb44ec&c=?" method="get" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate id="formulariopop">
+      <div id="modal-formulario" style="text-align:center">
+        <div style="float:left; width:40%">
+      
+      <input type="text" value="" name="FNAME" class="" id="mce-FNAME" placeholder="Digite seu nome">
+        </div>
+        <div style="float:left; width:40%">
+      
+      <input type="text" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Digite seu email">
+        </div>
+        <div class="clear" ><input type="submit" value="Enviar" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+      </div>
+      
+    </form>
+  
+  
+
+</div>
+</div>
+
+<div style="display:none">
+<div id="modal-sucesso">
+  <div id="modal-titulo">
+    <h1>Obrigado!</h1>
+  </div>
+  <div id="modal-descricao">
+    <b>Verifique sua caixa de e-mails</b> e clique no link enviado para confirmar seu cadastro. O código de desconto virá em um novo e-mail de confirmação. <b>Boas compras!</b>
+  </div>
+</div>
+</div>

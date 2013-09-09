@@ -1,4 +1,26 @@
 $(document).ready(function() {
+	//POPUP COLORBOX
+	if (document.cookie.indexOf('visited=true') === -1) {
+	    var expires = new Date();
+	    expires.setDate(expires.getDate()+30);
+	    document.cookie = "visited=true; expires="+expires.toUTCString();
+	    $.colorbox({inline:true,  href:"#modal-conteudo", opacity:"0.5", transition:"fade"});
+	}
+
+
+		var searcKey = $("#mce-EMAIL");
+			placeHolderFix(searcKey);
+			var searcKey2 = $("#mce-NAME");
+			placeHolderFix(searcKey2);
+	
+			var $form = $('form');
+
+	    
+	        $('#mc-embedded-subscribe').bind('click', function ( event ) {
+	            if ( event ) event.preventDefault();				           
+	            register($form);
+	        });
+
 	/* Search */
 	$('.button-search').bind('click', function() {
 		url = $('base').attr('href') + 'index.php?route=product/search';
@@ -258,3 +280,56 @@ function MM_formtCep(e,src,mask) {
   else { return true; }
         }
 }
+
+function register($form) {
+			    $.ajax({
+			        type: $form.attr('method'),
+			        url: $form.attr('action'),
+			        data: $form.serialize(),
+			        cache       : false,
+			        dataType    : 'json',
+			        contentType: "application/json; charset=utf-8",
+			        error       : function(err) { alert("Could not connect to the registration server. Please try again later."); },
+			        success     : function(data) {
+			            if (data.result != "success") {
+			            	if (data.msg.indexOf("inscrito") !== -1) {
+			                alert("Já está inscrito!");
+			            }
+			            else 
+			            	alert(data.msg);
+			            } else {
+			               $.colorbox({inline:true,  href:"#modal-sucesso", opacity:"0.5", transition:"fade"});
+			            }
+			        }
+			    });
+			}
+
+			function placeHolderFix(element){
+			        var originalValue;
+			        var is_chrome = window.chrome;
+			        if(is_chrome){
+			                $(element).val("");
+			        }
+
+			    if(navigator.appVersion.indexOf("MSIE") !== -1){
+			            originalValue = $(element).val();
+			      }else{
+			            originalValue = $(element).attr('placeholder');
+			    }
+
+
+			    var placeAttr = $(element).attr('placeholder');
+			    $(element).focus(function() {
+			                    $(element).attr('placeholder', '');
+
+			                    if(navigator.appVersion.indexOf("MSIE") !== -1 && $(element).val() == originalValue){
+			                            $(element).val(""); 
+			                    }
+			            });
+			    $(element).blur(function(){
+			            $(element).attr('placeholder', placeAttr);
+			            if(navigator.appVersion.indexOf("MSIE") !== -1 && $(element).val() == ""){
+			                    $(element).attr('value', originalValue);
+			            }
+			    });
+			}

@@ -6936,7 +6936,7 @@ text-align:center;
 }
 
 .preco {
-font-size: 3em;
+font-size: 2.2em;
 color: #8c0a1a;
 letter-spacing: -0.035em;
 display: inline;
@@ -6972,4 +6972,51 @@ line-height: 1em;
 
 #column-left .parceladolista {
 display:none;
+}
+
+/* popup */
+
+#modal-conteudo, #modal-sucesso {
+	width:500px;
+	text-align:center;
+}
+
+#modal-titulo h1 {
+	font-family:tahoma;
+	color:#8c0a1a;
+}
+
+#modal-descricao{
+	padding-bottom:20px;
+	font-size: 15px;
+	font-family: tahoma;
+}
+
+#modal-formulario input[type=text] {
+	border-color:red;
+	border-radius:5px;
+	border:0;
+	background-color:#e5e5e5;
+	height:30px;
+	font-size:12px;
+	width:175px;
+	
+	padding-left:10px;
+}
+
+#modal-formulario input[type=submit] {
+	border: 1px solid #777777;
+	background: #8c0a1a;
+	color: white;
+	font: bold 14px 'Trebuchet MS';
+	padding: 4px;
+	cursor: pointer;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	width:80px;
+}
+
+#modal-descricao2 {
+	font-family:tahoma;
+	font-size:12px;
 }
