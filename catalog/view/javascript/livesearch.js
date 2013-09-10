@@ -57,6 +57,7 @@ function doLiveSearch( ev, keywords ) {
 	return true;
 }
 
+
 function upDownEvent( ev ) {
 	var elem = document.getElementById('livesearch_search_results');
 	var fkey = $('#search').find('[name=search]').first();
