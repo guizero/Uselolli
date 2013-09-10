@@ -151,6 +151,7 @@ DD_belatedPNG.fix('#logo img');
         <img src="/catalog/view/theme/default/image/fb_loader.gif" style="margin-right: 10px; vertical-align: middle;"> <span id="login-fb-waiting-text"></span>
     </div>
 </form>
+<<<<<<< HEAD
 
 <div style="display:none">
 <div id="modal-conteudo">
@@ -191,3 +192,5 @@ DD_belatedPNG.fix('#logo img');
   </div>
 </div>
 </div>
+=======
+>>>>>>> parent of e846b29... colorbox

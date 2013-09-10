@@ -1,4 +1,5 @@
 $(document).ready(function() {
+<<<<<<< HEAD
 	//POPUP COLORBOX
 	if (document.cookie.indexOf('visited=true') === -1) {
 	    var expires = new Date();
@@ -21,6 +22,8 @@ $(document).ready(function() {
 	            register($form);
 	        });
 
+=======
+>>>>>>> parent of e846b29... colorbox
 	/* Search */
 	$('.button-search').bind('click', function() {
 		url = $('base').attr('href') + 'index.php?route=product/search';
@@ -279,6 +282,7 @@ function MM_formtCep(e,src,mask) {
      return true; } else { if (_TXT != 8) { return false; } 
   else { return true; }
         }
+<<<<<<< HEAD
 }
 
 function register($form) {
@@ -333,3 +337,6 @@ function register($form) {
 			            }
 			    });
 			}
+=======
+}
+>>>>>>> parent of e846b29... colorbox
