@@ -29,7 +29,7 @@ function doLiveSearch( ev, keywords ) {
 				iMagem = document.createElement('img');
 				var testString = result[i].img;
 				var regExp = /(.*)(\.)(.*)/g;
-				var testHover =  testString.replace(regExp, "$1-64x64$2$3")
+				var testHover =  testString.replace(regExp, "$1-226x226$2$3")
 				iMagem.src = $('base').attr('href') + 'image/cache/' + testHover;
 				eImg.appendChild(iMagem);
 				eTitulo = document.createElement('span')
