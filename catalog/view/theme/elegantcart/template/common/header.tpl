@@ -161,7 +161,7 @@ DD_belatedPNG.fix('#logo img');
     <b>Cadastre-se</b> e ganhe <b>10%</b> de desconto em sua primeira compra!*
   </div>
   
-    <form action="http://uselolli.us7.list-manage.com/subscribe/post-json?u=24c9d739ac3ca2fbf8dcdd59b&id=ce4cdb44ec&c=?" method="get" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate id="formulariopop">
+    <form id="formulariopop" action="http://uselolli.us7.list-manage.com/subscribe/post-json?u=24c9d739ac3ca2fbf8dcdd59b&id=ce4cdb44ec&c=?" method="get" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
       <div id="modal-formulario" style="text-align:center">
         <div style="float:left; width:40%">
       
