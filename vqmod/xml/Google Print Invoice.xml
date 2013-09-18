@@ -1,0 +1,114 @@
+<modification>
+	<id><![CDATA[Invoice Cloud Print]]></id>
+	<version><![CDATA[1.01]]></version>
+	<vqmver><![CDATA[2.1.7]]></vqmver>
+	<author><![CDATA[crojo]]></author>
+	<file name="admin/controller/sale/order.php">
+		<operation>
+			<search position="after"><![CDATA[public function invoice() {]]></search>
+			<add><![CDATA[
+	  
+			function RandomString($length) {
+    $key = '';
+    $keys = array_merge(range(0,9), range('a', 'z'));
+
+    for($i=0; $i < $length; $i++) {
+
+        $key .= $keys[array_rand($keys)];
+
+    }
+
+    return $key;
+
+}
+
+$uberfilenames = RandomString(14);
+$uberfs ="../catalog/controller/icache/";
+$uberws = ".html";
+$uberqs = $uberfilenames.$uberws;
+$uberss = $uberfs.$uberqs;
+]]></add>
+		</operation>
+<operation>
+			<search position="after" index="1"><![CDATA[$invoice_no,]]></search>
+			<add><![CDATA['cachefiles'	         => $uberss,
+'cachefile2s'             => $uberqs,
+]]></add>
+		</operation>
+			
+	</file>
+	
+<file name="admin/view/template/sale/order_invoice.tpl"> 
+				
+         <operation>
+			<search position="before"><![CDATA[<head>]]></search>
+			<add><![CDATA[<? 
+    
+    $dir = '../catalog/controller/icache/';
+    foreach(glob($dir.'*.*') as $v){
+    unlink($v);
+    }
+
+	
+  ob_start();
+?> 
+<head>]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[</html>]]></search>
+			<add><![CDATA[<?php
+
+			$s = $order['cachefiles'];
+			$uberfile = $order['cachefile2s'];
+			
+$fp = fopen($s, 'w') ;
+fwrite($fp, ob_get_contents());
+fclose($fp);
+ob_end_flush();
+?>
+<script src="http://www.google.com/cloudprint/client/cpgadget.js">
+</script>
+<script>
+      var f1 = "http://" ; 
+      var f2 = window.location.hostname ;
+      var path = window.location.pathname;
+      var path2 = path.replace("admin", "");
+      var pathArray = path2.split( '/' );
+      var f6 = pathArray[1];
+	  var cfile = <?php echo json_encode($uberfile); ?>;
+      var loc = f1 + f2 + "/" + f6 ; 
+      if (loc.substring(loc.length-1) == '/' || loc.substring(loc.lenght-4) == '.php')
+      loc = loc.substring(0,loc.lastIndexOf('/'));
+      var icache = loc + "/catalog/controller/icache/" + cfile;
+      var s1 = <?php echo json_encode($order['order_id']); ?>;
+      var s2 = <?php echo json_encode($order['invoice_no']); ?>;
+      var s5 = <?php echo json_encode($order['email']); ?>;
+      var s3 = "_" ;
+      var s4 = s1 + s3 + s2 + s3 + s5 + "_Inv";
+     window.onload=function() {
+      var gadget = new cloudprint.Gadget();
+      gadget.setPrintDocument("url", s4, icache);
+      gadget.openPrintDialog();
+     	}
+</script>
+]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[<?php foreach ($orders as $order) { ?>]]></search>
+			<add><![CDATA[<?php
+
+$orders_total = count($orders);
+$orders_current = 0;
+?>]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[<div style="page-break-after: always;">]]></search>
+			<add><![CDATA[<?php foreach ($orders as $order) {
+   $orders_current++; 
+?>
+
+<div<?php if ($orders_current != $orders_total ) { echo ' style="page-break-after: always;"';} ?>>]]></add>
+		</operation>
+</file>
+
+</modification>

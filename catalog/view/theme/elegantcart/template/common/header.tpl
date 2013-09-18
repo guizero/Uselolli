@@ -67,27 +67,27 @@ DD_belatedPNG.fix('#logo img');
   <div id="logo"><a href="<?php echo $home; ?>"><img src="<?php echo $logo; ?>" title="<?php echo $name; ?>" alt="<?php echo $name; ?>" /></a></div>
   <?php } ?>
 
-	  <div id="welcome">
-	    <?php if (!$logged) { ?>
-	    <?php echo $text_welcome; ?>
-	    <?php } else { ?>      
-	    <?php echo $text_logged; ?>
-	    <?php } ?>
-	  </div>
-	 
-	  <div class="links" id="header_links"><a href="<?php echo $home; ?>"><?php echo $text_home; ?></a><a href="<?php echo $wishlist; ?>" id="wishlist-total"><?php echo $text_wishlist; ?></a> <a href="<?php echo $account; ?>"><?php echo $text_account; ?></a><a href="<?php echo $shopping_cart; ?>"><?php echo $text_shopping_cart; ?></a><a href="<?php echo $checkout; ?>"><?php echo $text_checkout; ?></a></div>
-	  <?php echo $cart; ?>
+    <div id="welcome">
+      <?php if (!$logged) { ?>
+      <?php echo $text_welcome; ?>
+      <?php } else { ?>      
+      <?php echo $text_logged; ?>
+      <?php } ?>
+    </div>
+   
+    <div class="links" id="header_links"><a href="<?php echo $home; ?>"><?php echo $text_home; ?></a><a href="<?php echo $wishlist; ?>" id="wishlist-total"><?php echo $text_wishlist; ?></a> <a href="<?php echo $account; ?>"><?php echo $text_account; ?></a><a href="<?php echo $shopping_cart; ?>"><?php echo $text_shopping_cart; ?></a><a href="<?php echo $checkout; ?>"><?php echo $text_checkout; ?></a></div>
+    <?php echo $cart; ?>
 
 
   <div id='header_btm'>
-  	<div id="search">
-	  	<div class="search_inside">
-			<input type="text" name="search" placeholder="<?php echo $text_search; ?>" value="" />
-		    <div class="button-search"></div>
-	    </div>
-	  </div>
-  	<?php echo $language; ?>
-  	<?php echo $currency; ?>
+    <div id="search">
+      <div class="search_inside">
+      <input type="text" name="search" placeholder="<?php echo $text_search; ?>" value="" />
+        <div class="button-search"></div>
+      </div>
+    </div>
+    <?php echo $language; ?>
+    <?php echo $currency; ?>
   </div>
  
 </div>
@@ -96,7 +96,7 @@ DD_belatedPNG.fix('#logo img');
 <div id="menu-holder" class="hidden-phone">
 <div id="menu">
   <ul>
-  	<li><a href="<?php echo $home; ?>"><span class='home_icon'></span></a>
+    <li><a href="<?php echo $home; ?>"><span class='home_icon'></span></a>
     <?php foreach ($categories as $category) { ?>
     <li class="<?php echo $category['name']; ?>"><a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a>
       <?php if ($category['children']) { ?>
@@ -127,7 +127,7 @@ DD_belatedPNG.fix('#logo img');
 <div id="menu-phone" class="shown-phone" style="display: none;">
   <div id="menu-phone-button">Menu</div>
   <select id="menu-phone-select" onchange="location = this.value">
-  	<option value=""></option>
+    <option value=""></option>
     <?php foreach ($categories as $category) { ?>
     <option value="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></option>
     <?php } ?>
@@ -135,12 +135,17 @@ DD_belatedPNG.fix('#logo img');
 </div>
 
 <script type="text/javascript">
-	// Bind the Phone menu dropdown
-	$('#menu-phone-button').bind('click', function() {
-		$("#menu-phone-select").css({'opacity':'1'});
-	});
+  // Bind the Phone menu dropdown
+  $('#menu-phone-button').bind('click', function() {
+    $("#menu-phone-select").css({'opacity':'1'});
+  });
 </script>
 <?php } ?>
+
+<div id="barrasuperior">
+<img src="/catalog/view/theme/elegantcart/image/barrasuperior.png">
+</div>
+
 
 <!-- PHONE::End -->
 
@@ -151,46 +156,3 @@ DD_belatedPNG.fix('#logo img');
         <img src="/catalog/view/theme/default/image/fb_loader.gif" style="margin-right: 10px; vertical-align: middle;"> <span id="login-fb-waiting-text"></span>
     </div>
 </form>
-<<<<<<< HEAD
-
-<div style="display:none">
-<div id="modal-conteudo">
-  <div id="modal-titulo">
-    <h1>Ganhe 10% OFF</h1>
-  </div>
-  <div id="modal-descricao">
-    <b>Cadastre-se</b> e ganhe <b>10%</b> de desconto em sua primeira compra!*
-  </div>
-  
-    <form id="formulariopop" action="http://uselolli.us7.list-manage.com/subscribe/post-json?u=24c9d739ac3ca2fbf8dcdd59b&id=ce4cdb44ec&c=?" method="get" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-      <div id="modal-formulario" style="text-align:center">
-        <div style="float:left; width:40%">
-      
-      <input type="text" value="" name="FNAME" class="" id="mce-FNAME" placeholder="Digite seu nome">
-        </div>
-        <div style="float:left; width:40%">
-      
-      <input type="text" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Digite seu email">
-        </div>
-       <input type="submit" value="Enviar" name="subscribe" id="mc-embedded-subscribe" class="button">
-      </div>
-      
-    </form>
-  
-  
-
-</div>
-</div>
-
-<div style="display:none">
-<div id="modal-sucesso">
-  <div id="modal-titulo">
-    <h1>Obrigado!</h1>
-  </div>
-  <div id="modal-descricao">
-    <b>Verifique sua caixa de e-mails</b> e clique no link enviado para confirmar seu cadastro. O código de desconto virá em um novo e-mail de confirmação. <b>Boas compras!</b>
-  </div>
-</div>
-</div>
-=======
->>>>>>> parent of e846b29... colorbox

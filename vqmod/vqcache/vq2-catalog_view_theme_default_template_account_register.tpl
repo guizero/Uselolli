@@ -66,7 +66,7 @@
     <?php } ?>
   </div>
   <h2>Conecte-se através do Facebook:</h2>
-  <p><span id="fb-root"></span><span class="box box-fbconnect" id="login-btr"><span class="box-fbconnect-a" id="fb-login"><img src="https://www.farfeloo.com/image/data/facebookgrande.png" style="vertical-align:middle"> <span class="cursor"></span></span></span></p>
+  <p><span id="fb-root"></span><span class="box box-fbconnect" id="login-btr"><span class="box-fbconnect-a" id="fb-login2"><img src="https://www.uselolli.com/image/data/facebookgrande.png" style="vertical-align:middle"> <span class="cursor"></span></span></span></p>
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
     <h2>Ou, preencha nosso formulário abaixo:</h2>
     <div class="content">

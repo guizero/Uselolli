@@ -31,7 +31,7 @@
         current: "image {current} of {total}",
         previous: "previous",
         next: "next",
-        close: "close",
+        close: "fechar",
         open: false,
         returnFocus: true,
         reposition: true,

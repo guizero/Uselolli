@@ -30,7 +30,6 @@ class ControllerCommonSeoUrl extends Controller {
         'affiliate/register' => 'afiliados/registrar',
         'affiliate/login' => 'afiliados/acessar',
         'checkout/cart' => 'sacola',
-        'checkout/checkout' => 'sacola/finalizar',
         'checkout/voucher' => 'vale-presentes',
         'information/contact' => 'contato',
         'information/sitemap' => 'mapa-loja',

@@ -32,7 +32,7 @@ $_['entry_postcode']       = 'CEP:';
 $_['entry_city']           = 'Cidade:';
 $_['entry_country']        = 'País:';
 $_['entry_zone']           = 'Estado:';
-$_['entry_newsletter']     = 'Inscrever-me para receber novidades Farfeloo?';
+$_['entry_newsletter']     = 'Inscrever-me para receber novidades Uselolli?';
 $_['entry_password']       = 'Senha:';
 $_['entry_confirm']        = 'Redigite a senha:';
 

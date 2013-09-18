@@ -1481,15 +1481,15 @@
 
 	<!-- Inicio: Catalog/View/Theme/*/Template/Common/Header -->
 	<file name="catalog/view/theme/*/template/common/header.tpl">
-		<operation>
-			<search position="before" index="1"><![CDATA[<script type="text/javascript" src="catalog/view/javascript/common.js"></script>]]></search>
+		<!-- <operation>
+			<search position="before" index="1"><![CDATA[<script type="text/javascript" src="/catalog/view/javascript/common.js"></script>]]></search>
 			<add><![CDATA[
 				<?php if ($this->config->get('fields_register_brazil_status')){ ?>
 				<script type="text/javascript" src="catalog/view/javascript/jquery/jquery.alphanumeric.js"></script>
 				<script type="text/javascript" src="catalog/view/javascript/jquery/jquery.maskedinput-1.3.min.js"></script>
 				<?php } ?>
 			]]></add>
-		</operation>
+		</operation>-->
 		<operation>
 			<search position="after" index="1"><![CDATA[<?php echo $google_analytics; ?>]]></search>
 			<add><![CDATA[

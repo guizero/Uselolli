@@ -51,6 +51,15 @@ $(document).ready(function(){
     });
 });
 </script>
+<script type="text/javascript" src="view/javascript/stringToSlug/jquery.stringToSlug.min.js"></script>
+	<script type="text/javascript">		
+	$(document).ready( function() {
+		$("#title-slug").stringToSlug({
+			setEvents: 'keyup keydown blur',
+			getPut: '#slug-result',
+		});
+	});
+	</script>
 </head>
 <body>
 <div id="container">

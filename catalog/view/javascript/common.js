@@ -1,83 +1,80 @@
 $(document).ready(function() {
-<<<<<<< HEAD
-	//POPUP COLORBOX
+	/* POPUP */
 	if (document.cookie.indexOf('visited=true') === -1) {
-	    var expires = new Date();
-	    expires.setDate(expires.getDate()+30);
-	    document.cookie = "visited=true; expires="+expires.toUTCString();
-	    $.colorbox({inline:true,  href:"#modal-conteudo", opacity:"0.7", transition:"fade"});
-	}
+		var expires = new Date();
+		expires.setDate(expires.getDate()+30);
+		document.cookie = "visited=true; expires="+expires.toUTCString();
+		$.colorbox({inline:true,  href:"#modal-conteudo", opacity:"0.5", transition:"fade"});
+		}
+
+	//Example of preserving a JavaScript event for inline calls.
+	var searcKey = $("#mce-EMAIL");
+	placeHolderFix(searcKey);
+	var searcKey2 = $("#mce-NAME");
+	placeHolderFix(searcKey2);
+
+	var $form = $('#formulariopop');
 
 
-		var searcKey = $("#mce-EMAIL");
-			placeHolderFix(searcKey);
-			var searcKey2 = $("#mce-NAME");
-			placeHolderFix(searcKey2);
-	
-			var $form = $('#formulariopop');
+    $('#mc-embedded-subscribe').bind('click', function ( event ) {
+        if ( event ) event.preventDefault();				           
+        register($form);
+    });
 
-	    
-	        $('#mc-embedded-subscribe').bind('click', function ( event ) {
-	            if ( event ) event.preventDefault();				           
-	            register($form);
-	        });
-
-=======
->>>>>>> parent of e846b29... colorbox
 	/* Search */
 	$('.button-search').bind('click', function() {
 		url = $('base').attr('href') + 'index.php?route=product/search';
-				 
+
 		var search = $('input[name=\'search\']').attr('value');
-		
+
 		if (search) {
 			url += '&search=' + encodeURIComponent(search);
 		}
-		
+
 		location = url;
 	});
-	
+
 	$('#header input[name=\'search\']').bind('keydown', function(e) {
 		if (e.keyCode == 13) {
 			url = $('base').attr('href') + 'index.php?route=product/search';
-			 
+
 			var search = $('input[name=\'search\']').attr('value');
-			
+
 			if (search) {
 				url += '&search=' + encodeURIComponent(search);
 			}
-			
+
 			location = url;
 		}
 	});
-	
+
 	/* Ajax Cart */
 	$('#cart > .heading a').live('mouseenter', function() {
 		$('#cart').addClass('active');
-		
+
 		$('#cart').load('index.php?route=module/cart #cart > *');
-		
+
 		$('#cart').live('mouseleave', function() {
 			$(this).removeClass('active');
 		});
 	});
-	
+
 	/* Mega Menu */
 	$('#menu ul > li > a + div').each(function(index, element) {
 		// IE6 & IE7 Fixes
 		if ($.browser.msie && ($.browser.version == 7 || $.browser.version == 6)) {
 			var category = $(element).find('a');
 			var columns = $(element).find('ul').length;
-			
+
 			$(element).css('width', (columns * 143) + 'px');
 			$(element).find('ul').css('float', 'left');
 		}		
-		
+
 		var menu = $('#menu').offset();
 		var dropdown = $(this).parent().offset();
-		
+
 		i = (dropdown.left + $(this).outerWidth()) - (menu.left + $('#menu').outerWidth());
-		
+
 		if (i > 0) {
 			$(this).css('margin-left', '-' + (i + 5) + 'px');
 		}
@@ -87,23 +84,23 @@ $(document).ready(function() {
 	if ($.browser.msie) {
 		if ($.browser.version <= 6) {
 			$('#column-left + #column-right + #content, #column-left + #content').css('margin-left', '195px');
-			
+
 			$('#column-right + #content').css('margin-right', '195px');
-		
+
 			$('.box-category ul li a.active + ul').css('display', 'block');	
 		}
-		
+
 		if ($.browser.version <= 7) {
 			$('#menu > ul > li').bind('mouseover', function() {
 				$(this).addClass('active');
 			});
-				
+
 			$('#menu > ul > li').bind('mouseout', function() {
 				$(this).removeClass('active');
 			});	
 		}
 	}
-	
+
 	$('.success img, .warning img, .attention img, .information img').live('click', function() {
 		$(this).parent().fadeOut('slow', function() {
 			$(this).remove();
@@ -113,20 +110,20 @@ $(document).ready(function() {
 
 function getURLVar(key) {
 	var value = [];
-	
+
 	var query = String(document.location).split('?');
-	
+
 	if (query[1]) {
 		var part = query[1].split('&');
 
 		for (i = 0; i < part.length; i++) {
 			var data = part[i].split('=');
-			
+
 			if (data[0] && data[1]) {
 				value[data[0]] = data[1];
 			}
 		}
-		
+
 		if (value[key]) {
 			return value[key];
 		} else {
@@ -145,18 +142,18 @@ function addToCart(product_id, quantity) {
 		dataType: 'json',
 		success: function(json) {
 			$('.success, .warning, .attention, .information, .error').remove();
-			
+
 			if (json['redirect']) {
 				location = json['redirect'];
 			}
-			
+
 			if (json['success']) {
 				$('#notification').html('<div class="success" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
-				
+
 				$('.success').fadeIn('slow');
-				
+
 				$('#cart-total').html(json['total']);
-				
+
 				$('html, body').animate({ scrollTop: 0 }, 'slow'); 
 
 				window.location.href = '/sacola';  // redireciona para o carrinho //
@@ -172,14 +169,14 @@ function addToWishList(product_id) {
 		dataType: 'json',
 		success: function(json) {
 			$('.success, .warning, .attention, .information').remove();
-						
+
 			if (json['success']) {
 				$('#notification').html('<div class="success" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
-				
+
 				$('.success').fadeIn('slow');
-				
+
 				$('#wishlist-total').html(json['total']);
-				
+
 				$('html, body').animate({ scrollTop: 0 }, 'slow');
 			}	
 		}
@@ -194,14 +191,14 @@ function addToCompare(product_id) {
 		dataType: 'json',
 		success: function(json) {
 			$('.success, .warning, .attention, .information').remove();
-						
+
 			if (json['success']) {
 				$('#notification').html('<div class="success" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
-				
+
 				$('.success').fadeIn('slow');
-				
+
 				$('#compare-total').html(json['total']);
-				
+
 				$('html, body').animate({ scrollTop: 0 }, 'slow'); 
 			}	
 		}
@@ -211,7 +208,7 @@ function addToCompare(product_id) {
 $(function(){
 					$('input[name="postcode"]').blur(function(){
 						var cep = $.trim($('input[name="postcode"]').val().replace('-', ''));
-		
+
 						$.getScript("http://cep.republicavirtual.com.br/web_cep.php?formato=javascript&cep="+cep, function(){
 							if(resultadoCEP["resultado"] == "1"){
 								$('input[name="address_1"]').val(unescape(resultadoCEP["tipo_logradouro"])+" "+unescape(resultadoCEP["logradouro"]));
@@ -235,23 +232,23 @@ $(function(){
 											} else {
 												$('#postcode-required').hide();
 											}
-	
+
 											var html = '<option value=""><?php echo $text_select; ?></option>';
-	
+
 											if (json['zone'] != '') {
 												for (i = 0; i < json['zone'].length; i++) {
 													html += '<option value="' + json['zone'][i]['zone_id'] + '"';
-													
+
 													if (json['zone'][i]['zone_id'] == zone_id) {
 														html += ' selected="selected"';
 													}
-									
+
 													html += '>' + json['zone'][i]['name'] + '</option>';
 												}
 											} else {
 												html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
 											}
-	
+
 											$('select[name=\'zone_id\']').html(html);
 										}
 									});
@@ -282,61 +279,57 @@ function MM_formtCep(e,src,mask) {
      return true; } else { if (_TXT != 8) { return false; } 
   else { return true; }
         }
-<<<<<<< HEAD
 }
 
 function register($form) {
-			    $.ajax({
-			        type: $form.attr('method'),
-			        url: $form.attr('action'),
-			        data: $form.serialize(),
-			        cache       : false,
-			        dataType    : 'json',
-			        contentType: "application/json; charset=utf-8",
-			        error       : function(err) { alert("Could not connect to the registration server. Please try again later."); },
-			        success     : function(data) {
-			            if (data.result != "success") {
-			            	if (data.msg.indexOf("inscrito") !== -1) {
-			                alert("Já está inscrito!");
-			            }
-			            else 
-			            	alert(data.msg);
-			            } else {
-			               $.colorbox({inline:true,  href:"#modal-sucesso", opacity:"0.7", transition:"fade"});
-			            }
-			        }
-			    });
-			}
+	$.ajax({
+	    type: $form.attr('method'),
+	    url: $form.attr('action'),
+	    data: $form.serialize(),
+	    cache       : false,
+	    dataType    : 'json',
+	    contentType: "application/json; charset=utf-8",
+	    error       : function(err) { alert("Could not connect to the registration server. Please try again later."); },
+	    success     : function(data) {
+	        if (data.result != "success") {
+	        	if (data.msg.indexOf("inscrito") !== -1) {
+	            alert("Já está inscrito!");
+	        }
+	        else 
+	        	alert(data.msg);
+	        } else {
+	           $.colorbox({inline:true,  href:"#modal-sucesso", opacity:"0.5", transition:"fade"});
+	        }
+	    }
+	});
+	}
 
-			function placeHolderFix(element){
-			        var originalValue;
-			        var is_chrome = window.chrome;
-			        if(is_chrome){
-			                $(element).val("");
-			        }
+	function placeHolderFix(element){
+	    var originalValue;
+	    var is_chrome = window.chrome;
+	    if(is_chrome){
+	            $(element).val("");
+	    }
 
-			    if(navigator.appVersion.indexOf("MSIE") !== -1){
-			            originalValue = $(element).val();
-			      }else{
-			            originalValue = $(element).attr('placeholder');
-			    }
+	if(navigator.appVersion.indexOf("MSIE") !== -1){
+	        originalValue = $(element).val();
+	  }else{
+	        originalValue = $(element).attr('placeholder');
+	}
 
 
-			    var placeAttr = $(element).attr('placeholder');
-			    $(element).focus(function() {
-			                    $(element).attr('placeholder', '');
+	var placeAttr = $(element).attr('placeholder');
+	$(element).focus(function() {
+	                $(element).attr('placeholder', '');
 
-			                    if(navigator.appVersion.indexOf("MSIE") !== -1 && $(element).val() == originalValue){
-			                            $(element).val(""); 
-			                    }
-			            });
-			    $(element).blur(function(){
-			            $(element).attr('placeholder', placeAttr);
-			            if(navigator.appVersion.indexOf("MSIE") !== -1 && $(element).val() == ""){
-			                    $(element).attr('value', originalValue);
-			            }
-			    });
-			}
-=======
-}
->>>>>>> parent of e846b29... colorbox
+	                if(navigator.appVersion.indexOf("MSIE") !== -1 && $(element).val() == originalValue){
+	                        $(element).val(""); 
+	                }
+	        });
+	$(element).blur(function(){
+	        $(element).attr('placeholder', placeAttr);
+	        if(navigator.appVersion.indexOf("MSIE") !== -1 && $(element).val() == ""){
+	                $(element).attr('value', originalValue);
+	        }
+	});
+	}

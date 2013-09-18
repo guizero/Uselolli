@@ -1,6 +1,9 @@
 <?php   
 class ControllerCommonHeader extends Controller {
 	protected function index() {
+
+        	 $this->data['yotpo_app_key'] = $this->config->get('yotpo_appkey');	
+        
 		$this->data['title'] = $this->document->getTitle();
 		
 		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
@@ -17,7 +20,13 @@ class ControllerCommonHeader extends Controller {
 		$this->data['scripts'] = $this->document->getScripts();
 		$this->data['lang'] = $this->language->get('code');
 		$this->data['direction'] = $this->language->get('direction');
-		$this->data['google_analytics'] = html_entity_decode($this->config->get('config_google_analytics'), ENT_QUOTES, 'UTF-8');
+		
+				if ($this->config->get('ecommerce_tracking_status') && isset($this->request->get['route']) && $this->request->get['route'] == 'checkout/success') {
+					$this->data['google_analytics'] = '';
+				} else {
+					$this->data['google_analytics'] = html_entity_decode($this->config->get('config_google_analytics'), ENT_QUOTES, 'UTF-8');
+				}
+			
 		$this->data['name'] = $this->config->get('config_name');
 		
 		if ($this->config->get('config_icon') && file_exists(DIR_IMAGE . $this->config->get('config_icon'))) {

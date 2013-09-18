@@ -1,6 +1,6 @@
-<?php
-
-//Heading
-$_['heading_title'] = 'Etiqueta Correios';
-
+<?php
+
+//Heading
+$_['heading_title'] = 'Etiqueta Correios';
+
 ?>

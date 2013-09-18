@@ -11,9 +11,7 @@
     <?php if ($thumb || $images) { ?>
     <div class="left">
       <?php if ($thumb) { ?>
-       <div id="imageWrap" class="image">
-                  <div class="image_inside"><a href="<?php echo $popup; ?>" title="<?php echo $heading_title; ?>" class='cloud-zoom' id='zoom1' rel="tint: '#ffffff',tintOpacity:0.5 ,smoothMove:3,zoomWidth:390, zoomHeight:390, adjustY:-10, adjustX:28"><img src="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" id="mainImage"
-                   /></a></div><div class="zoom_btn">
+      <div class="image"><div class="image_inside"><a href="<?php echo $popup; ?>" title="<?php echo $heading_title; ?>" class='cloud-zoom' id='zoom1' rel="tint: '#ffffff',tintOpacity:0.5 ,smoothMove:3,zoomWidth:390, zoomHeight:390, adjustY:-10, adjustX:28"><img src="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" id="image" /></a></div><div class="zoom_btn">
             <a id="zoomer" class="colorbox" href="<?php echo $popup; ?>">Zoom</a>        
       </div></div>
       <?php } ?>
@@ -41,7 +39,7 @@
         <?php } ?>
         <br />
         <?php if ($tax) { ?>
-        <span class="price-tax"><?php echo $text_tax; ?> <?php echo $tax; ?></span><br />
+        
         <?php } ?>
         <?php if ($points) { ?>
         <span class="reward"><small><?php echo $text_points; ?> <?php echo $points; ?></small></span><br />
@@ -55,7 +53,57 @@
         </div>
         <?php } ?>
       </div>
-      <?php } ?>   
+      <?php } ?>
+
+       <!-- Exibicao de parcelas -->
+              <?php
+                /*
+                  Configuracoes do sistema de parcelamento
+                  ----------------------------------------
+                  $maximo_parcelas = Define a quantidade maxima de parcelas aceita pela loja
+                  $parcela_minima = Valor minimo da parcela aceito pela loja
+                  $parcelas_sem_juros = Define quantas parcelas nao terao juros
+                  $juros = Taxa de juros mensal
+                  $moeda_da_loja = Permite especificar a moeda utilizada na loja
+
+                  $tipo_de_calculo = Permite escolher o tipo de calculo a ser utilizado
+                  0 = Juros simples (Pagamento Digital)
+                  1 = Tabela Price (PagSeguro e outros)
+                */
+
+                $maximo_parcelas = 18;
+                $parcela_minima = 5;
+                $parcelas_sem_juros = 3;
+                $juros = 1.99;
+                $moeda_da_loja = 'R$ ';
+                $tipo_de_calculo = 1;
+
+                if (!$special) {
+                  $preco_numero = str_replace(',','.',str_replace('.','', str_replace($moeda_da_loja,"",strip_tags($price))));
+                } else {
+                  $preco_numero = str_replace(',','.',str_replace('.','', str_replace($moeda_da_loja,"",strip_tags($special))));
+                }
+
+                if ($preco_numero >= $parcela_minima*2) {
+                $valor_parcela = $preco_numero / 3;
+                $valor_parcela = number_format($valor_parcela, 2, ',', '.');
+
+                // Titulo
+                echo '<div class="precodividido">
+                        <p class="paragrafopreco">
+                          <strong class="preco">
+                          <span class="precotexto">3x </span>
+                          <span class="precocifrao">'. $moeda_da_loja . $valor_parcela .'</span><span class="cond"></span>
+                          <span class="precotexto">sem juros</span>
+                          </strong>
+                        </p>
+                      </div>';
+
+               }
+                
+        
+              ?>
+            <!-- Exibicao de parcelas -->
     
       <div class="description">
         <?php if ($manufacturer) { ?>
@@ -80,9 +128,7 @@
           <select name="option[<?php echo $option['product_option_id']; ?>]">
             <option value=""><?php echo $text_select; ?></option>
             <?php foreach ($option['option_value'] as $option_value) { ?>
- <?php  if (!$option_value['imagel'] || strpos($option_value['imagel'], 'no_image')) $option_value['imagel'] = $thumb; ?>
-                  
-             <option class="thumb" src="<?php echo $option_value['imagel']; ?>" value="<?php echo $option_value['product_option_value_id']; ?>"><?php echo $option_value['name']; ?>
+            <option value="<?php echo $option_value['product_option_value_id']; ?>" <?php if ($option_value['parent']) { ?>class="<?php echo $option_value['parent']; ?>"<?php } ?>><?php echo $option_value['name']; ?>
             <?php if ($option_value['price']) { ?>
             (<?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?>)
             <?php } ?>
@@ -99,10 +145,7 @@
           <?php } ?>
           <b><?php echo $option['name']; ?>:</b><br />
           <?php foreach ($option['option_value'] as $option_value) { ?>
- <?php  if (!$option_value['imagel'] || strpos($option_value['imagel'], 'no_image')) $option_value['imagel'] = $thumb; ?>
-                  
-           <input class="thumb" src="<?php echo $option_value['imagel']; ?>" type="radio" 
-                    name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option_value['product_option_value_id']; ?>" id="option-value-<?php echo $option_value['product_option_value_id']; ?>" />
+          <input type="radio" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option_value['product_option_value_id']; ?>" id="option-value-<?php echo $option_value['product_option_value_id']; ?>" />
           <label for="option-value-<?php echo $option_value['product_option_value_id']; ?>"><?php echo $option_value['name']; ?>
             <?php if ($option_value['price']) { ?>
             (<?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?>)
@@ -237,7 +280,15 @@
 
             <?php if ($review_status) { ?>
             
+
+            
+			<?php if (true) { ?>
+			
+            
         <div><img src="catalog/view/theme/elegantcart/image/stars-<?php echo $rating; ?>.png" alt="<?php echo $reviews; ?>" />&nbsp;&nbsp;(<a onclick="$('a[href=\'#tab-review\']').trigger('click');" class='rev_count'><?php echo $reviews; ?></a>)&nbsp;&nbsp;&nbsp;<span class="divider">|</span>&nbsp;&nbsp;&nbsp;<a onclick="$('a[href=\'#tab-review\']').trigger('click');" class="icon_plus"><?php echo $text_write; ?></a></div>
+
+            <?php } ?>
+            
 
             <?php } ?>
             
@@ -251,14 +302,61 @@
     </div>
   </div>
 
+
+              
+                <?php if ($yotpo_widget_location == 'footer') { ?>
+                  <div class="yotpo reviews"
+                    data-appkey="<?php echo $appkey; ?>"
+                    data-domain="<?php echo $domain; ?>"
+                    data-product-id="<?php echo $product_id; ?>"
+                    data-product-models="<?php echo $product_models; ?>"
+                    data-name="<?php echo $product_name; ?>"
+                    data-url="<?php echo $product_url; ?>"
+                    data-image-url="<?php echo $product_image_url; ?>"
+                    data-description="<?php echo $product_description; ?>"
+                    data-bread-crumbs="<?php echo $yotpo_bread_crumbs; ?>"
+                    data-lang="<?php echo $language; ?>">
+                  </div> 
+                <?php  } ?>
+        
+              
   <div id="tabs" class="htabs"><a href="#tab-description"><?php echo $tab_description; ?></a>
+
+              
+                <?php if ($yotpo_widget_location == 'tab') { ?>
+                  <a href="#tab-yotpo-review"><?php echo $yotpo_review_tab_name; ?></a>
+                <?php  } ?>
+              
+              
     <?php if ($attribute_groups) { ?>
     <a href="#tab-attribute"><?php echo $tab_attribute; ?></a>
     <?php } ?>
     <?php if ($review_status) { ?>
     <a href="#tab-review"><?php echo $tab_review; ?></a>
     <?php } ?>
+
+    <a href="#tab-tamanhos">Guia de Medidas</a>
   </div>
+
+              
+                <?php if ($yotpo_widget_location == 'tab') { ?>
+                 <div id="tab-yotpo-review" class="tab-content">
+                  <div class="yotpo reviews"
+                    data-appkey="<?php echo $appkey; ?>"
+                    data-domain="<?php echo $domain; ?>"
+                    data-product-id="<?php echo $product_id; ?>"
+                    data-product-models="<?php echo $product_models; ?>"
+                    data-name="<?php echo $product_name; ?>"
+                    data-url="<?php echo $product_url; ?>"
+                    data-image-url="<?php echo $product_image_url; ?>"
+                    data-description="<?php echo $product_description; ?>"
+                    data-bread-crumbs="<?php echo $yotpo_bread_crumbs; ?>"
+                    data-lang="<?php echo $language; ?>">
+                  </div> 
+                 </div> 
+                <?php  } ?>
+        
+              
   <div id="tab-description" class="tab-content"><?php echo $description; ?></div>
   <?php if ($attribute_groups) { ?>
   <div id="tab-attribute" class="tab-content">
@@ -313,7 +411,55 @@
     </div>
   </div>
   <?php } ?>
-  
+
+<div id="tab-tamanhos" class="tab-content">
+    <div id="tamanhos"></div>
+    <h2 id="tamanhos-title">Guia de tamanhos</h2>
+    <h2>Guia de Medidas</h2>
+<p>Este guia de medidas vai ajudar você a encontrar o produto no tamanho correto.</p>
+<p><b>Cintos</b></p>
+É importante que você tenha em mente que o tamanho do seu cinto não corresponde exatamente ao tamanho da calça que você usa, ou de sua cintura; isso acontece, pois o cinto passa em volta de você e de sua calça, ou de uma blusa que você use para dentro. Por este motivo, o seu cinto deve ser medido considerando um número de 4 centímetros maior do que a sua cintura.</p>
+<p>Os nossos cintos seguem o seguinte padrão:
+
+<div class="CSSTableGenerator">
+<table border="0" class="tabela-medidas" cellspacing="0" cellpadding="0">
+    <tbody><tr class="head">
+<td>Tamanho</td>
+      <td width="93" valign="top"><br>
+        Medida da Cintura </td>
+      <td>Medida do quadril</td>
+      <td>Manequim (calça)</td>
+<td>Tamanho da Tira</td>
+
+      
+    </tr>
+    <tr>
+<td>P</td>
+      <td>85 cm</td>
+      <td>90 cm</td>
+      <td>34-36</td>
+<td>95 cm</td>
+      
+    </tr>
+    <tr>
+<td>M</td>
+      <td>90 cm</td>
+      <td>92 cm</td>
+      <td>38-40</td>
+<td>100 cm</td>
+      
+    </tr>
+    <tr>
+<td>G</td>
+      <td>95 cm</td>
+      <td>95 cm</td>
+      <td>40-42</td>
+<td>105 cm</td>
+      
+    </tr>
+  </tbody></table></div>
+<p>.</p><p>Obs: Os cintos em tamanho único seguem o padrão de 85cm de tira, mas, por serem feitos geralmente com elástico, são ajustáveis a todos os tamanhos.
+  </div>
 
 <?php echo $content_bottom; ?>
 
@@ -392,7 +538,7 @@ $('#button-cart').bind('click', function() {
 				
 				$('html, body').animate({ scrollTop: 0 }, 'slow'); 
 
-        window.location.href = '/carrinho';  // redireciona para o carrinho //
+        window.location.href = '/sacola';  // redireciona para o carrinho //
 			}	
 		}
 	});
@@ -491,15 +637,14 @@ $('.datetime').datetimepicker({
 	timeFormat: 'h:m'
 });
 $('.time').timepicker({timeFormat: 'h:m'});
-//--></script> 
+//--></script>
+
+
+<?php if ($chained_options) { ?>
 <script type="text/javascript"><!--
-   $(document).on("click", ".thumb", function()  {
-         var srcimg = $(this).attr('src');
-         var i = $('<img />').attr('src',srcimg).load(function() {
-            $('#mainImage').attr('src', i.attr('src'));
-            $('#imageWrap').css('background-image', 'none');
-        });
- return true; 
-    });
-  //--></script> 
+<?php foreach ($chained_options as $chained_option) { ?>
+$('#option-<?php echo $chained_option['child']; ?>').chained('#option-<?php echo $chained_option['parent']; ?>');
+<?php } ?>
+//--></script>
+<?php } ?>
 <?php echo $footer; ?>

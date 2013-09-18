@@ -52,7 +52,6 @@ class ModelToolYotpo extends Model {
 								   `date_added` <  NOW() AND 
 								   DATE_SUB(NOW(), INTERVAL '.self::PAST_ORDERS_DAYS_BACK.' day) < `date_added` 
 								   LIMIT 0,'.self::PAST_ORDERS_LIMIT.'');
-	
 		$result = $query->rows;		
 		if (is_array($result))
 		{
@@ -90,7 +89,7 @@ class ModelToolYotpo extends Model {
 		$complete_status_id = $this->config->get('config_complete_status_id');
 		if(!empty($complete_status_id) && !in_array($complete_status_id, $accepted_status)) {
 			$accepted_status[] = $complete_status_id;
-		}		
+		}
 		return $accepted_status;
 	}
 	
@@ -213,9 +212,9 @@ class ModelToolYotpo extends Model {
 			if (!is_null($post_bulk))
 			{
 				$response = $this->makePastOrdersRequest($post_bulk, $api_key, $secret_token);
-				if ($response['status']['code'] != 200 && is_null($message))
+				if ($response['code'] != 200 && is_null($message))
 				{
-					$message = 	$response['status']['message'];
+					$message = 	empty($response['message']) ? 'An error occurred' : $response['message'];
 				}
 			}
 			return is_null($message) ? null : array('message' => $message);

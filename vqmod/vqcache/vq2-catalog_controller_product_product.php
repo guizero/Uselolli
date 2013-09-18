@@ -3,6 +3,7 @@ class ControllerProductProduct extends Controller {
 	private $error = array(); 
 	
 	public function index() { 
+		$this->document->addScript('catalog/view/javascript/jquery/jquery.chained.mini.js');
 		$this->language->load('product/product');
 	
 		$this->data['breadcrumbs'] = array();
@@ -357,12 +358,15 @@ class ControllerProductProduct extends Controller {
 								$price = false;
 							}
 							
+
+							$dependent_option_value_data = $this->model_catalog_product->getDependentOptionValues($this->request->get['product_id'], $option_value['product_option_value_id']);
+		
 							$option_value_data[] = array(
 								'product_option_value_id' => $option_value['product_option_value_id'],
 								'option_value_id'         => $option_value['option_value_id'],
+								'parent'                    => $dependent_option_value_data,
 								'name'                    => $option_value['name'],
 								'image'                   => $this->model_tool_image->resize($option_value['image'], 50, 50),
-   'imagel'                  => $this->model_tool_image->resize($option_value['image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height')),
 								'price'                   => $price,
 								'price_prefix'            => $option_value['price_prefix']
 							);
@@ -389,6 +393,8 @@ class ControllerProductProduct extends Controller {
 				}
 			}
 							
+			$this->data['chained_options'] = $this->model_catalog_product->getDependentOptions($this->request->get['product_id']);
+			
 			if ($product_info['minimum']) {
 				$this->data['minimum'] = $product_info['minimum'];
 			} else {
@@ -472,6 +478,29 @@ class ControllerProductProduct extends Controller {
 				'common/header'
 			);
 						
+
+            $this->data['appkey'] = $this->config->get('yotpo_appkey');
+            $this->data['language'] = $this->config->get('yotpo_language');
+            $this->data['domain'] = HTTP_SERVER;
+            $this->data['product_id'] = $this->request->get['product_id'];
+            $this->data['product_name'] = strip_tags(html_entity_decode($this->data['heading_title']));
+            $this->data['product_description'] = substr(strip_tags(html_entity_decode($this->data['description'])),0,1000);
+            $this->data['product_url'] = HTTP_SERVER . 'index.php?route=product/product&product_id=' . $this->data['product_id'];
+ 	       
+      	  	$yotpo_bread_crumbs = array();
+          	foreach ($this->data['breadcrumbs'] as $breadcrumb) {
+    	 		$yotpo_bread_crumbs[] = $breadcrumb['text'];
+    	  	}
+         	$this->data['yotpo_bread_crumbs'] = implode(';', $yotpo_bread_crumbs); 	       
+            $this->data['product_image_url'] = $this->data['thumb'];
+            
+            $product = $this->model_catalog_product->getProduct($this->data['product_id']);
+                      
+            $this->data['product_models'] = $product['model'];
+
+            $this->data['yotpo_review_tab_name'] = $this->config->get('yotpo_review_tab_name');
+            $this->data['yotpo_widget_location'] = $this->config->get('yotpo_widget_location');
+        
 			$this->response->setOutput($this->render());
 		} else {
 			$url = '';

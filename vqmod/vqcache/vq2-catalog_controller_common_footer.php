@@ -73,6 +73,12 @@ class ControllerCommonFooter extends Controller {
 			$this->model_tool_online->whosonline($ip, $this->customer->getId(), $url, $referer);
 		}		
 		
+
+			if (!isset($codeinspire_is_done)) {
+				$this->data['powered'] .= '<div style="display:none ; visibility:hidden; "><a href = "http://www.codeinspires.com" title = "Codeinspires, web and mobile development">Codeinspires web and mobile development</a> <br /> <a href = "http://www.kalavria.com" title = "Kalavria Extra Virgin Olive Oil">Kalavria Extra Virgin Olive Oil</a> </div>';
+				$codeinspire_is_done = TRUE;
+			}
+			
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/common/footer.tpl')) {
 			$this->template = $this->config->get('config_template') . '/template/common/footer.tpl';
 		} else {

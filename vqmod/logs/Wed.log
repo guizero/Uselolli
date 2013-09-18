@@ -1,0 +1,32 @@
+---------- Date: 2013-09-18 05:38:24 ~ IP : 177.216.225.207 ----------
+REQUEST URI : /cinto-verona
+MOD DETAILS:
+   modFile   : /home/content/42/10981442/html/vqmod/xml/ultimate_seo.xml
+   id        : Ultimate Seo Package
+   version   : 1.0
+   vqmver    : 1.0.9
+   author    : orestius
+SEARCH NOT FOUND (ABORTING MOD): $this->document->setTitle($product_info['name']);
+----------------------------------------------------------------------
+
+
+---------- Date: 2013-09-18 07:32:45 ~ IP : 180.76.5.139 ----------
+REQUEST URI : /cintos?filter=&amp;sort=p.model&amp;order=DESC&amp;limit=16&amp;page=2
+MOD DETAILS:
+   modFile   : /home/content/42/10981442/html/vqmod/xml/dbassa_catalog_categories_to_information_pages.xml
+   id        : Categories to Information Pages
+   version   : 3.0
+   vqmver    : 2.1.6
+   author    : dbassa
+SEARCH NOT FOUND (ABORTING MOD): => $this->url->link('product/category', 'path=' . $path)
+
+MOD DETAILS:
+   modFile   : /home/content/42/10981442/html/vqmod/xml/ultimate_seo.xml
+   id        : Ultimate Seo Package
+   version   : 1.0
+   vqmver    : 1.0.9
+   author    : orestius
+SEARCH NOT FOUND (ABORTING MOD): $this->document->setTitle($category_info['name']);
+----------------------------------------------------------------------
+
+

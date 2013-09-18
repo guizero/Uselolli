@@ -1,5 +1,5 @@
 <?php
-// Heading
+// Heading  
 $_['heading_title']          = 'Minha Sacola de Compras';
 
 // Text
@@ -32,7 +32,7 @@ $_['column_price']           = 'Preço da unidade';
 $_['column_total']           = 'Total';
 
 
-// Entry (arruma)
+// Entry
 $_['entry_coupon']           = 'Coloque seu cupom aqui:';
 $_['entry_voucher']          = 'Coloque seu vale-presente aqui:';
 $_['entry_reward']           = 'Pontos para usar (máximo %s):';

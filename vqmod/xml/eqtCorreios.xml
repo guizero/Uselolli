@@ -1,95 +1,95 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<modification>
-	<id><![CDATA[Etiqueta de Endereçamento]]></id>
-	<version><![CDATA[1.0]]></version>
-	<vqmver><![CDATA[2.3.1]]></vqmver>
-	<author><![CDATA[Valdeir Psr | valdeirpsr@hotmail.com.br]]></author>
-	<file name="admin/controller/sale/order.php">
-		<operation>
-			<search position="after"><![CDATA[
-				public function info() {
-			]]></search>
-			<add><![CDATA[
-				$this->document->addStyle('http://www.jacklmoore.com/colorbox/example1/colorbox.css');
-				$this->document->addScript('http://www.jacklmoore.com/colorbox/jquery.colorbox.js');
-				$this->document->addScript('view/javascript/jquery.printElement.min.js');
-			]]></add>
-		</operation>
-	</file>
-
-	<file name="admin/view/template/sale/order_info.tpl">
-		<operation>
-			<search position="after"><![CDATA[
-				<div class="buttons"><a href="<?php echo $invoice; ?>" target="_blank" class="button"><?php echo $button_invoice; ?></a><a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a>
-			]]></search>
-			<add><![CDATA[
-				<a onClick="imprimirEtiqueta()" class="button">Imprimir Etiqueta</a>
-        		<a onClick="imprimirAr()" class="button">Imprimir AR</a>
-			]]></add>
-		</operation>
-		<operation>
-			<search position="before" index="1"><![CDATA[
-				<script type="text/javascript"><!--
-			]]></search>
-			<add><![CDATA[
-				<div id="etiqueta" style="background:white"></div>
-
-				<!-- Valdeir -->
-				<script><!--
-				  function imprimirEtiqueta(){
-
-				    $.ajax({
-				      url: 'index.php?route=sale/etiqueta_correios/gerarEtiqueta&order_id=<?php echo $order_id; ?>&token=<?php echo $token; ?>',
-				      dataType: 'html',
-				      success: function (html){
-				        $('#etiqueta').empty().html(html);
-				        $('#etiqueta').dialog({
-				          title:'Etiqueta de Endereçamento',
-				          width:740,
-				          position:'center',
-				          buttons:[{
-				            text: 'Imprimir',
-				            click: function(){
-				              $("#etiqueta").printElement({
-				                pageTitle: 'Development: Valdeir S. <valdeirpsr@hotmail.com.br>',
-				                leaveOpen:false,
-				                printMode:'popup'
-				              });
-				            }
-				          }]
-				        })
-				      }
-				    })
-				  }
-
-				  function imprimirAr(){
-
-				    $.ajax({
-				      url: 'index.php?route=sale/etiqueta_correios/gerarAr&order_id=<?php echo $order_id; ?>&token=<?php echo $token; ?>',
-				      dataType: 'html',
-				      success: function (html){
-				        $('#etiqueta').empty().html(html);
-				        $('#etiqueta').dialog({
-				          title:'Etiqueta de Endereçamento',
-				          width:740,
-				          position:'center',
-				          buttons:[{
-				            text: 'Imprimir',
-				            click: function(){
-				              $("#etiqueta").printElement({
-				                pageTitle: 'Development: Valdeir S. <valdeirpsr@hotmail.com.br>',
-				                leaveOpen:false,
-				                printMode:'popup'
-				              });
-				            }
-				          }]
-				        })
-				      }
-				    })
-				  }
-				//--></script>
-				<!-- Fim -->
-			]]></add>
-		</operation>
-	</file>
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<id><![CDATA[Etiqueta de Endereçamento]]></id>
+	<version><![CDATA[1.0]]></version>
+	<vqmver><![CDATA[2.3.1]]></vqmver>
+	<author><![CDATA[Valdeir Psr | valdeirpsr@hotmail.com.br]]></author>
+	<file name="admin/controller/sale/order.php">
+		<operation>
+			<search position="after"><![CDATA[
+				public function info() {
+			]]></search>
+			<add><![CDATA[
+				$this->document->addStyle('http://www.jacklmoore.com/colorbox/example1/colorbox.css');
+				$this->document->addScript('http://www.jacklmoore.com/colorbox/jquery.colorbox.js');
+				$this->document->addScript('view/javascript/jquery.printElement.min.js');
+			]]></add>
+		</operation>
+	</file>
+
+	<file name="admin/view/template/sale/order_info.tpl">
+		<operation>
+			<search position="after"><![CDATA[
+				<div class="buttons"><a href="<?php echo $invoice; ?>" target="_blank" class="button"><?php echo $button_invoice; ?></a><a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a>
+			]]></search>
+			<add><![CDATA[
+				<a onClick="imprimirEtiqueta()" class="button">Imprimir Etiqueta</a>
+        		<a onClick="imprimirAr()" class="button">Imprimir AR</a>
+			]]></add>
+		</operation>
+		<operation>
+			<search position="before" index="1"><![CDATA[
+				<script type="text/javascript"><!--
+			]]></search>
+			<add><![CDATA[
+				<div id="etiqueta" style="background:white"></div>
+
+				<!-- Valdeir -->
+				<script><!--
+				  function imprimirEtiqueta(){
+
+				    $.ajax({
+				      url: 'index.php?route=sale/etiqueta_correios/gerarEtiqueta&order_id=<?php echo $order_id; ?>&token=<?php echo $token; ?>',
+				      dataType: 'html',
+				      success: function (html){
+				        $('#etiqueta').empty().html(html);
+				        $('#etiqueta').dialog({
+				          title:'Etiqueta de Endereçamento',
+				          width:740,
+				          position:'center',
+				          buttons:[{
+				            text: 'Imprimir',
+				            click: function(){
+				              $("#etiqueta").printElement({
+				                pageTitle: 'Development: Valdeir S. <valdeirpsr@hotmail.com.br>',
+				                leaveOpen:false,
+				                printMode:'popup'
+				              });
+				            }
+				          }]
+				        })
+				      }
+				    })
+				  }
+
+				  function imprimirAr(){
+
+				    $.ajax({
+				      url: 'index.php?route=sale/etiqueta_correios/gerarAr&order_id=<?php echo $order_id; ?>&token=<?php echo $token; ?>',
+				      dataType: 'html',
+				      success: function (html){
+				        $('#etiqueta').empty().html(html);
+				        $('#etiqueta').dialog({
+				          title:'Etiqueta de Endereçamento',
+				          width:740,
+				          position:'center',
+				          buttons:[{
+				            text: 'Imprimir',
+				            click: function(){
+				              $("#etiqueta").printElement({
+				                pageTitle: 'Development: Valdeir S. <valdeirpsr@hotmail.com.br>',
+				                leaveOpen:false,
+				                printMode:'popup'
+				              });
+				            }
+				          }]
+				        })
+				      }
+				    })
+				  }
+				//--></script>
+				<!-- Fim -->
+			]]></add>
+		</operation>
+	</file>
 </modification>

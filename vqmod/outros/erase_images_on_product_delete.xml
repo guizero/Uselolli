@@ -1,42 +1,42 @@
-<modification>
-	<id>Erase images on Product Delete</id>
-	<version>1.0</version>
-	<vqmver>2.1.7</vqmver>
-	<author>Kamen Sharlandjiev</author>
-	<file name="admin/model/catalog/product.php">  
-        <operation>
-            <search position="after"  error="skip"><![CDATA[public function deleteProduct($product_id) {]]></search>
-            <add><![CDATA[
-              $check = $this->db->query("SELECT image FROM " . DB_PREFIX . "product_image WHERE product_id = '" . (int)$product_id . "' UNION SELECT image FROM ".DB_PREFIX."product WHERE product_id='".(int)$product_id."'");
-              $do_not_delete=0;
-              if ($check) {
-                foreach ($check->rows as $img) {
-                 $do_not_delete=0;
-                 $sql = "SELECT * FROM ".DB_PREFIX."product WHERE product_id<>'".(int)$product_id."' AND image='".$this->db->escape($img['image'])."'";
-                  $chk = $this->db->query($sql);
-                  if ($chk->rows) {
-                    $do_not_delete=1;
-                  }
-                  
-                  $sql = "SELECT * FROM ".DB_PREFIX."product_image WHERE product_id<>'".(int)$product_id."' AND image='".$this->db->escape($img['image'])."'";
-                  $chk = $this->db->query($sql);                  
-                  if ($chk->row) {
-                    $do_not_delete=1;
-                  }
-                  
-                  $sql = "SELECT * FROM ".DB_PREFIX."category WHERE image='".$this->db->escape($img['image'])."'";
-                  $chk = $this->db->query($sql); 
-                  if ($chk->row) {
-                    $do_not_delete=1;
-                  }                  
-                  
-                  if ($do_not_delete == 0) {
-                    $this->config->set('config_error_display',0);
-                    @unlink(DIR_IMAGE.$img['image']);
-                  }
-                }
-              }
-            ]]></add>
-        </operation>   
-	</file> 
+<modification>
+	<id>Erase images on Product Delete</id>
+	<version>1.0</version>
+	<vqmver>2.1.7</vqmver>
+	<author>Kamen Sharlandjiev</author>
+	<file name="admin/model/catalog/product.php">  
+        <operation>
+            <search position="after"  error="skip"><![CDATA[public function deleteProduct($product_id) {]]></search>
+            <add><![CDATA[
+              $check = $this->db->query("SELECT image FROM " . DB_PREFIX . "product_image WHERE product_id = '" . (int)$product_id . "' UNION SELECT image FROM ".DB_PREFIX."product WHERE product_id='".(int)$product_id."'");
+              $do_not_delete=0;
+              if ($check) {
+                foreach ($check->rows as $img) {
+                 $do_not_delete=0;
+                 $sql = "SELECT * FROM ".DB_PREFIX."product WHERE product_id<>'".(int)$product_id."' AND image='".$this->db->escape($img['image'])."'";
+                  $chk = $this->db->query($sql);
+                  if ($chk->rows) {
+                    $do_not_delete=1;
+                  }
+                  
+                  $sql = "SELECT * FROM ".DB_PREFIX."product_image WHERE product_id<>'".(int)$product_id."' AND image='".$this->db->escape($img['image'])."'";
+                  $chk = $this->db->query($sql);                  
+                  if ($chk->row) {
+                    $do_not_delete=1;
+                  }
+                  
+                  $sql = "SELECT * FROM ".DB_PREFIX."category WHERE image='".$this->db->escape($img['image'])."'";
+                  $chk = $this->db->query($sql); 
+                  if ($chk->row) {
+                    $do_not_delete=1;
+                  }                  
+                  
+                  if ($do_not_delete == 0) {
+                    $this->config->set('config_error_display',0);
+                    @unlink(DIR_IMAGE.$img['image']);
+                  }
+                }
+              }
+            ]]></add>
+        </operation>   
+	</file> 
 </modification>

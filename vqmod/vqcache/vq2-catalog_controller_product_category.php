@@ -1,6 +1,15 @@
 <?php 
 class ControllerProductCategory extends Controller {  
 	public function index() { 
+
+          $yotpo_bottom_line_enabled = $this->config->get('yotpo_bottom_line_enabled');
+          $this->data['yotpo_bottom_line_enabled'] = $yotpo_bottom_line_enabled;
+      	  if($yotpo_bottom_line_enabled) { 
+        	  $this->data['appkey'] = $this->config->get('yotpo_appkey');
+          	$this->data['language'] = $this->config->get('yotpo_language');
+          	$this->data['domain'] = HTTP_SERVER;          	
+          }
+      
 		$this->language->load('product/category');
 		
 		$this->load->model('catalog/category');
@@ -47,6 +56,15 @@ class ControllerProductCategory extends Controller {
        		'separator' => false
    		);	
 			
+
+      	  if($yotpo_bottom_line_enabled) { 
+      	  	$yotpo_bread_crumbs = array();
+          	foreach ($this->data['breadcrumbs'] as $breadcrumb) {
+    	 		$yotpo_bread_crumbs[] = $breadcrumb['text'];
+    	 	 }
+         	 $this->data['yotpo_bread_crumbs'] = implode(';', $yotpo_bread_crumbs);
+          }	 
+      
 		if (isset($this->request->get['path'])) {
 			$url = '';
 			

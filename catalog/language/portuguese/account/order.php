@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // Heading 
 $_['heading_title']         = 'Histórico do Pedido';
 
@@ -19,7 +19,7 @@ $_['text_products']         = 'Produtos:';
 $_['text_total']            = 'Total:';
 $_['text_comment']          = 'Comentários do pedido';
 $_['text_history']          = 'Histórico do pedido';
-$_['text_success']          = 'Você acidionou com sucesso o produto do pedido de ID #%s em sua sacola!';
+$_['text_success']          = 'Você acidionou com sucesso o produto do pedido de ID #%s em seu carrinho!';
 $_['text_empty']            = 'Você ainda não fez nenhum pedido!';
 $_['text_error']            = 'O pedido que você está procurando não foi encontrado!';
 

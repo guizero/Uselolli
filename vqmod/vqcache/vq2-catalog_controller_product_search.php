@@ -459,6 +459,15 @@ class ControllerProductSearch extends Controller {
 			'common/header'
 		);
 				
+
+	          $yotpo_bottom_line_enabled = $this->config->get('yotpo_bottom_line_enabled');
+	          $this->data['yotpo_bottom_line_enabled'] = $yotpo_bottom_line_enabled;
+	      	  if($yotpo_bottom_line_enabled) { 
+	        	  $this->data['appkey'] = $this->config->get('yotpo_appkey');
+	          	$this->data['language'] = $this->config->get('yotpo_language');
+	          	$this->data['domain'] = HTTP_SERVER;	          	
+	          }
+	      
 		$this->response->setOutput($this->render());
   	}
 

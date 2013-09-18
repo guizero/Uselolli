@@ -424,6 +424,43 @@ class ControllerCheckoutCart extends Controller {
     	}
   	}
 	
+
+        	public function calculateCoupon() {
+        		$this->language->load('checkout/cart');
+                $this->language->load('checkout/checkout');
+        		
+        		$json = array();
+        		
+        		if (!$this->cart->hasProducts()) {
+        			$json['redirect'] = $this->url->link('checkout/cart');
+        		}	
+        				
+        		if (isset($this->request->post['coupon'])) {
+        			$this->load->model('checkout/coupon');
+        	
+        			$coupon_info = $this->model_checkout_coupon->getcoupon($this->request->post['coupon']);			
+        			
+                    if (empty($this->request->post['coupon'])) {
+                                        
+                        $json['error'] = $this->language->get('error_empty_coupon');
+                    
+                    } elseif ($coupon_info) {
+        				$this->session->data['coupon'] = $this->request->post['coupon'];
+        				
+                        $json['success'] = $this->language->get('text_payment_coupon_success');
+                        
+        				$json['redirect'] = $this->url->link('checkout/cart', '', 'SSL');
+                        
+        			} else {
+                     
+        				$json['error'] = $this->language->get('error_coupon');
+        			}
+
+        		}
+        		
+        		$this->response->setOutput(json_encode($json));
+        	}
+			
 	protected function validateCoupon() {
 		$this->load->model('checkout/coupon');
 				
