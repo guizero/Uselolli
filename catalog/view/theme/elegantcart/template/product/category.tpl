@@ -129,21 +129,12 @@ $limits = swap_limits_values($limits);
 		<div class="content">
 			<?php echo $option['name']; ?><br>
 				<?php foreach ($option['option_value'] as $option_value) { ?>
-				<?php echo $option_value['iamge']; ?>"><?php echo $option_value['name']; ?>
+				<?php echo $option_value['image']; ?>"><?php echo $option_value['name']; ?>
 		<?php } ?>
 		</div>
 
 		<?php } ?>   
-		</div>
-		<input type="hidden" name="quantity" size="3" value="1" />
-		</div>
-		<?php } else {  ?>
-		<div class="content" style="height:25px"> QTY: <input type="text" name="quantity" size="3" value="" /> </div>    
-		<?php } ?>
-		<input type="hidden" name="product_id" value="<?php echo $products[$j]['id']; ?>" />
-		<a onclick="alert('<?php echo $products[$j]['name']; ?> added to the cart')" id="add_to_cart_<?php echo $j;?>" rel="<?php echo $j;?>" class="button add_to_cart"><span>Add to Cart</span></a>
-	   </form>
-
+		
 
       <div class="cart"><a class='button' onclick="addToCart('<?php echo $product['product_id']; ?>');"><span><?php echo $button_cart; ?></span></a></div>
       <div class="wishlist"><a onclick="addToWishList('<?php echo $product['product_id']; ?>');"><?php echo $button_wishlist; ?></a></div>
