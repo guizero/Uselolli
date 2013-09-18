@@ -132,7 +132,7 @@ class ControllerProductSpecial extends Controller {
 				$rating = false;
 			}
 						
-			$options = $this->model_catalog_product->getProductOptions($result['product_id']);
+			$options = $this->model_catalog_product->getProductOptions($this->request->get['product_id'];
 			$this->data['products'][] = array(
 				'product_id'  => $result['product_id'],
 				'thumb'       => $image,
