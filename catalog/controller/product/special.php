@@ -132,12 +132,9 @@ class ControllerProductSpecial extends Controller {
 				$rating = false;
 			}
 						
-			$options = $this->model_catalog_product->getProductOptions($this->request->get['product_id'];
 			$this->data['products'][] = array(
 				'product_id'  => $result['product_id'],
 				'thumb'       => $image,
-				'id'          => $result['product_id'],
-				'options' 	  => $options,
 				'name'        => $result['name'],
 				'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, 100) . '..',
 				'price'       => $price,
@@ -145,6 +142,7 @@ class ControllerProductSpecial extends Controller {
 				'tax'         => $tax,
 				'rating'      => $result['rating'],
 				'reviews'     => sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
+				'options'     => $this->model_catalog_product->getProductOptions($result['product_id']),
 				'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'] . $url)
 			);
 		}
