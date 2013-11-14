@@ -87,9 +87,6 @@ $limits = swap_limits_values($limits);
       <?php if ($product['rating']) { ?>
       <div class="rating"><img src="catalog/view/theme/elegantcart/image/stars-<?php echo $product['rating']; ?>.png" alt="<?php echo $product['reviews']; ?>" /></div>
       <?php } ?>
-
-      opa
-
       <div class="cart"><a class='button' onclick="addToCart('<?php echo $product['product_id']; ?>');"><span><?php echo $button_cart; ?></span></a></div>
       <div class="wishlist"><a onclick="addToWishList('<?php echo $product['product_id']; ?>');"><?php echo $button_wishlist; ?></a></div>
       <div class="compare"><a onclick="addToCompare('<?php echo $product['product_id']; ?>');"><?php echo $button_compare; ?></a></div>
